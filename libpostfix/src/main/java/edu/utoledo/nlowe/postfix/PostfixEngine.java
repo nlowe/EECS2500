@@ -88,7 +88,7 @@ public class PostfixEngine {
                 // While there are more numbers remaining, append them to the currentToken String Builder
                 boolean moreNumbers = false;
                 do{
-                    if(String.valueOf(simplifiedExpression.charAt(index)).matches(NUMERIC_REGEX)){
+                    if(index < simplifiedExpression.length() && String.valueOf(simplifiedExpression.charAt(index)).matches(NUMERIC_REGEX)){
                         currentToken.append(simplifiedExpression.charAt(index++));
                         moreNumbers = true;
                     }else{
@@ -107,8 +107,7 @@ public class PostfixEngine {
                 // Convert everything this operator needs
                 while(buffer.size() > 0 && !buffer.peek().equals("(")){
                     //Operator Precedence is ignored for this project
-                    buffer.pop();
-                    result.append(buffer.peek()).append(" ");
+                    result.append(buffer.pop()).append(" ");
                 }
                 buffer.push(token);
             }else if(token.equals("(")){
@@ -194,8 +193,6 @@ public class PostfixEngine {
 
                     // Pop the operand off of the stack, and push the evaluated result onto the stack
                     buffer.push(((UnaryOperator)op).evaluate(buffer.pop()));
-                }else{
-                    throw new IllegalStateException("The operator type " + op.getClass() + " is unsupported at this time");
                 }
             }else if(token.matches(NUMERIC_REGEX)){
                 // Just an integer, push it onto the stack

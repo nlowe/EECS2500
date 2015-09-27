@@ -1,6 +1,7 @@
 package edu.utoledo.nlowe.postfix.tests;
 import static org.junit.Assert.*;
 
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_EXCLUSIONPeer;
 import edu.utoledo.nlowe.CustomDataTypes.CustomLinkedList;
 import edu.utoledo.nlowe.postfix.PostfixEngine;
 import edu.utoledo.nlowe.postfix.exception.PostfixArithmeticException;
@@ -33,6 +34,32 @@ public class PostfixEngineTest {
     @Test
     public void canEvaluateInfixExpression(){
         assertEquals(-2048, engine.evaluateInfix("( 0 - 1 ) * ( 2 < 10 )"));
+    }
+
+    @Test
+    public void canEvaluateNestedInfixExpression(){
+        assertEquals(7, engine.evaluateInfix("3*2-1+2"));
+    }
+
+    @Test
+    public void unaryOperatorsRequireAtLeastOneOperand(){
+        try{
+            engine.evaluate("Q");
+        }catch(Exception e){
+            assertTrue(e instanceof IllegalArgumentException);
+            assertEquals("Malformed postfix expression (not enough literals): 'Q'", e.getMessage());
+        }
+    }
+
+    @Test
+    public void failsToConvertIllegalInfixExpression(){
+        try{
+            engine.convertInfixExpression("2@3");
+            fail();
+        }catch(Exception ex){
+            assertTrue(ex instanceof IllegalArgumentException);
+            assertEquals("Unrecognized token '@'", ex.getMessage());
+        }
     }
 
     @Test
@@ -128,17 +155,17 @@ public class PostfixEngineTest {
         Set<String> operators = engine.getSupportedOperators();
         assertTrue(
                 operators.size() == 11 &&
-                operators.contains("+") &&
-                operators.contains("-") &&
-                operators.contains("*") &&
-                operators.contains("x") &&
-                operators.contains("/") &&
-                operators.contains("%") &&
-                operators.contains("^") &&
-                operators.contains("<") &&
-                operators.contains(">") &&
-                operators.contains("Q") &&
-                operators.contains("C")
+                        operators.contains("+") &&
+                        operators.contains("-") &&
+                        operators.contains("*") &&
+                        operators.contains("x") &&
+                        operators.contains("/") &&
+                        operators.contains("%") &&
+                        operators.contains("^") &&
+                        operators.contains("<") &&
+                        operators.contains(">") &&
+                        operators.contains("Q") &&
+                        operators.contains("C")
         );
     }
 
