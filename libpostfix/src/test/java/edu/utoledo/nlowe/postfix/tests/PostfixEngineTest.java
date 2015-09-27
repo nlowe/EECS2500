@@ -124,7 +124,7 @@ public class PostfixEngineTest {
 
     @Test
     public void canParseComplexExample(){
-        assertEquals(32, engine.evaluate("5 3 + 12 * 3 /"));
+        assertEquals(1, engine.evaluate("5 3 + 12 * 3 / 2 < 4 > 4 - Q 25 + C 2 ^ 2 %"));
         System.out.println("[+] Can evaluate more complex expressions");
     }
 
