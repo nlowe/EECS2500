@@ -1,7 +1,7 @@
 package edu.utoledo.nlowe.postfix;
 
 /**
- * Created by nathan on 9/21/15
+ * A functional interface for Binary Operators (those that take two arguments)
  */
 public interface BinaryOperator extends Operator{
     int evaluate(int a, int b);

@@ -2,7 +2,9 @@ package edu.utoledo.nlowe.postfix;
 
 
 /**
- * Created by nathan on 9/17/15
+ * A generic interface for Operators. This interface should never
+ * be implemented, but should only be extended by more specific
+ * operator types.
  */
 public interface Operator {
 }

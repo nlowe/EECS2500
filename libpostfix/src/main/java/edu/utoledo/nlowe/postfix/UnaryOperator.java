@@ -1,7 +1,7 @@
 package edu.utoledo.nlowe.postfix;
 
 /**
- * Created by nathan on 9/21/15
+ * A functional interface for Binary Operators (those that take one argument)
  */
 public interface UnaryOperator extends Operator {
     int evaluate(int input);
