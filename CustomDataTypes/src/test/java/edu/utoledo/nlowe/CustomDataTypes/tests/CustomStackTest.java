@@ -1,26 +1,29 @@
 package edu.utoledo.nlowe.CustomDataTypes.tests;
-import static org.junit.Assert.*;
 
 import edu.utoledo.nlowe.CustomDataTypes.CustomStack;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by nathan on 9/26/15
  */
-public class CustomStackTest {
+public class CustomStackTest
+{
 
     private CustomStack<String> stack;
 
     @Before
-    public void setUp(){
+    public void setUp()
+    {
         stack = new CustomStack<>();
     }
 
     @Test
-    public void worksLikeAStack(){
+    public void worksLikeAStack()
+    {
         stack.push("a");
         stack.push("b");
         stack.push("c");

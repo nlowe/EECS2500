@@ -5,7 +5,8 @@ import java.util.Iterator;
 /**
  * A custom, generic, linked list implementation
  */
-public class CustomLinkedList<T> implements Iterable<T>{
+public class CustomLinkedList<T> implements Iterable<T>
+{
 
     /** A pointer to the first item in the list */
     private Node<T> head = null;
@@ -17,22 +18,26 @@ public class CustomLinkedList<T> implements Iterable<T>{
     /**
      * An iterator for traversing the list in order
      */
-    private final class LinkedListIterator<U> implements Iterator<U>{
+    private final class LinkedListIterator<U> implements Iterator<U>
+    {
 
         /** The next item in the list */
         private Node<U> pointer;
 
-        public LinkedListIterator(Node<U> head){
+        public LinkedListIterator(Node<U> head)
+        {
             this.pointer = head;
         }
 
         @Override
-        public boolean hasNext() {
+        public boolean hasNext()
+        {
             return pointer != null;
         }
 
         @Override
-        public U next() {
+        public U next()
+        {
             U result = pointer.getValue();
             pointer = pointer.next();
             return result;
@@ -47,49 +52,58 @@ public class CustomLinkedList<T> implements Iterable<T>{
      *
      * @param <U> The underlying payload type
      */
-    private final class Node<U> {
+    private final class Node<U>
+    {
 
         /** The payload of the node */
         private U value;
         /** The next node in the list */
         private Node<U> next;
 
-        Node(U value) {
+        Node(U value)
+        {
             this(value, null);
         }
 
-        private Node(U value, Node<U> next) {
+        private Node(U value, Node<U> next)
+        {
             this.value = value;
             this.next = next;
         }
 
         /**
          * Sets the payload of this node to the specified value
+         *
          * @param value The value to set
          */
-        public void setValue(U value) {
+        public void setValue(U value)
+        {
             this.value = value;
         }
 
         /**
          * @return the payload of this node
          */
-        public U getValue() {
+        public U getValue()
+        {
             return value;
         }
 
         /**
          * @return the next node in the list
          */
-        public Node<U> next() {
+        public Node<U> next()
+        {
             return next;
         }
 
         /**
          * Sets the link to the next node to point to the specified node
+         *
          * @param next the node to point to
          */
-        public void linkTo(Node<U> next) {
+        public void linkTo(Node<U> next)
+        {
             this.next = next;
         }
     }
@@ -97,31 +111,36 @@ public class CustomLinkedList<T> implements Iterable<T>{
     /**
      * @param index the index being inserted at
      * @return <code>true</code> if and only if the specified index is greater than or equal to
-     *          zero and less than or equal to the size of the list
+     * zero and less than or equal to the size of the list
      */
-    private boolean validateInsertableBounds(int index){
-        return index >= 0 && index <=size;
+    private boolean validateInsertableBounds(int index)
+    {
+        return index >= 0 && index <= size;
     }
 
     /**
      * @param index the index being accessed
      * @return <code>true</code> if and only if the specified index is greater than or equal to
-     *          zero and less than the size of the list
+     * zero and less than the size of the list
      */
-    private boolean validateBounds(int index){
+    private boolean validateBounds(int index)
+    {
         return index >= 0 && index < size;
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<T> iterator()
+    {
         return new LinkedListIterator<>(this.head);
     }
 
     /**
      * Adds the specified item to the end of the list
+     *
      * @param value the item to add
      */
-    public void add(T value){
+    public void add(T value)
+    {
         add(this.size(), value);
     }
 
@@ -132,28 +151,38 @@ public class CustomLinkedList<T> implements Iterable<T>{
      * @param value The value to insert
      * @throws IndexOutOfBoundsException
      */
-    public void add(int index, T value) throws IndexOutOfBoundsException{
+    public void add(int index, T value) throws IndexOutOfBoundsException
+    {
         Node<T> node = new Node<>(value);
-        if(!validateInsertableBounds(index)){
+        if (!validateInsertableBounds(index))
+        {
             throw new IndexOutOfBoundsException("The Index " + index + " is not in the bounds of the list!");
-        }else if(size == 0){
+        }
+        else if (size == 0)
+        {
             // This is the first element we've added to the list
             // So we can just update the head and tail pointers
             head = tail = node;
-        }else if(index == 0){
+        }
+        else if (index == 0)
+        {
             // We have at least one element in the list already
             // So link the new node to the first node and update the head pointer
             node.linkTo(head);
             head = node;
-        }else if(index == size){
+        }
+        else if (index == size)
+        {
             // We have at least one element in the list already
             // Link the last element in the list to the new node and update the tail pointer
             tail.linkTo(node);
             tail = node;
-        }else if(index > 0 && index < size){
+        }
+        else if (index > 0 && index < size)
+        {
             // Were inserting somewhere in the middle
             // Get the node immediately preceding the target index and the node after it
-            Node<T> parent = getNodeAt(index-1);
+            Node<T> parent = getNodeAt(index - 1);
             Node<T> next = parent.next();
 
             // Link all the things
@@ -167,12 +196,15 @@ public class CustomLinkedList<T> implements Iterable<T>{
 
     /**
      * Updates the value at the specified location
+     *
      * @param index the index of the element to update
      * @param value the value to set
      * @throws IndexOutOfBoundsException
      */
-    public void set(int index, T value) throws IndexOutOfBoundsException{
-        if(!validateBounds(index)){
+    public void set(int index, T value) throws IndexOutOfBoundsException
+    {
+        if (!validateBounds(index))
+        {
             throw new IndexOutOfBoundsException("The Index " + index + " is not in the bounds of the list!");
         }
 
@@ -181,15 +213,19 @@ public class CustomLinkedList<T> implements Iterable<T>{
 
     /**
      * Removes the specified element from the list
+     *
      * @param index the index of the element to remove
      * @throws IndexOutOfBoundsException
      */
-    public void remove(int index) throws IndexOutOfBoundsException{
-        if(!validateBounds(index)){
+    public void remove(int index) throws IndexOutOfBoundsException
+    {
+        if (!validateBounds(index))
+        {
             throw new IndexOutOfBoundsException("The Index " + index + " is not in the bounds of the list!");
         }
 
-        if(index == 0){
+        if (index == 0)
+        {
             // Removing the first element.
             // Point the head pointer to the proceeding node
             // Then link the old element to null so it can be GC'd
@@ -198,9 +234,11 @@ public class CustomLinkedList<T> implements Iterable<T>{
             head = head.next();
 
             oldHead.linkTo(null);
-        }else{
+        }
+        else
+        {
             // Get the parent node and the node to remove from it
-            Node<T> parent = getNodeAt(index-1);
+            Node<T> parent = getNodeAt(index - 1);
             Node<T> toRemove = parent.next();
 
             // Link the parent to the node after the target node
@@ -210,7 +248,8 @@ public class CustomLinkedList<T> implements Iterable<T>{
             toRemove.linkTo(null);
 
             // If we removed the last element in the list, we need to update the tail pointer
-            if(index == size-1){
+            if (index == size - 1)
+            {
                 tail = parent;
             }
         }
@@ -221,13 +260,17 @@ public class CustomLinkedList<T> implements Iterable<T>{
 
     /**
      * Traverses the list and returns true if the element is found
+     *
      * @param value the value to search for
      * @return <code>True</code> if the element is in the list, false otherwise
      */
-    public boolean contains(T value){
+    public boolean contains(T value)
+    {
         // We implement Iterable<T>, so we can just use a for-each loop
-        for(T element : this){
-            if(element.equals(value)){
+        for (T element : this)
+        {
+            if (element.equals(value))
+            {
                 return true;
             }
         }
@@ -238,7 +281,8 @@ public class CustomLinkedList<T> implements Iterable<T>{
     /**
      * Removes all items from the list
      */
-    public void clear(){
+    public void clear()
+    {
         // Simply set the head and tail pointers to null and reset the size cache
         head = tail = null;
         size = 0;
@@ -246,17 +290,20 @@ public class CustomLinkedList<T> implements Iterable<T>{
 
     /**
      * A helper method to get the specified node in the list
+     *
      * @param index the index of the target node
      * @return the node at the specified index
      */
-    private Node<T> getNodeAt(int index){
+    private Node<T> getNodeAt(int index)
+    {
         // We should never be trying to get a node outside of the bounds of the list
         // An exception should have been thrown by now if the user was trying to
-        assert(validateBounds(index));
+        assert (validateBounds(index));
 
         int i = 0;
         Node<T> node = head;
-        while(i++ != index){
+        while (i++ != index)
+        {
             node = node.next();
         }
 
@@ -265,12 +312,15 @@ public class CustomLinkedList<T> implements Iterable<T>{
 
     /**
      * Gets the element at the specified index
+     *
      * @param index the index of the element to get
      * @return the value at the specified index
      * @throws IndexOutOfBoundsException
      */
-    public T get(int index) throws IndexOutOfBoundsException{
-        if(!validateBounds(index)){
+    public T get(int index) throws IndexOutOfBoundsException
+    {
+        if (!validateBounds(index))
+        {
             throw new IndexOutOfBoundsException("The Index " + index + " is not in the bounds of the list!");
         }
 
@@ -280,21 +330,24 @@ public class CustomLinkedList<T> implements Iterable<T>{
     /**
      * @return the first element in the list
      */
-    public T getFirst(){
+    public T getFirst()
+    {
         return head == null ? null : head.getValue();
     }
 
     /**
      * @return the last element in the list. The list is not traversed.
      */
-    public T getLast(){
+    public T getLast()
+    {
         return tail == null ? null : tail.getValue();
     }
 
     /**
      * @return the size of the list. The list is not traversed
      */
-    public int size(){
+    public int size()
+    {
         return size;
     }
 

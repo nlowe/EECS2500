@@ -1,26 +1,28 @@
 package edu.utoledo.nlowe.CustomDataTypes.tests;
-import static org.junit.Assert.*;
 
 import edu.utoledo.nlowe.CustomDataTypes.CustomLinkedList;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by nathan on 9/8/15
  */
-public class LinkedListTest {
+public class LinkedListTest
+{
 
     private CustomLinkedList<String> list;
 
     @Before
-    public void setUp(){
+    public void setUp()
+    {
         list = new CustomLinkedList<>();
     }
 
     @Test
-    public void canInsertWhenListIsEmpty(){
+    public void canInsertWhenListIsEmpty()
+    {
         assertEquals(0, list.size());
         list.add("asdf");
         assertEquals(1, list.size());
@@ -28,17 +30,22 @@ public class LinkedListTest {
     }
 
     @Test
-    public void cannotInsertAtNegativeIndex(){
-        try{
+    public void cannotInsertAtNegativeIndex()
+    {
+        try
+        {
             list.add(-1, "asdf");
             fail();
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             assertTrue(e instanceof IndexOutOfBoundsException && e.getMessage().equals("The Index -1 is not in the bounds of the list!"));
         }
     }
 
     @Test
-    public void insertsInTheCorrectOrder() {
+    public void insertsInTheCorrectOrder()
+    {
         list.add("one");
         list.add("two");
         list.add("three");
@@ -48,7 +55,8 @@ public class LinkedListTest {
     }
 
     @Test
-    public void canInsertInTheMiddle(){
+    public void canInsertInTheMiddle()
+    {
         list.add("one");
         list.add("two");
         list.add("four");
@@ -61,7 +69,8 @@ public class LinkedListTest {
     }
 
     @Test
-    public void canInsertAtTheStart(){
+    public void canInsertAtTheStart()
+    {
         list.add("one");
         assertEquals("one", list.getFirst());
 
@@ -70,7 +79,8 @@ public class LinkedListTest {
     }
 
     @Test
-    public void canInsertAtTheEnd(){
+    public void canInsertAtTheEnd()
+    {
         list.add("one");
         list.add("two");
         list.add("three");
@@ -82,31 +92,40 @@ public class LinkedListTest {
     }
 
     @Test
-    public void cannotGetIndexesLessThanZero(){
+    public void cannotGetIndexesLessThanZero()
+    {
         list.add("one");
-        try{
+        try
+        {
             list.get(-1);
             fail();
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             assertTrue(e instanceof IndexOutOfBoundsException);
             assertEquals(e.getMessage(), "The Index -1 is not in the bounds of the list!");
         }
     }
 
     @Test
-    public void cannotGetIndexesPastEnd(){
+    public void cannotGetIndexesPastEnd()
+    {
         list.add("one");
-        try{
+        try
+        {
             list.get(1);
             fail("[-] Cannot get indexes past the end of the list");
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             assertTrue(e instanceof IndexOutOfBoundsException);
             assertEquals(e.getMessage(), "The Index 1 is not in the bounds of the list!");
         }
     }
 
     @Test
-    public void canUpdateAnExistingValue(){
+    public void canUpdateAnExistingValue()
+    {
         list.add("one");
         list.add("foobar");
         list.add("three");
@@ -116,31 +135,40 @@ public class LinkedListTest {
     }
 
     @Test
-    public void cannotUpdateIndexesLessThanZero(){
+    public void cannotUpdateIndexesLessThanZero()
+    {
         list.add("one");
-        try{
+        try
+        {
             list.set(-1, "asdf");
             fail("[-] Cannot update indexes less than zero");
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             assertTrue(e instanceof IndexOutOfBoundsException);
             assertEquals(e.getMessage(), "The Index -1 is not in the bounds of the list!");
         }
     }
 
     @Test
-    public void cannotUpdateIndexesPastTheEnd(){
+    public void cannotUpdateIndexesPastTheEnd()
+    {
         list.add("one");
-        try{
+        try
+        {
             list.set(1, "asdf");
             fail("[-] Cannot update indexes past the end");
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             assertTrue(e instanceof IndexOutOfBoundsException);
             assertEquals(e.getMessage(), "The Index 1 is not in the bounds of the list!");
         }
     }
 
     @Test
-    public void canCheckIfAnElementIsInTheList(){
+    public void canCheckIfAnElementIsInTheList()
+    {
         assertFalse(list.contains("empty"));
 
         list.add("a");
@@ -152,7 +180,8 @@ public class LinkedListTest {
     }
 
     @Test
-    public void canRemoveFirstElement(){
+    public void canRemoveFirstElement()
+    {
         list.add("one");
         list.add("two");
         list.add("three");
@@ -165,7 +194,8 @@ public class LinkedListTest {
     }
 
     @Test
-    public void canRemoveMiddleElement(){
+    public void canRemoveMiddleElement()
+    {
         list.add("one");
         list.add("two");
         list.add("three");
@@ -178,12 +208,13 @@ public class LinkedListTest {
     }
 
     @Test
-    public void canRemoveLastElement(){
+    public void canRemoveLastElement()
+    {
         list.add("one");
         list.add("two");
         list.add("three");
 
-        list.remove(list.size()-1);
+        list.remove(list.size() - 1);
 
         assertEquals(2, list.size());
         assertEquals("one", list.getFirst());
@@ -191,31 +222,40 @@ public class LinkedListTest {
     }
 
     @Test
-    public void cannotRemoveIndexesBelowZero(){
+    public void cannotRemoveIndexesBelowZero()
+    {
         list.add("one");
-        try{
+        try
+        {
             list.remove(-1);
             fail();
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             assertTrue(e instanceof IndexOutOfBoundsException);
             assertEquals(e.getMessage(), "The Index -1 is not in the bounds of the list!");
         }
     }
 
     @Test
-    public void cannotRemoveIndexesPastTheEnd(){
+    public void cannotRemoveIndexesPastTheEnd()
+    {
         list.add("one");
-        try{
+        try
+        {
             list.remove(1);
             fail();
-        }catch (Exception e){
+        }
+        catch (Exception e)
+        {
             assertTrue(e instanceof IndexOutOfBoundsException);
             assertEquals(e.getMessage(), "The Index 1 is not in the bounds of the list!");
         }
     }
 
     @Test
-    public void canClear(){
+    public void canClear()
+    {
         list.add("one");
         list.add("two");
         list.clear();
@@ -226,18 +266,28 @@ public class LinkedListTest {
     }
 
     @Test
-    public void canIterate(){
+    public void canIterate()
+    {
         list.add("one");
         list.add("two");
         list.add("three");
 
-        int i=0;
-        for(String value : list){
-            switch(i){
-                case 0: assertEquals("one", value); break;
-                case 1: assertEquals("two", value); break;
-                case 2: assertEquals("three", value); break;
-                default: fail();
+        int i = 0;
+        for (String value : list)
+        {
+            switch (i)
+            {
+                case 0:
+                    assertEquals("one", value);
+                    break;
+                case 1:
+                    assertEquals("two", value);
+                    break;
+                case 2:
+                    assertEquals("three", value);
+                    break;
+                default:
+                    fail();
             }
 
             i++;
@@ -245,7 +295,8 @@ public class LinkedListTest {
     }
 
     @Test
-    public void canStream(){
+    public void canStream()
+    {
         list.add("one");
         list.add("two");
         list.add("three");
@@ -253,7 +304,8 @@ public class LinkedListTest {
         final boolean[] found = {false, false, false};
 
         list.forEach((s) -> {
-            switch (s) {
+            switch (s)
+            {
                 case "one":
                     found[0] = true;
                     break;

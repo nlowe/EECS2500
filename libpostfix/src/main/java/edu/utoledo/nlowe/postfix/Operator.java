@@ -6,5 +6,6 @@ package edu.utoledo.nlowe.postfix;
  * be implemented, but should only be extended by more specific
  * operator types.
  */
-public interface Operator {
+public interface Operator
+{
 }
