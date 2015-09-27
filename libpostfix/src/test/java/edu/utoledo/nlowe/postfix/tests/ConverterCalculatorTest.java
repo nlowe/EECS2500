@@ -29,30 +29,49 @@ public class ConverterCalculatorTest
     public void canEvaluateFromArgs()
     {
         ConverterCalculator.main(new String[]{"2", "+", "2"});
-        assertEquals("The equivalent postfix expression is: 2 2 +\nThe expression evaluates to: 4\n", out.toString());
+
+        String expected = String.format(
+                "The equivalent postfix expression is: 2 2 +%n" +
+                "The expression evaluates to: 4%n"
+        );
+        assertEquals(expected, out.toString());
     }
 
     @Test
     public void canEvaluateFromStandardIn()
     {
         System.setIn(new ByteArrayInputStream("2 + 2\n".getBytes()));
-
         ConverterCalculator.main(new String[]{});
-        assertEquals("Enter the infix expression to convert and evaluate: The equivalent postfix expression is: 2 2 +\nThe expression evaluates to: 4\n", out.toString());
+
+        String expected = String.format(
+                "Enter the infix expression to convert and evaluate: The equivalent postfix expression is: 2 2 +%n" +
+                "The expression evaluates to: 4%n"
+        );
+        assertEquals(expected, out.toString());
     }
 
     @Test
     public void warnsAboutUnderflow()
     {
         ConverterCalculator.main(new String[]{"(0-1)*(2<31)"});
-        assertEquals("The equivalent postfix expression is: 0 1 - 2 31 < *\nWARNING: Integer Underflow detected! The expression evaluates to: -4294967296\n", out.toString());
+
+        String expected = String.format(
+                "The equivalent postfix expression is: 0 1 - 2 31 < *%n" +
+                "WARNING: Integer Underflow detected! The expression evaluates to: -4294967296%n"
+        );
+        assertEquals(expected, out.toString());
     }
 
     @Test
     public void warnsAboutOverflow()
     {
         ConverterCalculator.main(new String[]{"(2<31)+1"});
-        assertEquals("The equivalent postfix expression is: 2 31 < 1 +\nWARNING: Integer Overflow detected! The expression evaluates to: 4294967297\n", out.toString());
+
+        String expected = String.format(
+                "The equivalent postfix expression is: 2 31 < 1 +%n" +
+                "WARNING: Integer Overflow detected! The expression evaluates to: 4294967297%n"
+        );
+        assertEquals(expected, out.toString());
     }
 
     @Test
@@ -60,7 +79,11 @@ public class ConverterCalculatorTest
     {
         System.setErr(new PrintStream(new ByteArrayOutputStream()));
         ConverterCalculator.main(new String[]{"2@3"});
-        assertEquals("Encountered an error while evaluating the postfix expression: Unrecognized token '@'\n", out.toString());
+
+        String expected = String.format(
+                "Encountered an error while evaluating the postfix expression: Unrecognized token '@'%n"
+        );
+        assertEquals(expected, out.toString());
     }
 
     @Test
