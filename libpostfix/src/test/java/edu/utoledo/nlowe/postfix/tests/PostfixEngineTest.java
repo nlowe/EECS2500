@@ -28,6 +28,16 @@ public class PostfixEngineTest {
     }
 
     @Test
+    public void canConvertInfixExpression(){
+        assertEquals("2 3 + 4 2 % *", engine.convertInfixExpression("( 2 + 3 ) * ( 4 % 2 )"));
+    }
+
+    @Test
+    public void canEvaluateInfixExpression(){
+        assertEquals(-2048, engine.evaluateInfix("( 0 - 1 ) * ( 2 < 10 )"));
+    }
+
+    @Test
     public void canEvaluateSingleOperator(){
         System.out.print("[+] Can evaluate single operator (");
 

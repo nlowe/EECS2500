@@ -33,6 +33,8 @@ public class PostfixEngine {
     /** A regular expression that matches a single integer (positive, or negative) */
     public static final String NUMERIC_REGEX = "^(-)?[0-9]+$";
 
+    public static final String TOKEN_SEPARATOR_REGEX = "[ \\t]+";
+
     /** All operators registered with the engine */
     private final HashMap<String, Operator> operators = new HashMap<>();
 
@@ -61,9 +63,10 @@ public class PostfixEngine {
         StringBuilder result = new StringBuilder();
         CustomStack<String> buffer = new CustomStack<>();
 
-        String[] parts = expression.trim().split(" +");
+        String[] parts = expression.trim().split(TOKEN_SEPARATOR_REGEX);
         for(String token : parts){
             if(token.length() == 1 && isValidOperator(token)){
+                // Convert everything this operator needs
                 while(buffer.size() > 0 && !buffer.peek().equals("(")){
                     //Operator Precedence is ignored for this project
                     buffer.pop();
@@ -73,13 +76,20 @@ public class PostfixEngine {
             }else if(token.equals("(")){
                 buffer.push(token);
             }else if(token.equals(")")){
+                // End of sub group
                 while(!buffer.peek().equals("(")){
                     result.append(buffer.pop()).append(" ");
                 }
                 buffer.pop();
             }else{
+                // Just a literal, append it
                 result.append(token).append(" ");
             }
+        }
+
+        // Append any extra operators left on the expression
+        while(buffer.size() > 0){
+            result.append(buffer.pop()).append(" ");
         }
 
         return result.toString().trim();
@@ -120,7 +130,7 @@ public class PostfixEngine {
         CustomStack<Integer> buffer = new CustomStack<>();
 
         // Split the expression into tokens by white space (one or more of either a space or a tab)
-        String[] parts = expression.trim().split("[ \\t]+");
+        String[] parts = expression.trim().split(TOKEN_SEPARATOR_REGEX);
         for(String token : parts){
             if(isValidOperator(token)){
                 // Try to evaluate the operator based on what is already on the stack
