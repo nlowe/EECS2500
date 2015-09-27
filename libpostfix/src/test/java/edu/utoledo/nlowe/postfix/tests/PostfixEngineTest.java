@@ -20,11 +20,6 @@ public class PostfixEngineTest {
 
     private PostfixEngine engine;
 
-    @BeforeClass
-    public static void setUpTestCase(){
-        System.out.println("=== PostfixEngine [Tests] ===");
-    }
-
     @Before
     public void setUp(){
         engine = new PostfixEngine();
@@ -42,25 +37,12 @@ public class PostfixEngineTest {
 
     @Test
     public void canEvaluateSingleOperator(){
-        System.out.print("[+] Can evaluate single operator (");
-
         assertEquals(4, engine.evaluate("2 2 +"));
-        System.out.print("+, ");
-
         assertEquals(2, engine.evaluate("4 2 -"));
-        System.out.print("-, ");
-
         assertEquals(4, engine.evaluate("2 2 *"));
-        System.out.print("*, ");
-
         assertEquals(2, engine.evaluate("4 2 /"));
-        System.out.print("/, ");
-
         assertEquals(1, engine.evaluate("3 2 %"));
-        System.out.print("%, ");
-
         assertEquals(4, engine.evaluate("2 2 ^"));
-        System.out.println("^)");
     }
 
     @Test
@@ -71,45 +53,46 @@ public class PostfixEngineTest {
     @Test
     public void canEvaluateWithManySpaces(){
         assertEquals(4, engine.evaluate("2           2      +"));
-        System.out.println("[+] Can Evaluate with Many Spaces");
     }
 
     @Test
     public void canDetectOverflow(){
         try{
             engine.evaluate("2 31 ^ 1 +");
-            System.out.println("[-] Can Detect Overflow");
             fail();
         }catch(PostfixArithmeticException ex){
             assertTrue(ex instanceof PostfixOverflowException);
             assertEquals((long) Math.pow(2, 31) + 1L, ex.getResult());
             assertEquals("Integer overflow while evaluating expression '2 31 ^ 1 +'", ex.getMessage());
-            System.out.println("[+] Can Detect Overflow");
         }
     }
 
     @Test
-    public void canDetectunderflow(){
+    public void canDetectUnderflow(){
         try{
             engine.evaluate("2 31 ^ -1 * 1 -");
-            System.out.println("[-] Can Detect Underflow");
             fail();
         }catch(PostfixArithmeticException ex){
             assertTrue(ex instanceof PostfixUnderflowException);
             assertEquals(-1L * (long) Math.pow(2, 31) - 1L, ex.getResult());
             assertEquals("Integer underflow while evaluating expression '2 31 ^ -1 * 1 -'", ex.getMessage());
-            System.out.println("[+] Can Detect Underflow");
         }
+    }
+
+    @Test
+    public void supportsRequiredExamples(){
+        assertEquals(0, engine.evaluateInfix("( 2 + 3 ) * ( 4 % 2 )"));
+        assertEquals(0, engine.evaluateInfix("(2+3)*(4%2)"));
+        assertEquals(3, engine.evaluateInfix("Q(2+(4*2))"));
+        assertEquals(3, engine.evaluateInfix("C(27)"));
     }
 
     @Test
     public void failsWithTooManyOperators(){
         try{
             engine.evaluate("1 1 + +");
-            fail();
         }catch(IllegalArgumentException ex){
             assertEquals("Malformed postfix expression (not enough literals): '1 1 + +'", ex.getMessage());
-            System.out.println("[+] Fails with too many operators");
         }
     }
 
@@ -119,7 +102,6 @@ public class PostfixEngineTest {
             engine.evaluate("1 1 1 +");
         }catch(IllegalArgumentException ex){
             assertEquals("Malformed postfix expression (too many literals): '1 1 1 +'", ex.getMessage());
-            System.out.println("[+] Fails with too many literals");
         }
     }
 
@@ -129,7 +111,6 @@ public class PostfixEngineTest {
             engine.evaluate("1 1 @");
         }catch(IllegalArgumentException ex){
             assertEquals("Malformed postfix expression (unrecognized token @): '1 1 @'", ex.getMessage());
-            System.out.println("[+] Fails with illegal operator");
         }
     }
 
@@ -139,7 +120,6 @@ public class PostfixEngineTest {
             engine.getEvaluatorFunction("@");
         }catch(IllegalArgumentException ex){
             assertEquals("Undefined postfix operator: @", ex.getMessage());
-            System.out.println("[+] Does not recognize illegal operators");
         }
     }
 
@@ -160,17 +140,10 @@ public class PostfixEngineTest {
                 operators.contains("Q") &&
                 operators.contains("C")
         );
-        System.out.println("[+] Returns all supported operators");
     }
 
     @Test
     public void canParseComplexExample(){
         assertEquals(1, engine.evaluate("5 3 + 12 * 3 / 2 < 4 > 4 - Q 25 + C 2 ^ 2 %"));
-        System.out.println("[+] Can evaluate more complex expressions");
-    }
-
-    @AfterClass
-    public static void tearDownTestCase(){
-        System.out.println("=== PostfixEngine [Tests: Finished] ===");
     }
 }

@@ -36,6 +36,7 @@ public class PostfixEngine {
     /** A regular expression that matches a single integer (positive, or negative) */
     public static final String NUMERIC_REGEX = "^(-)?[0-9]+$";
 
+    /** A regular expression that matches oen or more spaces or tabs. Used to split tokens in postfix notation */
     public static final String TOKEN_SEPARATOR_REGEX = "[ \\t]+";
 
     /** All operators registered with the engine */
@@ -66,8 +67,42 @@ public class PostfixEngine {
         StringBuilder result = new StringBuilder();
         CustomStack<String> buffer = new CustomStack<>();
 
-        String[] parts = expression.trim().split(TOKEN_SEPARATOR_REGEX);
-        for(String token : parts){
+        // Not all infix expressions are delimiated by tabs or spaces.
+        // Strip them out and parse the expression character by character
+        String simplifiedExpression = expression.replaceAll(TOKEN_SEPARATOR_REGEX, "");
+
+        int index = 0;
+        do{
+            String token = null;
+
+            if(simplifiedExpression.charAt(index) == '(' ||
+               simplifiedExpression.charAt(index) == ')' ||
+               isValidOperator(String.valueOf(simplifiedExpression.charAt(index)))
+              ){
+                // The token is just a parenthesis or operator
+                token = String.valueOf(simplifiedExpression.charAt(index++));
+            }else if(String.valueOf(simplifiedExpression.charAt(index)).matches(NUMERIC_REGEX)){
+                // The token is a number or the start of a number
+                StringBuilder currentToken = new StringBuilder(String.valueOf(simplifiedExpression.charAt(index++)));
+
+                // While there are more numbers remaining, append them to the currentToken String Builder
+                boolean moreNumbers = false;
+                do{
+                    if(String.valueOf(simplifiedExpression.charAt(index)).matches(NUMERIC_REGEX)){
+                        currentToken.append(simplifiedExpression.charAt(index++));
+                        moreNumbers = true;
+                    }else{
+                        moreNumbers = false;
+                    }
+                }while(moreNumbers);
+
+                // We've found the entire number
+                token = currentToken.toString();
+            }else{
+                throw new IllegalArgumentException("Unrecognized token '" + simplifiedExpression.charAt(index) + "'");
+            }
+
+            // Now that we've extracted the token, we can parse it
             if(token.length() == 1 && isValidOperator(token)){
                 // Convert everything this operator needs
                 while(buffer.size() > 0 && !buffer.peek().equals("(")){
@@ -88,7 +123,7 @@ public class PostfixEngine {
                 // Just a literal, append it
                 result.append(token).append(" ");
             }
-        }
+        }while(index < simplifiedExpression.length());
 
         // Append any extra operators left on the expression
         while(buffer.size() > 0){
@@ -125,7 +160,7 @@ public class PostfixEngine {
     /**
      * Evaluates the specified expression following the rules of postfix notation.
      *
-     * @param expression a valid postfix expression
+     * @param expression a valid postfix expression. each literal and operator must be separated by one or more space or tab characters
      * @return the integer value of the expression
      * @throws IllegalArgumentException if the expression is invalid in any way
      */
@@ -179,6 +214,7 @@ public class PostfixEngine {
         // The result is the only thing left on the stack
         long result = buffer.pop();
 
+        // Check for overflow / underflow
         if(result > Integer.MAX_VALUE){
             throw new PostfixOverflowException(result, "Integer overflow while evaluating expression '" + expression + "'");
         }else if(result < Integer.MIN_VALUE){

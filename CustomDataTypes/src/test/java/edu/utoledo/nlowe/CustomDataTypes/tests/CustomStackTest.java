@@ -14,11 +14,6 @@ public class CustomStackTest {
 
     private CustomStack<String> stack;
 
-    @BeforeClass
-    public static void setUpTestCase(){
-        System.out.println("=== CustomStack [Tests] ===");
-    }
-
     @Before
     public void setUp(){
         stack = new CustomStack<>();
@@ -38,13 +33,5 @@ public class CustomStackTest {
         assertEquals("a", stack.pop());
 
         assertTrue(stack.size() == 0);
-
-        System.out.println("[+] Works like a stack");
     }
-
-    @AfterClass
-    public static void tearDownTestCase(){
-        System.out.println("=== CustomStack [Tests: Finished] ===");
-    }
-
 }

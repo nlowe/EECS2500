@@ -14,11 +14,6 @@ public class LinkedListTest {
 
     private CustomLinkedList<String> list;
 
-    @BeforeClass
-    public static void setUpTestCase(){
-        System.out.println("=== CustomLinkedList [Tests] ===");
-    }
-
     @Before
     public void setUp(){
         list = new CustomLinkedList<>();
@@ -30,17 +25,15 @@ public class LinkedListTest {
         list.add("asdf");
         assertEquals(1, list.size());
         assertEquals("asdf", list.get(0));
-        System.out.println("[+] Can Insert when the list is empty");
     }
 
     @Test
     public void cannotInsertAtNegativeIndex(){
         try{
             list.add(-1, "asdf");
-            fail("[-] Cannot Insert at negative indexes");
+            fail();
         }catch (Exception e){
             assertTrue(e instanceof IndexOutOfBoundsException && e.getMessage().equals("The Index -1 is not in the bounds of the list!"));
-            System.out.println("[+] Cannot insert at negative indexes");
         }
     }
 
@@ -52,7 +45,6 @@ public class LinkedListTest {
         assertEquals("one", list.get(0));
         assertEquals("two", list.get(1));
         assertEquals("three", list.get(2));
-        System.out.println("[+] Inserts in the correct order");
     }
 
     @Test
@@ -66,8 +58,6 @@ public class LinkedListTest {
         assertEquals("two", list.get(1));
         assertEquals("three", list.get(2));
         assertEquals("four", list.get(3));
-
-        System.out.println("[+] Can Insert in the middle");
     }
 
     @Test
@@ -77,8 +67,6 @@ public class LinkedListTest {
 
         list.add(0, "first");
         assertEquals("first", list.getFirst());
-
-        System.out.println("[+] Can Insert At the Start");
     }
 
     @Test
@@ -91,8 +79,6 @@ public class LinkedListTest {
 
         list.add(list.size(), "last");
         assertEquals("last", list.getLast());
-
-        System.out.println("[+] Can Insert At the End");
     }
 
     @Test
@@ -100,10 +86,10 @@ public class LinkedListTest {
         list.add("one");
         try{
             list.get(-1);
-            fail("[-] Cannot get indexes less than zero");
+            fail();
         }catch (Exception e){
-            assertTrue(e instanceof IndexOutOfBoundsException && e.getMessage().equals("The Index -1 is not in the bounds of the list!"));
-            System.out.println("[+] Cannot get indexes less than zero");
+            assertTrue(e instanceof IndexOutOfBoundsException);
+            assertEquals(e.getMessage(), "The Index -1 is not in the bounds of the list!");
         }
     }
 
@@ -114,8 +100,8 @@ public class LinkedListTest {
             list.get(1);
             fail("[-] Cannot get indexes past the end of the list");
         }catch (Exception e){
-            assertTrue(e instanceof IndexOutOfBoundsException && e.getMessage().equals("The Index 1 is not in the bounds of the list!"));
-            System.out.println("[+] Cannot get indexes past the end of the list");
+            assertTrue(e instanceof IndexOutOfBoundsException);
+            assertEquals(e.getMessage(), "The Index 1 is not in the bounds of the list!");
         }
     }
 
@@ -136,8 +122,8 @@ public class LinkedListTest {
             list.set(-1, "asdf");
             fail("[-] Cannot update indexes less than zero");
         }catch (Exception e){
-            assertTrue(e instanceof IndexOutOfBoundsException && e.getMessage().equals("The Index -1 is not in the bounds of the list!"));
-            System.out.println("[+] Cannot update indexes less than zero");
+            assertTrue(e instanceof IndexOutOfBoundsException);
+            assertEquals(e.getMessage(), "The Index -1 is not in the bounds of the list!");
         }
     }
 
@@ -148,8 +134,8 @@ public class LinkedListTest {
             list.set(1, "asdf");
             fail("[-] Cannot update indexes past the end");
         }catch (Exception e){
-            assertTrue(e instanceof IndexOutOfBoundsException && e.getMessage().equals("The Index 1 is not in the bounds of the list!"));
-            System.out.println("[+] Cannot update indexes past the end");
+            assertTrue(e instanceof IndexOutOfBoundsException);
+            assertEquals(e.getMessage(), "The Index 1 is not in the bounds of the list!");
         }
     }
 
@@ -163,8 +149,6 @@ public class LinkedListTest {
 
         assertTrue(list.contains("a"));
         assertFalse(list.contains("C"));
-
-        System.out.println("[+] Can verify if an element is in the list");
     }
 
     @Test
@@ -178,8 +162,6 @@ public class LinkedListTest {
         assertEquals(2, list.size());
         assertEquals("two", list.getFirst());
         assertEquals("three", list.getLast());
-
-        System.out.println("[+] Can remove the first element");
     }
 
     @Test
@@ -193,8 +175,6 @@ public class LinkedListTest {
         assertEquals(2, list.size());
         assertEquals("one", list.getFirst());
         assertEquals("three", list.getLast());
-
-        System.out.println("[+] Can remove the first element");
     }
 
     @Test
@@ -208,8 +188,6 @@ public class LinkedListTest {
         assertEquals(2, list.size());
         assertEquals("one", list.getFirst());
         assertEquals("two", list.getLast());
-
-        System.out.println("[+] Can remove the first element");
     }
 
     @Test
@@ -217,10 +195,10 @@ public class LinkedListTest {
         list.add("one");
         try{
             list.remove(-1);
-            fail("[-] Cannot remove indexes less than zero");
+            fail();
         }catch (Exception e){
-            assertTrue(e instanceof IndexOutOfBoundsException && e.getMessage().equals("The Index -1 is not in the bounds of the list!"));
-            System.out.println("[+] Cannot remove indexes less than zero");
+            assertTrue(e instanceof IndexOutOfBoundsException);
+            assertEquals(e.getMessage(), "The Index -1 is not in the bounds of the list!");
         }
     }
 
@@ -229,10 +207,10 @@ public class LinkedListTest {
         list.add("one");
         try{
             list.remove(1);
-            fail("[-] Cannot remove indexes past the end");
+            fail();
         }catch (Exception e){
-            assertTrue(e instanceof IndexOutOfBoundsException && e.getMessage().equals("The Index 1 is not in the bounds of the list!"));
-            System.out.println("[+] Cannot remove indexes past the end");
+            assertTrue(e instanceof IndexOutOfBoundsException);
+            assertEquals(e.getMessage(), "The Index 1 is not in the bounds of the list!");
         }
     }
 
@@ -245,8 +223,6 @@ public class LinkedListTest {
         assertEquals(0, list.size());
         assertEquals(null, list.getFirst());
         assertEquals(null, list.getLast());
-
-        System.out.println("[+] Can clear the list");
     }
 
     @Test
@@ -261,13 +237,11 @@ public class LinkedListTest {
                 case 0: assertEquals("one", value); break;
                 case 1: assertEquals("two", value); break;
                 case 2: assertEquals("three", value); break;
-                default: fail("[-] Can Iterate: Found an element I didn't add!");
+                default: fail();
             }
 
             i++;
         }
-
-        System.out.println("[+] Can Iterate over elements");
     }
 
     @Test
@@ -290,18 +264,10 @@ public class LinkedListTest {
                     found[2] = true;
                     break;
                 default:
-                    fail("[-] Can Stream: Found an element I didn't add!");
+                    fail();
             }
         });
 
         assertTrue(found[0] && found[1] && found[2]);
-
-        System.out.println("[+] Can Stream over elements");
     }
-
-    @AfterClass
-    public static void tearDownTestCase(){
-        System.out.println("=== CustomLinkedList [Tests: Finished] ===");
-    }
-
 }
