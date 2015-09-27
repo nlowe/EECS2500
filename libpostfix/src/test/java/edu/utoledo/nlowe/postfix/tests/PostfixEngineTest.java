@@ -3,6 +3,9 @@ import static org.junit.Assert.*;
 
 import edu.utoledo.nlowe.CustomDataTypes.CustomLinkedList;
 import edu.utoledo.nlowe.postfix.PostfixEngine;
+import edu.utoledo.nlowe.postfix.exception.PostfixArithmeticException;
+import edu.utoledo.nlowe.postfix.exception.PostfixOverflowException;
+import edu.utoledo.nlowe.postfix.exception.PostfixUnderflowException;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -69,6 +72,34 @@ public class PostfixEngineTest {
     public void canEvaluateWithManySpaces(){
         assertEquals(4, engine.evaluate("2           2      +"));
         System.out.println("[+] Can Evaluate with Many Spaces");
+    }
+
+    @Test
+    public void canDetectOverflow(){
+        try{
+            engine.evaluate("2 31 ^ 1 +");
+            System.out.println("[-] Can Detect Overflow");
+            fail();
+        }catch(PostfixArithmeticException ex){
+            assertTrue(ex instanceof PostfixOverflowException);
+            assertEquals((long) Math.pow(2, 31) + 1L, ex.getResult());
+            assertEquals("Integer overflow while evaluating expression '2 31 ^ 1 +'", ex.getMessage());
+            System.out.println("[+] Can Detect Overflow");
+        }
+    }
+
+    @Test
+    public void canDetectunderflow(){
+        try{
+            engine.evaluate("2 31 ^ -1 * 1 -");
+            System.out.println("[-] Can Detect Underflow");
+            fail();
+        }catch(PostfixArithmeticException ex){
+            assertTrue(ex instanceof PostfixUnderflowException);
+            assertEquals(-1L * (long) Math.pow(2, 31) - 1L, ex.getResult());
+            assertEquals("Integer underflow while evaluating expression '2 31 ^ -1 * 1 -'", ex.getMessage());
+            System.out.println("[+] Can Detect Underflow");
+        }
     }
 
     @Test

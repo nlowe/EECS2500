@@ -1,6 +1,9 @@
 package edu.utoledo.nlowe.postfix;
 
 import edu.utoledo.nlowe.CustomDataTypes.CustomStack;
+import edu.utoledo.nlowe.postfix.exception.PostfixArithmeticException;
+import edu.utoledo.nlowe.postfix.exception.PostfixOverflowException;
+import edu.utoledo.nlowe.postfix.exception.PostfixUnderflowException;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,11 +49,11 @@ public class PostfixEngine {
         register("*", (a, b) -> a * b);
         register("/", (a, b) -> a / b);
         register("%", (a, b) -> a % b);
-        register("^", (a, b) -> (int) Math.pow(a, b));
+        register("^", (a, b) -> (long) Math.pow(a, b));
         register("<", (a, b) -> a << b);
         register(">", (a, b) -> a >> b);
-        register("Q", (a) -> (int) Math.sqrt(a));
-        register("C", (a) -> (int) Math.cbrt(a));
+        register("Q", (a) -> (long) Math.sqrt(a));
+        register("C", (a) -> (long) Math.cbrt(a));
     }
 
     /**
@@ -126,8 +129,8 @@ public class PostfixEngine {
      * @return the integer value of the expression
      * @throws IllegalArgumentException if the expression is invalid in any way
      */
-    public int evaluate(String expression) throws IllegalArgumentException {
-        CustomStack<Integer> buffer = new CustomStack<>();
+    public long evaluate(String expression) throws IllegalArgumentException,PostfixArithmeticException {
+        CustomStack<Long> buffer = new CustomStack<>();
 
         // Split the expression into tokens by white space (one or more of either a space or a tab)
         String[] parts = expression.trim().split(TOKEN_SEPARATOR_REGEX);
@@ -143,8 +146,8 @@ public class PostfixEngine {
                     }
 
                     // Extract the arguments backwards because we're using a stack
-                    int b = buffer.pop();
-                    int a = buffer.pop();
+                    long b = buffer.pop();
+                    long a = buffer.pop();
 
                     // Push the result onto the stack
                     buffer.push(((BinaryOperator) op).evaluate(a, b));
@@ -161,7 +164,7 @@ public class PostfixEngine {
                 }
             }else if(token.matches(NUMERIC_REGEX)){
                 // Just an integer, push it onto the stack
-                buffer.push(Integer.parseInt(token));
+                buffer.push(Long.parseLong(token));
             }else{
                 // Not a valid operator or literal
                 throw new IllegalArgumentException("Malformed postfix expression (unrecognized token " + token + "): '" + expression + "'");
@@ -174,16 +177,24 @@ public class PostfixEngine {
         }
 
         // The result is the only thing left on the stack
-        return buffer.pop();
+        long result = buffer.pop();
+
+        if(result > Integer.MAX_VALUE){
+            throw new PostfixOverflowException(result, "Integer overflow while evaluating expression '" + expression + "'");
+        }else if(result < Integer.MIN_VALUE){
+            throw new PostfixUnderflowException(result, "Integer underflow while evaluating expression '" + expression + "'");
+        }else{
+            return result;
+        }
     }
 
     /**
      * Evalueates the specified infix expression by first converting to postfix and then evaluating the result.
      *
-     * @param expression A valid invix expression
+     * @param expression A valid infix expression
      * @return the integer result of the evaluated expression
      */
-    public int evaluateInfix(String expression){
+    public long evaluateInfix(String expression){
         return evaluate(convertInfixExpression(expression));
     }
 
