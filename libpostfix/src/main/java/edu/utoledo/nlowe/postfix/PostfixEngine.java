@@ -31,7 +31,7 @@ import java.util.Set;
 public class PostfixEngine {
 
     /** A regular expression that matches a single integer (positive, or negative) */
-    public static final String NUMERIC_REGEX = "^(-)?[0-9]$";
+    public static final String NUMERIC_REGEX = "^(-)?[0-9]+$";
 
     /** All operators registered with the engine */
     private final HashMap<String, Operator> operators = new HashMap<>();
