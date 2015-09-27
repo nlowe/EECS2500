@@ -10,7 +10,7 @@ import org.junit.Test;
 /**
  * Created by nathan on 9/8/15
  */
-public class LinkedListTests {
+public class LinkedListTest {
 
     private CustomLinkedList<String> list;
 

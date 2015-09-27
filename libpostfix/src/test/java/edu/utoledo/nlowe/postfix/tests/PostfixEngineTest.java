@@ -1,6 +1,7 @@
 package edu.utoledo.nlowe.postfix.tests;
 import static org.junit.Assert.*;
 
+import edu.utoledo.nlowe.CustomDataTypes.CustomLinkedList;
 import edu.utoledo.nlowe.postfix.PostfixEngine;
 import org.junit.AfterClass;
 import org.junit.Before;

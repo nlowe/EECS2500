@@ -16,6 +16,7 @@ public class PostfixEngine {
     private final HashMap<String, Operator> operators = new HashMap<>();
 
     public PostfixEngine(){
+        // Register default valid operators
         register("+", (a, b) -> a + b);
         register("-", (a, b) -> a - b);
         register("x", (a, b) -> a * b);
@@ -27,6 +28,34 @@ public class PostfixEngine {
         register("C", (a) -> (int) Math.cbrt(a));
         register("<", (a, b) -> a << b);
         register(">", (a, b) -> a >> b);
+    }
+
+    public String convertInfixExpression(String expression){
+        StringBuilder result = new StringBuilder();
+        CustomStack<String> buffer = new CustomStack<>();
+
+        String[] parts = expression.trim().split(" +");
+        for(String token : parts){
+            if(token.length() == 1 && isValidOperator(token)){
+                while(buffer.size() > 0 && !buffer.peek().equals("(")){
+                    //Operator Precedence is ignored for this project
+                    buffer.pop();
+                    result.append(buffer.peek()).append(" ");
+                }
+                buffer.push(token);
+            }else if(token.equals("(")){
+                buffer.push(token);
+            }else if(token.equals(")")){
+                while(!buffer.peek().equals("(")){
+                    result.append(buffer.pop()).append(" ");
+                }
+                buffer.pop();
+            }else{
+                result.append(token).append(" ");
+            }
+        }
+
+        return result.toString().trim();
     }
 
     public void register(String token, BinaryOperator operator){
@@ -73,6 +102,10 @@ public class PostfixEngine {
         }
 
         return buffer.pop();
+    }
+
+    public int evaluateInfix(String expression){
+        return evaluate(convertInfixExpression(expression));
     }
 
     public Operator getEvaluatorFunction(String operator){

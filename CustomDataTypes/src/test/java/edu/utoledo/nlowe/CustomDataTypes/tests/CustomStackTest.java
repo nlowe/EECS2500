@@ -10,7 +10,7 @@ import org.junit.Test;
 /**
  * Created by nathan on 9/26/15
  */
-public class CustomStackTests {
+public class CustomStackTest {
 
     private CustomStack<String> stack;
 
@@ -38,6 +38,8 @@ public class CustomStackTests {
         assertEquals("a", stack.pop());
 
         assertTrue(stack.size() == 0);
+
+        System.out.println("[+] Works like a stack");
     }
 
     @AfterClass
