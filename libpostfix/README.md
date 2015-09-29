@@ -19,6 +19,8 @@ this project only supports operations with `int`s.
 mvn package
 ```
 
+This will create `libpostfix-<VERSION>-jar-with-dependencies.jar` in `target/`
+
 ### Usage
 Require `libpostfix` as a part of your project:
 
@@ -43,4 +45,12 @@ import edu.utoledo.nlowe.postfix.PostfixEngine;
 PostfixEngine engine = new PostfixEngine();
 engine.evaluate("2 2 +") // int: 4
 
+```
+
+#### Sample Calculator
+A sample calculator is included that converts infix expressions to postfix expressions and evaluates them. After
+building, run the following:
+
+```bash
+$ java -jar libpostfix/target/libpostfix-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
