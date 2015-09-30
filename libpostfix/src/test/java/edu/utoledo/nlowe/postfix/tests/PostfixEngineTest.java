@@ -31,7 +31,9 @@ public class PostfixEngineTest
         try
         {
             engine.convertInfixExpression("");
-        }catch(Exception ex){
+        }
+        catch (Exception ex)
+        {
             assertTrue(ex instanceof IllegalArgumentException);
             assertEquals("Nothing to convert", ex.getMessage());
         }
@@ -39,7 +41,9 @@ public class PostfixEngineTest
         try
         {
             engine.convertInfixExpression(null);
-        }catch(Exception ex){
+        }
+        catch (Exception ex)
+        {
             assertTrue(ex instanceof IllegalArgumentException);
             assertEquals("Nothing to convert", ex.getMessage());
         }

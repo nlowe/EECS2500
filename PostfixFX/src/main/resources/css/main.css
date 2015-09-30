@@ -1,0 +1,23 @@
+@font-face {
+    font-family: "Hack";
+    src: url("/font/Hack-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Hack Bold";
+    src: url("/font/Hack-Bold.ttf");
+}
+
+.calculator-button,#ModeButton {
+    -fx-font-family: Hack;
+    -fx-font-size: 16pt;
+}
+
+#ResultBox {
+    -fx-font-family: Hack;
+}
+
+#EntryField {
+    -fx-font: 24pt "Hack";
+    -fx-font-weight: Bold;
+}

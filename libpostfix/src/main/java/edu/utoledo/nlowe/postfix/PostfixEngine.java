@@ -67,7 +67,8 @@ public class PostfixEngine
      */
     public String convertInfixExpression(String expression)
     {
-        if(expression == null || expression.length() == 0){
+        if (expression == null || expression.length() == 0)
+        {
             throw new IllegalArgumentException("Nothing to convert");
         }
 

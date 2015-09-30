@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import edu.utoledo.nlowe.PostfixFX.*?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.ToggleButton?>
+<BorderPane xmlns:fx="http://javafx.com/fxml" HBox.hgrow="ALWAYS"
+            fx:controller="edu.utoledo.nlowe.PostfixFX.Controllers.PrimaryController" stylesheets="/css/main.css">
+    <padding>
+        <Insets top="10" bottom="10" left="10" right="10"/>
+    </padding>
+    <top>
+        <GridPane>
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" fillWidth="true"/>
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" fillHeight="true"/>
+                <RowConstraints vgrow="ALWAYS" fillHeight="true"/>
+            </rowConstraints>
+
+            <TextField fx:id="entryBox" id="EntryField" GridPane.rowIndex="1"/>
+            <TextArea editable="false" fx:id="resultBox" id="ResultBox" wrapText="true" GridPane.rowIndex="0"/>
+        </GridPane>
+    </top>
+    <center>
+        <GridPane fx:id="buttonGrid" hgap="5" vgap="5">
+            <padding>
+                <Insets top="10"/>
+            </padding>
+
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" fillWidth="true" percentWidth="16.66"/>
+                <ColumnConstraints hgrow="ALWAYS" fillWidth="true" percentWidth="16.66"/>
+                <ColumnConstraints hgrow="ALWAYS" fillWidth="true" percentWidth="16.66"/>
+                <ColumnConstraints hgrow="ALWAYS" fillWidth="true" percentWidth="16.66"/>
+                <ColumnConstraints hgrow="ALWAYS" fillWidth="true" percentWidth="16.66"/>
+                <ColumnConstraints hgrow="ALWAYS" fillWidth="true" percentWidth="16.66"/>
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" fillHeight="true"/>
+                <RowConstraints vgrow="ALWAYS" fillHeight="true"/>
+                <RowConstraints vgrow="ALWAYS" fillHeight="true"/>
+                <RowConstraints vgrow="ALWAYS" fillHeight="true"/>
+            </rowConstraints>
+
+            <CalculatorButton text="7" entry="7" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <CalculatorButton text="8" entry="8" onAction="#onButton" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <CalculatorButton text="9" entry="9" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+            <CalculatorButton text="+" entry="+" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+            <CalculatorButton text="SQRT" entry="Q" onAction="#onButton" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
+            <CalculatorButton text="(" entry="(" onAction="#onButton" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+
+            <CalculatorButton text="4" entry="4" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <CalculatorButton text="5" entry="5" onAction="#onButton" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <CalculatorButton text="6" entry="6" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+            <CalculatorButton text="-" entry="-" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+            <CalculatorButton text="CBRT" entry="C" onAction="#onButton" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+            <CalculatorButton text=")" entry=")" onAction="#onButton" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+
+            <CalculatorButton text="1" entry="1" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <CalculatorButton text="2" entry="2" onAction="#onButton" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <CalculatorButton text="3" entry="3" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+            <CalculatorButton text="*" entry="*" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+            <CalculatorButton text="LSH" fx:id="leftShift" onAction="#onButton" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
+            <CalculatorButton onAction="#onEnter" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                <graphic>
+                    <ImageView>
+                        <Image url="@/img/ic_keyboard_return_black_24dp_1x.png"/>
+                    </ImageView>
+                </graphic>
+            </CalculatorButton>
+
+            <CalculatorButton text="0" entry="0" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <CalculatorButton text="MOD" entry="\%" onAction="#onButton" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <CalculatorButton Text="x^y" entry="^" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+            <CalculatorButton text="/" entry="/" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+            <CalculatorButton text="RSH" fx:id="rightShift" onAction="#onButton" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
+            <ToggleButton text="STD" fx:id="modeButton" id="ModeButton" onAction="#onModeChanged" maxHeight="Infinity" maxWidth="Infinity"
+                          GridPane.columnIndex="5" GridPane.rowIndex="3"/>
+        </GridPane>
+    </center>
+</BorderPane>

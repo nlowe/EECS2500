@@ -9,16 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <artifactId>libpostfix</artifactId>
+    <artifactId>PostfixFX</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>edu.utoledo.nlowe</groupId>
-            <artifactId>CustomDataTypes</artifactId>
+            <artifactId>libpostfix</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
@@ -26,11 +22,18 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>edu.utoledo.nlowe.postfix.samples.ConverterCalculator</mainClass>
+                            <mainClass>edu.utoledo.nlowe.PostfixFX.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -50,6 +53,6 @@
                 </executions>
             </plugin>
         </plugins>
-
     </build>
+
 </project>
