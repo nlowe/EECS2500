@@ -26,6 +26,26 @@ public class PostfixEngineTest
     }
 
     @Test
+    public void cannotConvertEmptyInfixExpression()
+    {
+        try
+        {
+            engine.convertInfixExpression("");
+        }catch(Exception ex){
+            assertTrue(ex instanceof IllegalArgumentException);
+            assertEquals("Nothing to convert", ex.getMessage());
+        }
+
+        try
+        {
+            engine.convertInfixExpression(null);
+        }catch(Exception ex){
+            assertTrue(ex instanceof IllegalArgumentException);
+            assertEquals("Nothing to convert", ex.getMessage());
+        }
+    }
+
+    @Test
     public void canConvertInfixExpression()
     {
         assertEquals("2 3 + 4 2 % *", engine.convertInfixExpression("( 2 + 3 ) * ( 4 % 2 )"));
