@@ -48,7 +48,6 @@ public class PrimaryController implements Initializable
         entryBox.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.ENTER)
             {
-                System.out.println("Enter");
                 onEnter(null);
             }
         });
@@ -140,5 +139,10 @@ public class PrimaryController implements Initializable
     public TextField getEntryBox()
     {
         return entryBox;
+    }
+
+    public ToggleButton getModeButton()
+    {
+        return modeButton;
     }
 }

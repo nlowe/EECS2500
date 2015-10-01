@@ -50,24 +50,24 @@
                 <RowConstraints vgrow="ALWAYS" fillHeight="true"/>
             </rowConstraints>
 
-            <CalculatorButton text="7" entry="7" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-            <CalculatorButton text="8" entry="8" onAction="#onButton" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-            <CalculatorButton text="9" entry="9" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-            <CalculatorButton text="+" entry="+" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+            <CalculatorButton text="7" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <CalculatorButton text="8" onAction="#onButton" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <CalculatorButton text="9" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+            <CalculatorButton text="+" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
             <CalculatorButton text="SQRT" entry="Q" onAction="#onButton" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
-            <CalculatorButton text="(" entry="(" onAction="#onButton" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
+            <CalculatorButton text="(" onAction="#onButton" GridPane.columnIndex="5" GridPane.rowIndex="0"/>
 
-            <CalculatorButton text="4" entry="4" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <CalculatorButton text="5" entry="5" onAction="#onButton" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <CalculatorButton text="6" entry="6" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-            <CalculatorButton text="-" entry="-" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+            <CalculatorButton text="4" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <CalculatorButton text="5" onAction="#onButton" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <CalculatorButton text="6" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+            <CalculatorButton text="-" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
             <CalculatorButton text="CBRT" entry="C" onAction="#onButton" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
-            <CalculatorButton text=")" entry=")" onAction="#onButton" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
+            <CalculatorButton text=")" onAction="#onButton" GridPane.columnIndex="5" GridPane.rowIndex="1"/>
 
-            <CalculatorButton text="1" entry="1" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-            <CalculatorButton text="2" entry="2" onAction="#onButton" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-            <CalculatorButton text="3" entry="3" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-            <CalculatorButton text="*" entry="*" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+            <CalculatorButton text="1" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <CalculatorButton text="2" onAction="#onButton" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <CalculatorButton text="3" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+            <CalculatorButton text="*" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
             <CalculatorButton text="LSH" fx:id="leftShift" onAction="#onButton" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
             <CalculatorButton onAction="#onEnter" id="EnterButton" GridPane.columnIndex="5" GridPane.rowIndex="2">
                 <graphic>
@@ -77,10 +77,10 @@
                 </graphic>
             </CalculatorButton>
 
-            <CalculatorButton text="0" entry="0" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <CalculatorButton text="0" onAction="#onButton" GridPane.columnIndex="0" GridPane.rowIndex="3" />
             <CalculatorButton text="MOD" entry="\%" onAction="#onButton" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
             <CalculatorButton Text="x^y" entry="^" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-            <CalculatorButton text="/" entry="/" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+            <CalculatorButton text="/" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
             <CalculatorButton text="RSH" fx:id="rightShift" onAction="#onButton" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
             <ToggleButton text="STD" fx:id="modeButton" id="ModeButton" onAction="#onModeChanged" maxHeight="Infinity" maxWidth="Infinity"
                           GridPane.columnIndex="5" GridPane.rowIndex="3"/>

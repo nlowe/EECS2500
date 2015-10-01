@@ -3,7 +3,6 @@ package edu.utoledo.nlowe.PostfixFX.tests;
 import edu.utoledo.nlowe.PostfixFX.CalculatorButton;
 import edu.utoledo.nlowe.PostfixFX.Controllers.PrimaryController;
 import edu.utoledo.nlowe.PostfixFX.Main;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,7 +14,7 @@ import org.testfx.framework.junit.ApplicationTest;
 
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by nathan on 9/30/15
@@ -33,7 +32,8 @@ public class CalculatorTest extends ApplicationTest
             Parent root = null;
             try
             {
-                root = loader.load();controller = loader.getController();
+                root = loader.load();
+                controller = loader.getController();
 
                 primaryStage.setScene(new Scene(root, Main.CALCULATOR_WIDTH, Main.CALCULATOR_HEIGHT));
                 primaryStage.setTitle("PostfixFX");
@@ -52,13 +52,15 @@ public class CalculatorTest extends ApplicationTest
     }
 
     @Before
-    public void setUp(){
+    public void setUp()
+    {
         controller.getEntryBox().clear();
         controller.getResultBox().clear();
     }
 
     @Test
-    public void allButtonsWork(){
+    public void allButtonsWork()
+    {
         clickOn("7").clickOn("8").clickOn("9").clickOn("+").clickOn("SQRT").clickOn("(");
         clickOn("4").clickOn("5").clickOn("6").clickOn("-").clickOn("CBRT").clickOn(")");
         clickOn("1").clickOn("2").clickOn("3").clickOn("*").clickOn("LSH");
@@ -67,7 +69,8 @@ public class CalculatorTest extends ApplicationTest
     }
 
     @Test
-    public void oneTestStandard(){
+    public void oneTestStandard()
+    {
         clickOn("2").clickOn("+").clickOn("2").clickOn("#EnterButton");
 
         assertEquals("", controller.getEntryBox().getText());
@@ -77,7 +80,8 @@ public class CalculatorTest extends ApplicationTest
     }
 
     @Test
-    public void multiTestStandard(){
+    public void multiTestStandard()
+    {
         clickOn("2").clickOn("+").clickOn("2").clickOn("#EnterButton");
         clickOn("3").clickOn("+").clickOn("3").clickOn("#EnterButton");
         assertEquals("", controller.getEntryBox().getText());
@@ -87,7 +91,8 @@ public class CalculatorTest extends ApplicationTest
     }
 
     @Test
-    public void multiTestStandardWithRecall(){
+    public void multiTestStandardWithRecall()
+    {
         clickOn("2").clickOn("+").clickOn("2").clickOn("#EnterButton");
         clickOn("+").clickOn("2");
 
@@ -101,7 +106,8 @@ public class CalculatorTest extends ApplicationTest
     }
 
     @Test
-    public void oneTestPostfix(){
+    public void oneTestPostfix()
+    {
         clickOn("#ModeButton");
 
         clickOn("2");
@@ -115,7 +121,8 @@ public class CalculatorTest extends ApplicationTest
     }
 
     @Test
-    public void multiTestPostfix(){
+    public void multiTestPostfix()
+    {
         clickOn("#ModeButton");
 
         clickOn("2").push(KeyCode.SPACE).clickOn("2").clickOn("+").clickOn("#EnterButton");
@@ -126,9 +133,10 @@ public class CalculatorTest extends ApplicationTest
         String expected = String.format("6: 3 3 + %n4: 2 2 + %n");
         assertEquals(expected, controller.getResultBox().getText());
     }
-    
+
     @Test
-    public void focusesEntryBoxAfterButton(){
+    public void focusesEntryBoxAfterButton()
+    {
         clickOn("7").push(KeyCode.Z).clickOn("8").push(KeyCode.Z).clickOn("9").push(KeyCode.Z).clickOn("+").push(KeyCode.Z).clickOn("SQRT").push(KeyCode.Z).clickOn("(").push(KeyCode.Z);
         clickOn("4").push(KeyCode.Z).clickOn("5").push(KeyCode.Z).clickOn("6").push(KeyCode.Z).clickOn("-").push(KeyCode.Z).clickOn("CBRT").push(KeyCode.Z).clickOn(")").push(KeyCode.Z);
         clickOn("1").push(KeyCode.Z).clickOn("2").push(KeyCode.Z).clickOn("3").push(KeyCode.Z).clickOn("*").push(KeyCode.Z).clickOn("LSH").push(KeyCode.Z);
@@ -138,7 +146,8 @@ public class CalculatorTest extends ApplicationTest
     }
 
     @Test
-    public void allButtonsWorkInPostfixMode(){
+    public void allButtonsWorkInPostfixMode()
+    {
         clickOn("#ModeButton");
 
         clickOn("7").clickOn("8").clickOn("9").clickOn("+").clickOn("SQRT").clickOn("(");
@@ -146,5 +155,75 @@ public class CalculatorTest extends ApplicationTest
         clickOn("1").clickOn("2").clickOn("3").clickOn("*").clickOn("LSH");
         clickOn("0").clickOn("MOD").clickOn("x^y").clickOn("/").clickOn("RSH");
         assertEquals("789 + Q (456 - C )123 * < 0 % ^ / > ", controller.getEntryBox().getText());
+    }
+
+    @Test
+    public void doesNothingWithEmptyEntry()
+    {
+        clickOn("#EnterButton");
+        assertEquals("", controller.getEntryBox().getText());
+        assertEquals("", controller.getResultBox().getText());
+
+        clickOn("2").clickOn("+").clickOn("2").clickOn("#EnterButton");
+        assertEquals("", controller.getEntryBox().getText());
+        assertEquals(String.format("4: 2+2%n"), controller.getResultBox().getText());
+    }
+
+    @Test
+    public void doesNothingWithEmptyEntryPostfix()
+    {
+        clickOn("#ModeButton");
+        clickOn("#EnterButton");
+        assertEquals("", controller.getEntryBox().getText());
+        assertEquals("", controller.getResultBox().getText());
+
+        clickOn("2").push(KeyCode.SPACE).clickOn("2").clickOn("+").clickOn("#EnterButton");
+        assertEquals("", controller.getEntryBox().getText());
+        assertEquals(String.format("4: 2 2 + %n"), controller.getResultBox().getText());
+    }
+
+    @Test
+    public void warnsAboutOverAndUnderFlow()
+    {
+        controller.getEntryBox().setText("2<31+1");
+        clickOn("#EnterButton");
+
+        assertEquals("", controller.getEntryBox().getText());
+        assertEquals(String.format("4294967297: (Overflow) 2<31+1%n"), controller.getResultBox().getText());
+
+        controller.getEntryBox().setText("(0-1)*(2<31)");
+        clickOn("#EnterButton");
+
+        assertEquals("", controller.getEntryBox().getText());
+        assertEquals(String.format("-4294967296: (Underflow) (0-1)*(2<31)%n4294967297: (Overflow) 2<31+1%n"), controller.getResultBox().getText());
+    }
+
+    @Test
+    public void warnsAboutIllegalArguments()
+    {
+        controller.getEntryBox().setText("@");
+        clickOn("#EnterButton");
+
+        assertEquals("", controller.getEntryBox().getText());
+        assertEquals(String.format("Unrecognized token '@'%n"), controller.getResultBox().getText());
+    }
+
+    @Test
+    public void canDoEnterWithEnterKey()
+    {
+        clickOn("2").clickOn("+").clickOn("2").push(KeyCode.ENTER);
+
+        assertEquals("", controller.getEntryBox().getText());
+        assertEquals(String.format("4: 2+2%n"), controller.getResultBox().getText());
+    }
+
+    @Test
+    public void modeButtonSetsCorrectText()
+    {
+        assertEquals("STD", controller.getModeButton().getText());
+        clickOn("#ModeButton");
+        assertEquals("RPN", controller.getModeButton().getText());
+        clickOn("#ModeButton");
+        assertEquals("STD", controller.getModeButton().getText());
     }
 }
