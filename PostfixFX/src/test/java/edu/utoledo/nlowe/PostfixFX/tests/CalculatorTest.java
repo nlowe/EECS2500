@@ -1,18 +1,12 @@
 package edu.utoledo.nlowe.PostfixFX.tests;
 
-import edu.utoledo.nlowe.PostfixFX.CalculatorButton;
 import edu.utoledo.nlowe.PostfixFX.Controllers.PrimaryController;
 import edu.utoledo.nlowe.PostfixFX.Main;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,32 +17,21 @@ public class CalculatorTest extends ApplicationTest
 {
     private PrimaryController controller;
 
+    private Main calculator;
+
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        interact(() -> {
-            FXMLLoader loader = new FXMLLoader(CalculatorButton.class.getResource("/ui/main.fxml"));
+        calculator = new Main();
+        calculator.start(primaryStage);
 
-            Parent root = null;
-            try
-            {
-                root = loader.load();
-                controller = loader.getController();
+        controller = calculator.getController();
+    }
 
-                primaryStage.setScene(new Scene(root, Main.CALCULATOR_WIDTH, Main.CALCULATOR_HEIGHT));
-                primaryStage.setTitle("PostfixFX");
-                primaryStage.setMinHeight(Main.CALCULATOR_HEIGHT);
-                primaryStage.setMinWidth(Main.CALCULATOR_WIDTH);
-                primaryStage.setResizable(false);
-                primaryStage.show();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-
-        });
-
+    @Override
+    public void stop() throws Exception
+    {
+        calculator.stop();
     }
 
     @Before
