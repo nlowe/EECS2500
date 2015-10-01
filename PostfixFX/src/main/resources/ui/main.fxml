@@ -69,7 +69,7 @@
             <CalculatorButton text="3" entry="3" onAction="#onButton" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
             <CalculatorButton text="*" entry="*" onAction="#onButton" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
             <CalculatorButton text="LSH" fx:id="leftShift" onAction="#onButton" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
-            <CalculatorButton onAction="#onEnter" GridPane.columnIndex="5" GridPane.rowIndex="2">
+            <CalculatorButton onAction="#onEnter" id="EnterButton" GridPane.columnIndex="5" GridPane.rowIndex="2">
                 <graphic>
                     <ImageView>
                         <Image url="@/img/ic_keyboard_return_black_24dp_1x.png"/>

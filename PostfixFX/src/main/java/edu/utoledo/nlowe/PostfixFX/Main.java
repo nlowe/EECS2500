@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 public class Main extends Application
 {
 
+    public static final int CALCULATOR_WIDTH = 550;
+    public static final int CALCULATOR_HEIGHT = 560;
+
     public static void main(String[] args)
     {
         Application.launch((args));
@@ -22,11 +25,11 @@ public class Main extends Application
     {
         Parent root = FXMLLoader.load(CalculatorButton.class.getResource("/ui/main.fxml"));
 
-        primaryStage.setScene(new Scene(root, 550, 560));
+        primaryStage.setScene(new Scene(root, CALCULATOR_WIDTH, CALCULATOR_HEIGHT));
         primaryStage.setTitle("PostfixFX");
-        primaryStage.setMinHeight(560);
-        primaryStage.setMinWidth(550);
-        //primaryStage.setResizable(false);
+        primaryStage.setMinHeight(CALCULATOR_HEIGHT);
+        primaryStage.setMinWidth(CALCULATOR_WIDTH);
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 }

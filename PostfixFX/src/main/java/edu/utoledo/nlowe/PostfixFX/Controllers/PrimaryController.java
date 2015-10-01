@@ -58,7 +58,7 @@ public class PrimaryController implements Initializable
     private void onButton(ActionEvent e)
     {
         CalculatorButton button = (CalculatorButton) e.getSource();
-        System.out.println("Click from " + button.getEntry());
+        //System.out.println("Click from " + button.getEntry());
 
         if (entryBox.getText().isEmpty() && !firstEntry && engine.isValidOperator(button.getEntry()))
         {
@@ -130,5 +130,15 @@ public class PrimaryController implements Initializable
         {
             source.setText("STD");
         }
+    }
+
+    public TextArea getResultBox()
+    {
+        return resultBox;
+    }
+
+    public TextField getEntryBox()
+    {
+        return entryBox;
     }
 }
