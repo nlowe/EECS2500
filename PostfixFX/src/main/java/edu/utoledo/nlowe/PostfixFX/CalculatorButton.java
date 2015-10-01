@@ -17,6 +17,8 @@ public class CalculatorButton extends Button
 
         this.getStyleClass().add("calculator-button");
 
+        this.entry.bind(this.textProperty());
+
         this.setMinSize(0, 0);
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
     }
@@ -26,13 +28,9 @@ public class CalculatorButton extends Button
         return entry.get();
     }
 
-    public StringProperty entryProperty()
-    {
-        return entry;
-    }
-
     public void setEntry(String entry)
     {
+        this.entry.unbind();
         this.entry.set(entry);
     }
 }
