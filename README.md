@@ -1,5 +1,7 @@
 # EECS2500 - Projects and Code Samples
+![](https://img.shields.io/badge/license-MIT-blue.svg)
 [![Build Status](https://travis-ci.org/techwiz24/EECS2500.svg)](https://travis-ci.org/techwiz24/EECS2500)
+[![Build status](https://ci.appveyor.com/api/projects/status/5tp2m6u4eac439e4/branch/master?svg=true)](https://ci.appveyor.com/project/techwiz24/eecs2500/branch/master)
 [![Coverage Status](https://coveralls.io/repos/techwiz24/EECS2500/badge.svg?branch=master&service=github)](https://coveralls.io/github/techwiz24/EECS2500?branch=master)
 
 This repository contains the projects and code samples for the Fall 2015 EECS2500 (*Linear Data Structures in Java*)
