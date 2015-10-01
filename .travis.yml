@@ -6,13 +6,10 @@ os:
   - linux
   - osx
 
-jdk:
-  - oraclejdk8
-
 # Start a display for the gui tests
 before_install:
   - export DISPLAY=:99.0
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sh -e /etc/init.d/xvfb start; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sh -e /etc/init.d/xvfb start; jdk_switcher use oraclejdk8; fi
 
 after_success:
   - mvn -DrepoToken=$COVERALLS_TOKEN clean test jacoco:report coveralls:report
