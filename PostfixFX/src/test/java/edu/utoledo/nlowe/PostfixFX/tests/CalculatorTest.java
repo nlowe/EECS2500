@@ -63,7 +63,7 @@ public class CalculatorTest extends ApplicationTest
         clickOn("4").clickOn("5").clickOn("6").clickOn("-").clickOn("CBRT").clickOn(")");
         clickOn("1").clickOn("2").clickOn("3").clickOn("*").clickOn("LSH");
         clickOn("0").clickOn("MOD").clickOn("x^y").clickOn("/").clickOn("RSH");
-        assertEquals("789+Q(456-C)123*<0%^/>", controller.getEntryBox().getText());
+        assertEquals("FAIL789+Q(456-C)123*<0%^/>", controller.getEntryBox().getText());
     }
 
     @Test
