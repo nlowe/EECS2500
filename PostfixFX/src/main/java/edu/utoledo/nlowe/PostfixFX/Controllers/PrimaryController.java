@@ -115,6 +115,8 @@ public class PrimaryController implements Initializable
             }
             entryBox.clear();
             resultBox.positionCaret(0);
+            entryBox.requestFocus();
+            entryBox.deselect();
         }
     }
 
@@ -129,6 +131,8 @@ public class PrimaryController implements Initializable
         {
             source.setText("STD");
         }
+        entryBox.requestFocus();
+        entryBox.deselect();
     }
 
     public TextArea getResultBox()

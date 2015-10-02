@@ -39,6 +39,7 @@ public class CalculatorTest extends ApplicationTest
     {
         controller.getEntryBox().clear();
         controller.getResultBox().clear();
+        controller.getModeButton().setSelected(false);
     }
 
     @Test
@@ -126,6 +127,12 @@ public class CalculatorTest extends ApplicationTest
         clickOn("0").push(KeyCode.Z).clickOn("MOD").push(KeyCode.Z).clickOn("x^y").push(KeyCode.Z).clickOn("/").push(KeyCode.Z).clickOn("RSH").push(KeyCode.Z);
 
         assertEquals("7z8z9z+zQz(z4z5z6z-zCz)z1z2z3z*z<z0z%z^z/z>z", controller.getEntryBox().getText());
+
+        clickOn("#EnterButton").push(KeyCode.Z);
+        assertEquals("z", controller.getEntryBox().getText());
+
+        clickOn("#ModeButton").push(KeyCode.Z);
+        assertEquals("zz", controller.getEntryBox().getText());
     }
 
     @Test

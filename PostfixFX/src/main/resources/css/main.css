@@ -11,6 +11,7 @@
 .calculator-button, #ModeButton {
     -fx-font-family: Hack;
     -fx-font-size: 16pt;
+    -fx-font-weight: bold;
 }
 
 #ResultBox {
