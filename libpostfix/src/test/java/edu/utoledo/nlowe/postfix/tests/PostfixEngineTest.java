@@ -68,6 +68,27 @@ public class PostfixEngineTest
     }
 
     @Test
+    public void cannotEvaluateInfixWithTooManyLiterals()
+    {
+        try
+        {
+            engine.evaluateInfix("2+2 4");
+            fail();
+        }
+        catch (Exception e)
+        {
+            assertTrue(e instanceof IllegalArgumentException);
+            assertEquals("Malformed postfix expression (too many literals): '2 2 4 +'", e.getMessage());
+        }
+    }
+
+    @Test
+    public void canConvertMixedSeparatorStyles()
+    {
+        assertEquals("12 3 45 6", engine.convertInfixExpression("12 3 45 6"));
+    }
+
+    @Test
     public void unaryOperatorsRequireAtLeastOneOperand()
     {
         try

@@ -75,16 +75,24 @@ public class PostfixEngine
         StringBuilder result = new StringBuilder();
         CustomStack<String> buffer = new CustomStack<>();
 
-        // Not all infix expressions are delimiated by tabs or spaces.
-        // Strip them out and parse the expression character by character
-        String simplifiedExpression = expression.replaceAll(TOKEN_SEPARATOR_REGEX, "");
+        // Not all infix expressions are delimited by tabs or spaces
+        // Strip them out, replacing them with underscores to detect mixed separator styles
+        // Then, parse the expression character by character
+        String simplifiedExpression = expression.replaceAll(TOKEN_SEPARATOR_REGEX, "_");
 
         int index = 0;
         do
         {
-            String token = null;
+            String token;
 
-            if (simplifiedExpression.charAt(index) == '(' ||
+            if (simplifiedExpression.charAt(index) == '_')
+            {
+                // An underscore indicates spacing for a mixed separator style
+                // Skip the underscore and move on
+                index++;
+                continue;
+            }
+            else if (simplifiedExpression.charAt(index) == '(' ||
                     simplifiedExpression.charAt(index) == ')' ||
                     isValidOperator(String.valueOf(simplifiedExpression.charAt(index)))
                     )
