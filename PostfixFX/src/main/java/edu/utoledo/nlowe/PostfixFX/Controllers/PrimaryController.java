@@ -17,7 +17,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
- * Created by nathan on 9/29/15
+ * The main controller for the calculator
  */
 public class PrimaryController implements Initializable
 {
@@ -42,12 +42,15 @@ public class PrimaryController implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         engine = new PostfixEngine();
+        // '<' and '>' aren't allowed in button text
+        // Set the entry characters for Left-Shift and Right-Shift buttons now
         leftShift.setEntry("<");
         rightShift.setEntry(">");
 
         entryBox.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.ENTER)
             {
+                // Emulate the enter button being clicked
                 onEnter(null);
             }
         });
@@ -57,17 +60,21 @@ public class PrimaryController implements Initializable
     private void onButton(ActionEvent e)
     {
         CalculatorButton button = (CalculatorButton) e.getSource();
-        //System.out.println("Click from " + button.getEntry());
 
         if (entryBox.getText().isEmpty() && !firstEntry && engine.isValidOperator(button.getEntry()))
         {
+            // If this is the first button press for this entry and it's
+            // not the first entry being evaluated, AND the button clicked
+            // was an operator, prepend the last result to the entry
             entryBox.appendText(String.format("%d ", lastResult));
         }
 
         if (modeButton.isSelected() && engine.isValidOperator(button.getEntry()))
         {
+            // Adding an operator in postfix mode
             if (!entryBox.getText().matches(".*" + PostfixEngine.TOKEN_SEPARATOR_REGEX))
             {
+                // If the entry does not yet end with a separator, append a space
                 entryBox.appendText(" ");
             }
             entryBox.appendText(button.getEntry() + " ");
@@ -87,6 +94,7 @@ public class PrimaryController implements Initializable
     {
         if (entryBox.getText().isEmpty())
         {
+            // Don't even bother evaluating empty entries
             return;
         }
 
@@ -99,6 +107,7 @@ public class PrimaryController implements Initializable
         }
         catch (PostfixArithmeticException ex)
         {
+            // There was an overflow or underflow. The result is in the exception
             result = ex.getResult();
             resultBox.setText(String.format("%d: (%s) %s%n%s", ex.getResult(), (ex instanceof PostfixOverflowException ? "Overflow" : "Underflow"), entryBox.getText(), resultBox.getText()));
         }
@@ -110,9 +119,12 @@ public class PrimaryController implements Initializable
         {
             if (result != null)
             {
+                // If we actually got a result, remember it
                 lastResult = result;
                 firstEntry = false;
             }
+
+            // Reset the entry box and scroll the result box to the top
             entryBox.clear();
             resultBox.positionCaret(0);
             entryBox.requestFocus();

@@ -5,7 +5,9 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.control.Button;
 
 /**
- * Created by nathan on 9/29/15
+ * A button that contains the text to append to the entry box
+ * when clicked. This is needed because some characters ('<' and '>')
+ * are not allowed in the test property of standard buttons
  */
 public class CalculatorButton extends Button
 {
@@ -17,6 +19,7 @@ public class CalculatorButton extends Button
 
         this.getStyleClass().add("calculator-button");
 
+        // The entry, by default, is the same as the text assigned to the button
         this.entry.bind(this.textProperty());
 
         this.setMinSize(0, 0);
@@ -30,6 +33,8 @@ public class CalculatorButton extends Button
 
     public void setEntry(String entry)
     {
+        // If someone sets a custom entry, we need to
+        // unbind it from the text property first
         this.entry.unbind();
         this.entry.set(entry);
     }
