@@ -7,9 +7,12 @@ import edu.utoledo.nlowe.postfix.exception.PostfixOverflowException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 
@@ -22,6 +25,8 @@ import java.util.ResourceBundle;
 public class PrimaryController implements Initializable
 {
 
+    @FXML
+    private MenuItem copyMenuItem;
     @FXML
     private ToggleButton modeButton;
     @FXML
@@ -53,6 +58,10 @@ public class PrimaryController implements Initializable
                 // Emulate the enter button being clicked
                 onEnter(null);
             }
+        });
+
+        resultBox.selectionProperty().addListener((observable, oldValue, newValue) -> {
+            copyMenuItem.setDisable(newValue.getLength() <= 0);
         });
     }
 
@@ -145,6 +154,7 @@ public class PrimaryController implements Initializable
         }
         entryBox.requestFocus();
         entryBox.deselect();
+        entryBox.positionCaret(entryBox.getText().length());
     }
 
     public TextArea getResultBox()
@@ -160,5 +170,21 @@ public class PrimaryController implements Initializable
     public ToggleButton getModeButton()
     {
         return modeButton;
+    }
+
+    public void onClearResultBox(ActionEvent actionEvent)
+    {
+        resultBox.clear();
+        entryBox.requestFocus();
+        entryBox.deselect();
+        entryBox.positionCaret(entryBox.getText().length());
+    }
+
+    public void onCopyFromResultBox(ActionEvent actionEvent)
+    {
+        ClipboardContent content = new ClipboardContent();
+        content.putString(resultBox.getSelectedText());
+
+        Clipboard.getSystemClipboard().setContent(content);
     }
 }

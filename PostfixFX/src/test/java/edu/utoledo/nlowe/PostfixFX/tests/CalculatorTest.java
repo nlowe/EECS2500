@@ -216,4 +216,31 @@ public class CalculatorTest extends ApplicationTest
         clickOn("#ModeButton");
         assertEquals("STD", controller.getModeButton().getText());
     }
+
+    @Test
+    public void canClearWithContextMenu()
+    {
+        controller.getResultBox().setText("2: 2");
+        rightClickOn(controller.getResultBox()).clickOn("Clear");
+
+        assertEquals("", controller.getResultBox().getText());
+    }
+
+    @Test
+    public void canCopyTextFromResultBox()
+    {
+        controller.getResultBox().setText("2: 2");
+        controller.getResultBox().selectAll();
+
+        rightClickOn(controller.getResultBox()).clickOn("Copy");
+        rightClickOn(controller.getEntryBox()).clickOn("Paste");
+        assertEquals("2: 2", controller.getEntryBox().getText());
+
+        controller.getResultBox().clear();
+        controller.getResultBox().setText("3: 3");
+        controller.getResultBox().deselect();
+        rightClickOn(controller.getResultBox()).clickOn("Copy");
+        rightClickOn(controller.getEntryBox()).clickOn("Paste");
+        assertEquals("2: 22: 2", controller.getEntryBox().getText());
+    }
 }
