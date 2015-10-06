@@ -6,7 +6,8 @@ This repository contains the projects and code samples for the Fall 2015 EECS250
 course offered by the University of Toledo.
 
 ### Projects
-* Postfix calculator (`libpostfix` and `CustomDataTypes`). [Project Spec](Assignments/Assignment_1.pdf)
+* CustomDataTypes - Abstract Data types used for almost all projects
+* Postfix calculator (`libpostfix`, `PostfixFX` is a bonus). [Project Spec](Assignments/Assignment_1.pdf)
 
 ### License
 All projects in this repository are licensed under the MIT license unless otherwise noted
