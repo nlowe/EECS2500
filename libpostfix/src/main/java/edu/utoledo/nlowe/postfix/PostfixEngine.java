@@ -8,6 +8,7 @@ import edu.utoledo.nlowe.postfix.exception.PostfixUnderflowException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * A math engine that accepts string expressions in postfix notation as an integer.
@@ -71,6 +72,15 @@ public class PostfixEngine
         {
             throw new IllegalArgumentException("Nothing to convert");
         }
+
+        // Unary operators in infix notation cannot come after their operands
+        operators.keySet().stream().filter(operator -> operators.get(operator) instanceof UnaryOperator).forEach(operator -> {
+            if (Pattern.compile(operator + "(?![0-9\\(])").matcher(expression).find())
+            {
+                throw new IllegalArgumentException("Malformed infix expression (missing literal for unary operator): '" + expression + "'");
+            }
+        });
+
 
         StringBuilder result = new StringBuilder();
         CustomStack<String> buffer = new CustomStack<>();

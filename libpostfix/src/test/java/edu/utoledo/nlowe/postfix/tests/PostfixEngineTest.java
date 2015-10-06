@@ -31,6 +31,7 @@ public class PostfixEngineTest
         try
         {
             engine.convertInfixExpression("");
+            fail();
         }
         catch (Exception ex)
         {
@@ -41,6 +42,7 @@ public class PostfixEngineTest
         try
         {
             engine.convertInfixExpression(null);
+            fail();
         }
         catch (Exception ex)
         {
@@ -94,11 +96,38 @@ public class PostfixEngineTest
         try
         {
             engine.evaluate("Q");
+            fail();
         }
         catch (Exception e)
         {
             assertTrue(e instanceof IllegalArgumentException);
             assertEquals("Malformed postfix expression (not enough literals): 'Q'", e.getMessage());
+        }
+    }
+
+    @Test
+    public void failsWithUnaryOperatorsMissingOperands()
+    {
+        try
+        {
+            engine.evaluateInfix("4Q");
+            fail();
+        }
+        catch (Exception e)
+        {
+            assertTrue(e instanceof IllegalArgumentException);
+            assertEquals("Malformed infix expression (missing literal for unary operator): '4Q'", e.getMessage());
+        }
+
+        try
+        {
+            engine.evaluateInfix("27C");
+            fail();
+        }
+        catch (Exception e)
+        {
+            assertTrue(e instanceof IllegalArgumentException);
+            assertEquals("Malformed infix expression (missing literal for unary operator): '27C'", e.getMessage());
         }
     }
 
