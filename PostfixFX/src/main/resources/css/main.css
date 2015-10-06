@@ -9,16 +9,20 @@
 }
 
 .calculator-button, #ModeButton {
-    -fx-font-family: Hack;
-    -fx-font-size: 16pt;
+    -fx-font: 16pt "Hack";
     -fx-font-weight: bold;
 }
 
 #ResultBox {
-    -fx-font-family: Hack;
+    -fx-font: 11pt "Hack";
 }
 
 #EntryField {
     -fx-font: 24pt "Hack";
     -fx-font-weight: Bold;
+}
+
+#EntryField .menu-item {
+    -fx-font-size: 11pt;
+    -fx-font-weight: normal;
 }
