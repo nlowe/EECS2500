@@ -73,6 +73,20 @@ public class PostfixEngine
             throw new IllegalArgumentException("Nothing to convert");
         }
 
+        // Infix expressions must have matched parenthesis
+        int parenthesisCounter = 0;
+        for (char c : expression.toCharArray())
+        {
+            // Increment the counter for opening parenthesis, decrement the counter for closing parenthesis
+            parenthesisCounter += (c == '(' ? 1 : (c == ')' ? -1 : 0));
+        }
+
+        // If the counter is not at zero, then we have an unmatched parenthesis somewhere
+        if (parenthesisCounter != 0)
+        {
+            throw new IllegalArgumentException("Malformed infix expression (unmatched parenthesis): '" + expression + "'");
+        }
+
         // Unary operators in infix notation cannot come after their operands
         operators.keySet().stream().filter(operator -> operators.get(operator) instanceof UnaryOperator).forEach(operator -> {
             if (Pattern.compile(operator + "(?![0-9\\(])").matcher(expression).find())

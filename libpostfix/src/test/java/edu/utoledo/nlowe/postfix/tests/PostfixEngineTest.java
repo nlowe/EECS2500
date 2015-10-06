@@ -132,6 +132,21 @@ public class PostfixEngineTest
     }
 
     @Test
+    public void failsToConvertUnmatchedParenthesis()
+    {
+        try
+        {
+            engine.convertInfixExpression("2*(");
+            fail();
+        }
+        catch (Exception e)
+        {
+            assertTrue(e instanceof IllegalArgumentException);
+            assertEquals("Malformed infix expression (unmatched parenthesis): '2*('", e.getMessage());
+        }
+    }
+
+    @Test
     public void failsToConvertIllegalInfixExpression()
     {
         try
