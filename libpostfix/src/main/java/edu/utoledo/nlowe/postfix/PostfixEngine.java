@@ -87,15 +87,6 @@ public class PostfixEngine
             throw new IllegalArgumentException("Malformed infix expression (unmatched parenthesis): '" + expression + "'");
         }
 
-        // Unary operators in infix notation cannot come after their operands
-        operators.keySet().stream().filter(operator -> operators.get(operator) instanceof UnaryOperator).forEach(operator -> {
-            if (Pattern.compile(operator + "(?![0-9\\(])").matcher(expression).find())
-            {
-                throw new IllegalArgumentException("Malformed infix expression (missing literal for unary operator): '" + expression + "'");
-            }
-        });
-
-
         StringBuilder result = new StringBuilder();
         CustomStack<String> buffer = new CustomStack<>();
 
@@ -103,6 +94,14 @@ public class PostfixEngine
         // Strip them out, replacing them with underscores to detect mixed separator styles
         // Then, parse the expression character by character
         String simplifiedExpression = expression.replaceAll(TOKEN_SEPARATOR_REGEX, "_");
+
+        // Unary operators in infix notation cannot come after their operands
+        operators.keySet().stream().filter(operator -> operators.get(operator) instanceof UnaryOperator).forEach(operator -> {
+            if (Pattern.compile(operator + "(?![0-9\\(_])").matcher(simplifiedExpression).find())
+            {
+                throw new IllegalArgumentException("Malformed infix expression (missing operand for unary operator): '" + expression + "'");
+            }
+        });
 
         int index = 0;
         do

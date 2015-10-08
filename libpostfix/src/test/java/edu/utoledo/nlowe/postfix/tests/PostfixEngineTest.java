@@ -85,6 +85,13 @@ public class PostfixEngineTest
     }
 
     @Test
+    public void canEvaluateUnaryOperatorWithSpaces()
+    {
+        assertEquals(2, engine.evaluateInfix("Q 4"));
+        assertEquals(3, engine.evaluateInfix("C    27"));
+    }
+
+    @Test
     public void canConvertMixedSeparatorStyles()
     {
         assertEquals("12 3 45 6", engine.convertInfixExpression("12 3 45 6"));
@@ -103,6 +110,17 @@ public class PostfixEngineTest
             assertTrue(e instanceof IllegalArgumentException);
             assertEquals("Malformed postfix expression (not enough literals): 'Q'", e.getMessage());
         }
+
+        try
+        {
+            engine.evaluate("Q   ");
+            fail();
+        }
+        catch (Exception e)
+        {
+            assertTrue(e instanceof IllegalArgumentException);
+            assertEquals("Malformed postfix expression (not enough literals): 'Q   '", e.getMessage());
+        }
     }
 
     @Test
@@ -116,7 +134,7 @@ public class PostfixEngineTest
         catch (Exception e)
         {
             assertTrue(e instanceof IllegalArgumentException);
-            assertEquals("Malformed infix expression (missing literal for unary operator): '4Q'", e.getMessage());
+            assertEquals("Malformed infix expression (missing operand for unary operator): '4Q'", e.getMessage());
         }
 
         try
@@ -127,7 +145,7 @@ public class PostfixEngineTest
         catch (Exception e)
         {
             assertTrue(e instanceof IllegalArgumentException);
-            assertEquals("Malformed infix expression (missing literal for unary operator): '27C'", e.getMessage());
+            assertEquals("Malformed infix expression (missing operand for unary operator): '27C'", e.getMessage());
         }
     }
 
