@@ -38,8 +38,11 @@ public class PostfixEngine
     /** A regular expression that matches a single integer (positive, or negative) */
     public static final String NUMERIC_REGEX = "^(-)?[0-9]+$";
 
-    /** A regular expression that matches oen or more spaces or tabs. Used to split tokens in postfix notation */
-    public static final String TOKEN_SEPARATOR_REGEX = "[ \\t]+";
+    /** A regular expression that matches oen or more white-space characters. Used to split tokens in postfix notation */
+    public static final String TOKEN_SEPARATOR_REGEX = "\\s+";
+
+    /** A part of a regular expression that matches the preceding characters not immediately followed by a number, understore, or opening parenthesis*/
+    public static final String NOT_FOLLOWED_BY_NUMBER_OR_PARENTHESIS_REGEX = "(?![0-9\\(_])";
 
     /** All operators registered with the engine */
     private final HashMap<String, Operator> operators = new HashMap<>();
@@ -87,21 +90,26 @@ public class PostfixEngine
             throw new IllegalArgumentException("Malformed infix expression (unmatched parenthesis): '" + expression + "'");
         }
 
-        StringBuilder result = new StringBuilder();
-        CustomStack<String> buffer = new CustomStack<>();
-
         // Not all infix expressions are delimited by tabs or spaces
         // Strip them out, replacing them with underscores to detect mixed separator styles
         // Then, parse the expression character by character
         String simplifiedExpression = expression.replaceAll(TOKEN_SEPARATOR_REGEX, "_");
 
         // Unary operators in infix notation cannot come after their operands
-        operators.keySet().stream().filter(operator -> operators.get(operator) instanceof UnaryOperator).forEach(operator -> {
-            if (Pattern.compile(operator + "(?![0-9\\(_])").matcher(simplifiedExpression).find())
-            {
-                throw new IllegalArgumentException("Malformed infix expression (missing operand for unary operator): '" + expression + "'");
-            }
-        });
+        // Build a regex looking for any unary operator that is not followed by a number or opening parenthesis
+        StringBuilder unaryOperatorValidator = new StringBuilder().append("[");
+        operators.keySet().stream().filter(o -> operators.get(o) instanceof UnaryOperator).forEach(unaryOperatorValidator::append);
+        unaryOperatorValidator.append("]").append(NOT_FOLLOWED_BY_NUMBER_OR_PARENTHESIS_REGEX);
+
+        // Test the simplified expression to validate unary operators
+        if (Pattern.compile(unaryOperatorValidator.toString()).matcher(simplifiedExpression).find())
+        {
+            throw new IllegalArgumentException("Malformed infix expression (missing operand for unary operator): '" + expression + "'");
+        }
+
+        // Create a buffer to hold the resulting postfix expression and a buffer for groups / operators
+        StringBuilder result = new StringBuilder();
+        CustomStack<String> buffer = new CustomStack<>();
 
         int index = 0;
         do
