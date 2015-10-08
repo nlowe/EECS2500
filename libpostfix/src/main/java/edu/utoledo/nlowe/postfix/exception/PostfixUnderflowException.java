@@ -1,7 +1,8 @@
 package edu.utoledo.nlowe.postfix.exception;
 
 /**
- * Created by nathan on 9/27/15
+ * Indicates the result of the evaluated postfix expression has underflowed the size of an integer.
+ * The result (as a long), is available in <code>getResult()</code>
  */
 public class PostfixUnderflowException extends PostfixArithmeticException
 {
