@@ -25,3 +25,6 @@ It can then be run with:
 ```bash
 $ java -jar PostfixFX/target/PostfixFX-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
+
+### Additional Licenses
+This project uses icons from the [Google Material Design icon set](https://github.com/google/material-design-icons/), which is licensed under the [Creative Common Attribution 4.0 International License (CC-BY 4.0)](http://creativecommons.org/licenses/by/4.0/)
