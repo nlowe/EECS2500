@@ -16,18 +16,22 @@ import java.util.regex.Pattern;
  * All literals must be integers, and all operations will be rounded to an integer.
  * <p>
  * The following binary operations are supported by default:
- * * '+'        Addition
- * * '-'        Subtraction
- * * 'x' or '*' Multiplication
- * * '/'        Division
- * * '%'        Modulus
- * * '^'        Exponentiation
- * * '<'        Left Shift
- * * '>'        Right Shift
+ * <ul>
+ *     <li>'<': Addition</li>
+ *     <li>'-': Subtraction</li>
+ *     <li>'*' or 'x': Multiplication</li>
+ *     <li>'/': Division</li>
+ *     <li>'%': Modulus</li>
+ *     <li>'^': Exponentiation</li>
+ *     <li>'<': Left Shift</li>
+ *     <li>'>': Right Shift</li>
+ * </ul>
  * <p>
  * The following unary operators are supported by default:
- * * 'Q'        Square Root
- * * 'C'        Cube Root
+ * <ul>
+ *     <li>'Q' Square Root</li>
+ *     <li>'C' Cube Root</li>
+ * </ul>
  * <p>
  * Additional operators may be registered by calling <code>register()</code> and
  * passing a lambda for either a <code>BinaryOperator</code> or a <code>UnaryOperator</code>
@@ -65,6 +69,14 @@ public class PostfixEngine
 
     /**
      * Converts the given expression from infix notation to postfix notation
+     * <p>
+     * A valid infix expression must meet all of the following requirements:
+     * <ul>
+     *     <li>Is not empty</li>
+     *     <li>All parenthesis must be matched</li>
+     *     <li>All unary operators must have an operand or group following them</li>
+     *     <li>Must not contain invalid tokens (non-numeric non-parenthesis characters that are not registered operators)</li>
+     * </ul>
      *
      * @param expression a valid expression in infix notation
      * @return The equivalent postfix expression
@@ -228,7 +240,7 @@ public class PostfixEngine
     /**
      * Evaluates the specified expression following the rules of postfix notation.
      *
-     * @param expression a valid postfix expression. each literal and operator must be separated by one or more space or tab characters
+     * @param expression a valid postfix expression. Each literal and operator must be separated by one or more white-space characters
      * @return the integer value of the expression
      * @throws IllegalArgumentException if the expression is invalid in any way
      */
@@ -309,7 +321,7 @@ public class PostfixEngine
     }
 
     /**
-     * Evalueates the specified infix expression by first converting to postfix and then evaluating the result.
+     * Evaluates the specified infix expression by first converting to postfix and then evaluating the result
      *
      * @param expression A valid infix expression
      * @return the integer result of the evaluated expression
