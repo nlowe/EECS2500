@@ -4,6 +4,7 @@ import edu.utoledo.nlowe.PostfixFX.CalculatorButton;
 import edu.utoledo.nlowe.postfix.PostfixEngine;
 import edu.utoledo.nlowe.postfix.exception.PostfixArithmeticException;
 import edu.utoledo.nlowe.postfix.exception.PostfixOverflowException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,18 +26,12 @@ import java.util.ResourceBundle;
 public class PrimaryController implements Initializable
 {
 
-    @FXML
-    private MenuItem copyMenuItem;
-    @FXML
-    private ToggleButton modeButton;
-    @FXML
-    private TextArea resultBox;
-    @FXML
-    private TextField entryBox;
-    @FXML
-    private CalculatorButton leftShift, rightShift;
-    @FXML
-    private GridPane buttonGrid;
+    @FXML private MenuItem copyMenuItem;
+    @FXML private ToggleButton modeButton;
+    @FXML private TextArea resultBox;
+    @FXML private TextField entryBox;
+    @FXML private CalculatorButton leftShift, rightShift;
+    @FXML private GridPane buttonGrid;
 
     private PostfixEngine engine;
 
@@ -47,19 +42,21 @@ public class PrimaryController implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         engine = new PostfixEngine();
+
         // '<' and '>' aren't allowed in button text
         // Set the entry characters for Left-Shift and Right-Shift buttons now
         leftShift.setEntry("<");
         rightShift.setEntry(">");
 
+        // Emulate the enter button being clicked when 'enter' is pressed in the entry box
         entryBox.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.ENTER)
             {
-                // Emulate the enter button being clicked
                 onEnter(null);
             }
         });
 
+        // Disable or enable the Copy item depending on whether or not something is selected
         resultBox.selectionProperty().addListener((observable, oldValue, newValue) -> {
             copyMenuItem.setDisable(newValue.getLength() <= 0);
         });
@@ -72,9 +69,10 @@ public class PrimaryController implements Initializable
 
         if (entryBox.getText().isEmpty() && !firstEntry && engine.isValidOperator(button.getEntry()))
         {
-            // If this is the first button press for this entry and it's
-            // not the first entry being evaluated, AND the button clicked
-            // was an operator, prepend the last result to the entry
+            // If this is the first button press for this entry
+            // and it's not the first entry being evaluated
+            // AND the button clicked was an operator
+            // Then prepend the last result to the entry
             entryBox.appendText(String.format("%d ", lastResult));
         }
 

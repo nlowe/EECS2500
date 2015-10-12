@@ -16,6 +16,9 @@ public abstract class PostfixArithmeticException extends ArithmeticException
         this.result = result;
     }
 
+    /**
+     * @return the result calculated when the exception was thrown
+     */
     public long getResult()
     {
         return result;

@@ -1,6 +1,7 @@
 package edu.utoledo.nlowe.PostfixFX;
 
 import edu.utoledo.nlowe.PostfixFX.Controllers.PrimaryController;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

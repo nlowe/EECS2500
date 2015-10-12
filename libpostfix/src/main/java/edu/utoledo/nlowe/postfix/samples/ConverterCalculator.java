@@ -11,8 +11,10 @@ import java.util.Scanner;
  * The calculator for Assignment #1
  * <p>
  * Reads an infix expression from standard input and writes the following to standard output:
- * * The equivalent expression in postfix notation
- * * The value of the converted expression
+ * <ul>
+ *     <li>The equivalent expression in postfix notation</li>
+ *     <li>The value of the converted expression</li>
+ * </ul>
  */
 public class ConverterCalculator
 {
@@ -21,8 +23,9 @@ public class ConverterCalculator
     {
         PostfixEngine engine = new PostfixEngine();
 
-        String expression = null;
-
+        // Read the expression in on standard input
+        // Either through command line arguments, or interactively via a scanner
+        String expression;
         if (args.length > 0)
         {
             // The expression was passed on the command line
@@ -39,6 +42,7 @@ public class ConverterCalculator
             }
         }
 
+        // Try to evaluate the expression, and warn on under/overflow or invalid input
         try
         {
             String postfix = engine.convertInfixExpression(expression);

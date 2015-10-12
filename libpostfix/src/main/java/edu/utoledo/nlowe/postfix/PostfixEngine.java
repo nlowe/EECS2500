@@ -74,7 +74,7 @@ public class PostfixEngine
      * <ul>
      *     <li>Is not empty</li>
      *     <li>All parenthesis must be matched</li>
-     *     <li>All unary operators must have an operand or group following them</li>
+     *     <li>All unary operators must have an operand or group immediately following them</li>
      *     <li>Must not contain invalid tokens (non-numeric non-parenthesis characters that are not registered operators)</li>
      * </ul>
      *
@@ -109,12 +109,12 @@ public class PostfixEngine
 
         // Unary operators in infix notation cannot come after their operands
         // Build a regex looking for any unary operator that is not followed by a number or opening parenthesis
-        StringBuilder unaryOperatorValidator = new StringBuilder().append("[");
-        operators.keySet().stream().filter(o -> operators.get(o) instanceof UnaryOperator).forEach(unaryOperatorValidator::append);
-        unaryOperatorValidator.append("]").append(NOT_FOLLOWED_BY_NUMBER_OR_PARENTHESIS_REGEX);
+        StringBuilder unaryValidator = new StringBuilder().append("[");
+        operators.keySet().stream().filter(o -> operators.get(o) instanceof UnaryOperator).forEach(unaryValidator::append);
+        unaryValidator.append("]").append(NOT_FOLLOWED_BY_NUMBER_OR_PARENTHESIS_REGEX);
 
         // Test the simplified expression to validate unary operators
-        if (Pattern.compile(unaryOperatorValidator.toString()).matcher(simplifiedExpression).find())
+        if (Pattern.compile(unaryValidator.toString()).matcher(simplifiedExpression).find())
         {
             throw new IllegalArgumentException("Malformed infix expression (missing operand for unary operator): '" + expression + "'");
         }

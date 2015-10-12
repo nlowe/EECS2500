@@ -18,13 +18,13 @@ public class CustomLinkedList<T> implements Iterable<T>
     /**
      * An iterator for traversing the list in order
      */
-    private final class LinkedListIterator<U> implements Iterator<U>
+    private final class CustomLinkedListIterator<U> implements Iterator<U>
     {
 
         /** The next item in the list */
         private Node<U> pointer;
 
-        public LinkedListIterator(Node<U> head)
+        public CustomLinkedListIterator(Node<U> head)
         {
             this.pointer = head;
         }
@@ -131,7 +131,7 @@ public class CustomLinkedList<T> implements Iterable<T>
     @Override
     public Iterator<T> iterator()
     {
-        return new LinkedListIterator<>(this.head);
+        return new CustomLinkedListIterator<>(this.head);
     }
 
     /**
