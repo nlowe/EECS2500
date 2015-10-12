@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  * The calculator for Assignment #1
- * <p>
+ * <br/>
  * Reads an infix expression from standard input and writes the following to standard output:
  * <ul>
  *     <li>The equivalent expression in postfix notation</li>

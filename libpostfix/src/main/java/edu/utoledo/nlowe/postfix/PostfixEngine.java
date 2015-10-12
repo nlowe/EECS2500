@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
 
 /**
  * A math engine that accepts string expressions in postfix notation as an integer.
- * <p>
+ * <br/>
  * All literals must be integers, and all operations will be rounded to an integer.
- * <p>
+ * <br/>
  * The following binary operations are supported by default:
  * <ul>
  *     <li>'<': Addition</li>
@@ -26,13 +26,13 @@ import java.util.regex.Pattern;
  *     <li>'<': Left Shift</li>
  *     <li>'>': Right Shift</li>
  * </ul>
- * <p>
+ * <br/>
  * The following unary operators are supported by default:
  * <ul>
  *     <li>'Q' Square Root</li>
  *     <li>'C' Cube Root</li>
  * </ul>
- * <p>
+ * <br/>
  * Additional operators may be registered by calling <code>register()</code> and
  * passing a lambda for either a <code>BinaryOperator</code> or a <code>UnaryOperator</code>
  */
@@ -69,7 +69,7 @@ public class PostfixEngine
 
     /**
      * Converts the given expression from infix notation to postfix notation
-     * <p>
+     * <br/>
      * A valid infix expression must meet all of the following requirements:
      * <ul>
      *     <li>Is not empty</li>
@@ -148,14 +148,14 @@ public class PostfixEngine
 
     /**
      * Validates and simplifies the infix expression
-     * <p>
+     * <br/>
      * Validation Rules:
      * <ul>
      *     <li>The expression must not be null or empty or all whitespace</li>
      *     <li>All infix expressions must have matched parenthesis</li>
      *     <li>All unary operators must have an operand immediately after the operator</li>
      * </ul>
-     * <p>
+     * <br/>
      * Simplification Rules:
      * <ul>
      *     <li>Replace all whitespace characters with underscores</li>
@@ -252,7 +252,7 @@ public class PostfixEngine
 
     /**
      * Registers the token <code>token</code> to the specified binary operator functional interface.
-     * <p>
+     * <br/>
      * If the specified token is already assigned to an operator, it will be overwritten.
      *
      * @param token    The token that denotes the operator
@@ -265,7 +265,7 @@ public class PostfixEngine
 
     /**
      * Registers the token <code>token</code> to the specified unary operator functional interface.
-     * <p>
+     * <br/>
      * If the specified token is already assigned to an operator, it will be overwritten.
      *
      * @param token    The token that denotes the operator
