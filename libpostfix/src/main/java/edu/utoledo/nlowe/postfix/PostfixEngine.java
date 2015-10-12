@@ -83,41 +83,9 @@ public class PostfixEngine
      */
     public String convertInfixExpression(String expression)
     {
-        if (expression == null || expression.length() == 0)
-        {
-            throw new IllegalArgumentException("Nothing to convert");
-        }
-
-        // Infix expressions must have matched parenthesis
-        int parenthesisCounter = 0;
-        for (char c : expression.toCharArray())
-        {
-            // Increment the counter for opening parenthesis, decrement the counter for closing parenthesis
-            parenthesisCounter += (c == '(' ? 1 : (c == ')' ? -1 : 0));
-        }
-
-        // If the counter is not at zero, then we have an unmatched parenthesis somewhere
-        if (parenthesisCounter != 0)
-        {
-            throw new IllegalArgumentException("Malformed infix expression (unmatched parenthesis): '" + expression + "'");
-        }
-
-        // Not all infix expressions are delimited by tabs or spaces
-        // Strip them out, replacing them with underscores to detect mixed separator styles
-        // Then, parse the expression character by character
-        String simplifiedExpression = expression.replaceAll(TOKEN_SEPARATOR_REGEX, "_");
-
-        // Unary operators in infix notation cannot come after their operands
-        // Build a regex looking for any unary operator that is not followed by a number or opening parenthesis
-        StringBuilder unaryValidator = new StringBuilder().append("[");
-        operators.keySet().stream().filter(o -> operators.get(o) instanceof UnaryOperator).forEach(unaryValidator::append);
-        unaryValidator.append("]").append(NOT_FOLLOWED_BY_NUMBER_OR_PARENTHESIS_REGEX);
-
-        // Test the simplified expression to validate unary operators
-        if (Pattern.compile(unaryValidator.toString()).matcher(simplifiedExpression).find())
-        {
-            throw new IllegalArgumentException("Malformed infix expression (missing operand for unary operator): '" + expression + "'");
-        }
+        // Validate and simplify the expression
+        // An exception will be thrown if the expression fails validation
+        String simplifiedExpression = validateAndSimplifyInfixExpression(expression);
 
         // Create a buffer to hold the resulting postfix expression and a buffer for groups / operators
         StringBuilder result = new StringBuilder();
@@ -126,8 +94,6 @@ public class PostfixEngine
         int index = 0;
         do
         {
-            String token;
-
             if (simplifiedExpression.charAt(index) == '_')
             {
                 // An underscore indicates spacing for a mixed separator style
@@ -135,41 +101,10 @@ public class PostfixEngine
                 index++;
                 continue;
             }
-            else if (simplifiedExpression.charAt(index) == '(' ||
-                    simplifiedExpression.charAt(index) == ')' ||
-                    isValidOperator(String.valueOf(simplifiedExpression.charAt(index)))
-                    )
-            {
-                // The token is just a parenthesis or operator
-                token = String.valueOf(simplifiedExpression.charAt(index++));
-            }
-            else if (String.valueOf(simplifiedExpression.charAt(index)).matches(NUMERIC_REGEX))
-            {
-                // The token is a number or the start of a number
-                StringBuilder currentToken = new StringBuilder(String.valueOf(simplifiedExpression.charAt(index++)));
 
-                // While there are more numbers remaining, append them to the currentToken String Builder
-                boolean moreNumbers = false;
-                do
-                {
-                    if (index < simplifiedExpression.length() && String.valueOf(simplifiedExpression.charAt(index)).matches(NUMERIC_REGEX))
-                    {
-                        currentToken.append(simplifiedExpression.charAt(index++));
-                        moreNumbers = true;
-                    }
-                    else
-                    {
-                        moreNumbers = false;
-                    }
-                } while (moreNumbers);
-
-                // We've found the entire number
-                token = currentToken.toString();
-            }
-            else
-            {
-                throw new IllegalArgumentException("Unrecognized token '" + simplifiedExpression.charAt(index) + "'");
-            }
+            // Extract the next token and increment the index by its length
+            String token = extractInfixToken(simplifiedExpression, index);
+            index += token.length();
 
             // Now that we've extracted the token, we can parse it
             if (token.length() == 1 && isValidOperator(token))
@@ -209,6 +144,110 @@ public class PostfixEngine
         }
 
         return result.toString().trim();
+    }
+
+    /**
+     * Validates and simplifies the infix expression
+     * <p>
+     * Validation Rules:
+     * <ul>
+     *     <li>The expression must not be null or empty or all whitespace</li>
+     *     <li>All infix expressions must have matched parenthesis</li>
+     *     <li>All unary operators must have an operand immediately after the operator</li>
+     * </ul>
+     * <p>
+     * Simplification Rules:
+     * <ul>
+     *     <li>Replace all whitespace characters with underscores</li>
+     * </ul>
+     * @param expression The expression to validate and simplify
+     * @return The simplified and validated infix expression
+     * @throws IllegalArgumentException if the input expression fails any validation rules
+     */
+    public String validateAndSimplifyInfixExpression(String expression){
+        if (expression == null || expression.length() == 0)
+        {
+            throw new IllegalArgumentException("Nothing to convert");
+        }
+
+        // Infix expressions must have matched parenthesis
+        int parenthesisCounter = 0;
+        for (char c : expression.toCharArray())
+        {
+            // Increment the counter for opening parenthesis, decrement the counter for closing parenthesis
+            parenthesisCounter += (c == '(' ? 1 : (c == ')' ? -1 : 0));
+        }
+
+        // If the counter is not at zero, then we have an unmatched parenthesis somewhere
+        if (parenthesisCounter != 0)
+        {
+            throw new IllegalArgumentException("Malformed infix expression (unmatched parenthesis): '" + expression + "'");
+        }
+
+        // Not all infix expressions are delimited by tabs or spaces
+        // Strip them out, replacing them with underscores to detect mixed separator styles
+        // Then, parse the expression character by character
+        String simplifiedExpression = expression.replaceAll(TOKEN_SEPARATOR_REGEX, "_");
+
+        // Unary operators in infix notation cannot come after their operands
+        // Build a regex looking for any unary operator that is not followed by a number or opening parenthesis
+        StringBuilder unaryValidator = new StringBuilder().append("[");
+        operators.keySet().stream().filter(o -> operators.get(o) instanceof UnaryOperator).forEach(unaryValidator::append);
+        unaryValidator.append("]").append(NOT_FOLLOWED_BY_NUMBER_OR_PARENTHESIS_REGEX);
+
+        // Test the simplified expression to validate unary operators
+        if (Pattern.compile(unaryValidator.toString()).matcher(simplifiedExpression).find())
+        {
+            throw new IllegalArgumentException("Malformed infix expression (missing operand for unary operator): '" + expression + "'");
+        }
+
+        return simplifiedExpression;
+    }
+
+    /**
+     * Extract the next token from the given infix expression starting at the specified offset
+     *
+     * @param expression The simplified infix expression to extract the token from
+     * @param offset The offset to start searching for tokens at
+     * @return The extracted token
+     * @throws IllegalArgumentException if an invalid token is encountered
+     */
+    private String extractInfixToken(String expression, int offset){
+        if (expression.charAt(offset) == '(' ||
+            expression.charAt(offset) == ')' ||
+            isValidOperator(String.valueOf(expression.charAt(offset)))
+            )
+        {
+            // The token is just a parenthesis or operator
+            return String.valueOf(expression.charAt(offset));
+        }
+        else if (String.valueOf(expression.charAt(offset)).matches(NUMERIC_REGEX))
+        {
+            // The token is a number or the start of a number
+            StringBuilder currentToken = new StringBuilder(String.valueOf(expression.charAt(offset++)));
+
+            // While there are more numbers remaining, append them to the currentToken String Builder
+            boolean moreNumbers;
+            do
+            {
+                if (offset < expression.length() && String.valueOf(expression.charAt(offset)).matches(NUMERIC_REGEX))
+                {
+                    currentToken.append(expression.charAt(offset++));
+                    moreNumbers = true;
+                }
+                else
+                {
+                    moreNumbers = false;
+                }
+            } while (moreNumbers);
+
+            // We've found the entire number
+            return currentToken.toString();
+        }
+        else
+        {
+            throw new IllegalArgumentException("Unrecognized token '" + expression.charAt(offset) + "'");
+        }
     }
 
     /**
