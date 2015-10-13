@@ -184,7 +184,7 @@ public class PostfixEngine
             throw new IllegalArgumentException("Malformed infix expression (unmatched parenthesis): '" + expression + "'");
         }
 
-        // Not all infix expressions are delimited by tabs or spaces
+        // Not all infix expressions are delimited by tabs or spaces, some may even be mixed
         // Strip them out, replacing them with underscores to detect mixed separator styles
         // Then, parse the expression character by character
         String simplifiedExpression = expression.replaceAll(TOKEN_SEPARATOR_REGEX, "_");
