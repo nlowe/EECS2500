@@ -124,6 +124,21 @@ public class PostfixEngineTest
     }
 
     @Test
+    public void binaryOperatorsCannotComeBeforeOperands()
+    {
+        try
+        {
+            engine.convertInfixExpression("+ 3 4");
+            fail();
+        }
+        catch(Exception e)
+        {
+            assertTrue(e instanceof IllegalArgumentException);
+            assertEquals("Malformed infix expression (missing operand for binary operator): '+ 3 4'", e.getMessage());
+        }
+    }
+
+    @Test
     public void failsWithUnaryOperatorsMissingOperands()
     {
         try

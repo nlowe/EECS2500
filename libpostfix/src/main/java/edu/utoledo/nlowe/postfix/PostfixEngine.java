@@ -45,8 +45,10 @@ public class PostfixEngine
     /** A regular expression that matches oen or more white-space characters. Used to split tokens in postfix notation */
     public static final String TOKEN_SEPARATOR_REGEX = "\\s+";
 
-    /** A part of a regular expression that matches the preceding characters not immediately followed by a number, understore, or opening parenthesis*/
+    /** A part of a regular expression that matches the preceding characters not immediately followed by a number, underscore, or opening parenthesis*/
     public static final String NOT_FOLLOWED_BY_NUMBER_OR_PARENTHESIS_REGEX = "(?![0-9\\(_])";
+    /** A part of a regular expression that matches characters not immediately preceded by a number, closing parenthesis, or underscore */
+    private static final String NOT_PRECEDED_BY_NUMBER_OR_PARENTHESIS = "(?<![0-9\\)_])";
 
     /** All operators registered with the engine */
     private final HashMap<String, Operator> operators = new HashMap<>();
@@ -192,13 +194,25 @@ public class PostfixEngine
         // Unary operators in infix notation cannot come after their operands
         // Build a regex looking for any unary operator that is not followed by a number or opening parenthesis
         StringBuilder unaryValidator = new StringBuilder().append("[");
-        operators.keySet().stream().filter(o -> operators.get(o) instanceof UnaryOperator).forEach(unaryValidator::append);
+        operators.keySet().stream().filter(o -> operators.get(o) instanceof UnaryOperator).forEach(o -> unaryValidator.append(Pattern.quote(o)));
         unaryValidator.append("]").append(NOT_FOLLOWED_BY_NUMBER_OR_PARENTHESIS_REGEX);
 
         // Test the simplified expression to validate unary operators
         if (Pattern.compile(unaryValidator.toString()).matcher(simplifiedExpression).find())
         {
             throw new IllegalArgumentException("Malformed infix expression (missing operand for unary operator): '" + expression + "'");
+        }
+
+        // Binary operators in infix notation cannot come before their operands
+        // Build a regex looking for any binary operators that are not preceded by a number or closing parenthesis
+        StringBuilder binaryValidator = new StringBuilder().append(NOT_PRECEDED_BY_NUMBER_OR_PARENTHESIS).append("[");
+        operators.keySet().stream().filter((o -> operators.get(o) instanceof BinaryOperator)).forEach(o -> binaryValidator.append(Pattern.quote(o)));
+        binaryValidator.append("]");
+
+        // Test the simplified expression to validate binary operators
+        if (Pattern.compile(binaryValidator.toString()).matcher(simplifiedExpression).find())
+        {
+            throw new IllegalArgumentException("Malformed infix expression (missing operand for binary operator): '" + expression + "'");
         }
 
         return simplifiedExpression;
