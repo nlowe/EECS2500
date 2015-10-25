@@ -1,12 +1,14 @@
 package edu.utoledo.nlowe.WordCount;
 
+import edu.utoledo.nlowe.CustomDataTypes.PerformanceTraceable;
+
 /**
  * A Word Counter is a variant of a list that records the number of times
  * a word is encountered. Each implementation should keep track of the
  * number of comparisons made and references changed during the lifetime
  * of the Word Counter.
  */
-public abstract class WordCounter
+public abstract class WordCounter implements PerformanceTraceable
 {
 
     /**
@@ -26,13 +28,4 @@ public abstract class WordCounter
      */
     public abstract long getDistinctWordCount();
 
-    /**
-     * @return The number of comparisons made during the lifetime of this Word Counter
-     */
-    public abstract long getComparisonCount();
-
-    /**
-     * @return The number of references that have been changed during the lifetime of this Word Counter
-     */
-    public abstract long getReferenceChangeCount();
 }

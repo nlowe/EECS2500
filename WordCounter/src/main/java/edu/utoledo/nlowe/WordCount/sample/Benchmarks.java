@@ -1,14 +1,15 @@
 package edu.utoledo.nlowe.WordCount.sample;
 
-import edu.utoledo.nlowe.WordCount.SortedWordCounter;
-import edu.utoledo.nlowe.WordCount.UnsortedWordCounter;
 import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounter;
+import edu.utoledo.nlowe.WordCount.WordCounters.FrontSelfAdjustingWordCounter;
+import edu.utoledo.nlowe.WordCount.WordCounters.SortedWordCounter;
+import edu.utoledo.nlowe.WordCount.WordCounters.UnsortedWordCounter;
 
 import java.io.*;
 
 /**
- * A class to benchmark each of the WordCounter implementations by
+ * A class to benchmark each of the WordCounters implementations by
  * using Hamlet
  */
 public class Benchmarks
@@ -34,7 +35,7 @@ public class Benchmarks
     public static final WordCounter[] counters = new WordCounter[]{
             new UnsortedWordCounter(),
             new SortedWordCounter(),
-            null,
+            new FrontSelfAdjustingWordCounter(),
             null
     };
 
@@ -105,6 +106,18 @@ public class Benchmarks
         }
         time[SORTED] = System.currentTimeMillis() - start;
 
+        // Front Self-Adjusted
+        start = System.currentTimeMillis();
+        try
+        {
+            runBenchmark(getResourceInputStream(), counters[SELF_ADJUST_FRONT - 1]);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        time[SELF_ADJUST_FRONT] = System.currentTimeMillis() - start;
+
         // Print Results
         System.out.println("Benchmarks Complete");
         for (int i = 0; i < BENCHMARK_NAMES.length; i++)
@@ -120,10 +133,19 @@ public class Benchmarks
                     System.out.print("\tWord Count: " + counter.getWordCount() +
                             ", Distinct: " + counter.getDistinctWordCount() +
                             ", Comparisons: " + counter.getComparisonCount() +
-                            ", Reference Changes: " + counter.getReferenceChangeCount());
+                            ", Reference Changes: " + counter.getReferenceAssignmentCount());
             }
 
             System.out.println();
+        }
+
+        System.out.println("\n----------\n");
+
+        // Print top ten words for the latter two benchmarks
+        System.out.println("First ten elements in Front Self-Adjusting:");
+        for (Word w : ((FrontSelfAdjustingWordCounter) counters[SELF_ADJUST_FRONT - 1]).getTopTenWords())
+        {
+            System.out.println("\t" + w.getValue() + ": " + w.getOccurrenceCount());
         }
     }
 }

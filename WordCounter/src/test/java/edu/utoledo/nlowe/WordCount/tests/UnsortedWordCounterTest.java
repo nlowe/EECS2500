@@ -1,7 +1,7 @@
 package edu.utoledo.nlowe.WordCount.tests;
 
-import edu.utoledo.nlowe.WordCount.UnsortedWordCounter;
 import edu.utoledo.nlowe.WordCount.WordCounter;
+import edu.utoledo.nlowe.WordCount.WordCounters.UnsortedWordCounter;
 import edu.utoledo.nlowe.WordCount.sample.Benchmarks;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,9 +13,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
- * Created by nathan on 10/22/15
+ * Tests for edu.utoledo.nlowe.WordCount.WordCounters.UnsortedWordCounter
  */
-public class UnsortedWordCounterTests
+public class UnsortedWordCounterTest
 {
 
     private InputStream source;

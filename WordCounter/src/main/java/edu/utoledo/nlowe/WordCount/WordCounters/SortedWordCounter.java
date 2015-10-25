@@ -1,15 +1,15 @@
-package edu.utoledo.nlowe.WordCount;
+package edu.utoledo.nlowe.WordCount.WordCounters;
 
-import edu.utoledo.nlowe.CustomDataTypes.CustomLinkedList;
+import edu.utoledo.nlowe.CustomDataTypes.CustomSortedLinkedList;
+import edu.utoledo.nlowe.WordCount.Word;
+import edu.utoledo.nlowe.WordCount.WordCounter;
 
 /**
- * A Word Counter implementation that simply inserts new words
- * at the start of a list
+ * A word counter whose underlying data type is sorted alphabetically
  */
-public class UnsortedWordCounter extends WordCounter
+public class SortedWordCounter extends WordCounter
 {
-
-    private CustomLinkedList<Word> words = new CustomLinkedList<>();
+    CustomSortedLinkedList<Word> words = new CustomSortedLinkedList<>();
 
     private int comparisons = 0;
 
@@ -19,7 +19,6 @@ public class UnsortedWordCounter extends WordCounter
         for (Word w : words)
         {
             comparisons++;
-
             if (w.getValue().equals(word))
             {
                 w.increment();
@@ -27,7 +26,12 @@ public class UnsortedWordCounter extends WordCounter
             }
         }
 
-        words.add(0, new Word(word));
+        words.add(new Word(word));
+    }
+
+    public Word getFirstWord()
+    {
+        return words.getFirst();
     }
 
     @Override
@@ -56,7 +60,7 @@ public class UnsortedWordCounter extends WordCounter
     }
 
     @Override
-    public long getReferenceChangeCount()
+    public long getReferenceAssignmentCount()
     {
         return words.getReferenceAssignmentCount();
     }

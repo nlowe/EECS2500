@@ -6,9 +6,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for the Word class
+ * Tests for edu.utoledo.nlowe.WordCount.Word
  */
-public class WordTests
+public class WordTest
 {
 
     @Test
