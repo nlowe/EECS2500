@@ -2,6 +2,7 @@ package edu.utoledo.nlowe.WordCount.sample;
 
 import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounter;
+import edu.utoledo.nlowe.WordCount.WordCounters.BubbleSelfAdjustingWordCounter;
 import edu.utoledo.nlowe.WordCount.WordCounters.FrontSelfAdjustingWordCounter;
 import edu.utoledo.nlowe.WordCount.WordCounters.SortedWordCounter;
 import edu.utoledo.nlowe.WordCount.WordCounters.UnsortedWordCounter;
@@ -36,7 +37,7 @@ public class Benchmarks
             new UnsortedWordCounter(),
             new SortedWordCounter(),
             new FrontSelfAdjustingWordCounter(),
-            null
+            new BubbleSelfAdjustingWordCounter()
     };
 
     public static void runBenchmark(InputStream in, WordCounter counter) throws IOException
@@ -118,6 +119,18 @@ public class Benchmarks
         }
         time[SELF_ADJUST_FRONT] = System.currentTimeMillis() - start;
 
+        // Bubble Self-Adjusted
+        start = System.currentTimeMillis();
+        try
+        {
+            runBenchmark(getResourceInputStream(), counters[SELF_ADJUST_BUBBLE - 1]);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        time[SELF_ADJUST_BUBBLE] = System.currentTimeMillis() - start;
+
         // Print Results
         System.out.println("Benchmarks Complete");
         for (int i = 0; i < BENCHMARK_NAMES.length; i++)
@@ -144,6 +157,12 @@ public class Benchmarks
         // Print top ten words for the latter two benchmarks
         System.out.println("First ten elements in Front Self-Adjusting:");
         for (Word w : ((FrontSelfAdjustingWordCounter) counters[SELF_ADJUST_FRONT - 1]).getTopTenWords())
+        {
+            System.out.println("\t" + w.getValue() + ": " + w.getOccurrenceCount());
+        }
+
+        System.out.println("First ten elements in Bubble Self-Adjusting:");
+        for (Word w : ((BubbleSelfAdjustingWordCounter) counters[SELF_ADJUST_BUBBLE - 1]).getTopTenWords())
         {
             System.out.println("\t" + w.getValue() + ": " + w.getOccurrenceCount());
         }
