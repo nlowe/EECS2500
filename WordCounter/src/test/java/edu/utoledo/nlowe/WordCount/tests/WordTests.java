@@ -3,7 +3,7 @@ package edu.utoledo.nlowe.WordCount.tests;
 import edu.utoledo.nlowe.WordCount.Word;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for the Word class
@@ -23,7 +23,8 @@ public class WordTests
     }
 
     @Test
-    public void correctlyCompares(){
+    public void correctlyCompares()
+    {
         Word a = new Word("AbZd");
         Word b = new Word("wxyz");
 
@@ -39,7 +40,8 @@ public class WordTests
     }
 
     @Test
-    public void correctlyDetectsEquality(){
+    public void correctlyDetectsEquality()
+    {
         Word a = new Word("abcd");
         Word b = new Word("abcd");
 

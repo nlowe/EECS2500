@@ -3,17 +3,22 @@ package edu.utoledo.nlowe.WordCount;
 import edu.utoledo.nlowe.CustomDataTypes.CustomSortedLinkedList;
 
 /**
- * Created by nathan on 10/24/15
+ * A word counter whose underlying data type is sorted alphabetically
  */
 public class SortedWordCounter extends WordCounter
 {
     CustomSortedLinkedList<Word> words = new CustomSortedLinkedList<>();
 
+    private int comparisons = 0;
+
     @Override
     public void encounter(String word)
     {
-        for(Word w : words){
-            if(w.getValue().equals(word)){
+        for (Word w : words)
+        {
+            comparisons++;
+            if (w.getValue().equals(word))
+            {
                 w.increment();
                 return;
             }
@@ -27,7 +32,8 @@ public class SortedWordCounter extends WordCounter
     {
         long count = 0;
 
-        for(Word w : words){
+        for (Word w : words)
+        {
             count += w.getOccurrenceCount();
         }
 
@@ -43,7 +49,7 @@ public class SortedWordCounter extends WordCounter
     @Override
     public long getComparisonCount()
     {
-        return words.getComparisonCount();
+        return comparisons + words.getComparisonCount();
     }
 
     @Override

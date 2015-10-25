@@ -3,7 +3,7 @@ package edu.utoledo.nlowe.CustomDataTypes;
 
 /**
  * A Custom, Generic, Sorted Linked List implementation.
- *
+ * <p>
  * Please note that <code>contains(T target)</code> is still O(n) since arbitrary
  * access is still linear.
  */
@@ -15,17 +15,24 @@ public class CustomSortedLinkedList<T extends Comparable<T>> extends CustomLinke
     {
         Node<T> toInsert = new Node<>(value);
         size++;
-        referenceChangeCount+=2;
+        referenceChangeCount += 2;
 
-        if(head == null){
+        if (head == null)
+        {
             head = tail = toInsert;
-        }else if(head.getValue().compareTo(value) >= 0){
+        }
+        else if (head.getValue().compareTo(value) >= 0)
+        {
             toInsert.linkTo(head);
             head = toInsert;
-        }else{
+        }
+        else
+        {
             Node<T> ref = head;
-            while(ref.next() != null){
-                if(ref.next().getValue().compareTo(value) > 0){
+            while (ref.next() != null)
+            {
+                if (ref.next().getValue().compareTo(value) > 0)
+                {
                     toInsert.linkTo(ref.next());
                     ref.linkTo(toInsert);
                     return;

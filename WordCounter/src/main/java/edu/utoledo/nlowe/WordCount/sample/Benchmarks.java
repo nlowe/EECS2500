@@ -40,15 +40,16 @@ public class Benchmarks
 
     public static void runBenchmark(InputStream in, WordCounter counter) throws IOException
     {
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(in))){
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in)))
+        {
             String line;
-            while((line = reader.readLine()) != null)
+            while ((line = reader.readLine()) != null)
             {
-                for(String word : line.split(WORD_SEPARATOR))
+                for (String word : line.split(WORD_SEPARATOR))
                 {
                     String sanitized = Word.sanitize(word);
 
-                    if(!sanitized.isEmpty() && counter != null)
+                    if (!sanitized.isEmpty() && counter != null)
                     {
                         counter.encounter(sanitized);
                     }
@@ -59,7 +60,7 @@ public class Benchmarks
 
     public static InputStream getResourceInputStream() throws FileNotFoundException
     {
-        return  HAMLET_SOURCE == null ?
+        return HAMLET_SOURCE == null ?
                 Benchmarks.class.getClassLoader().getResourceAsStream("Hamlet.txt") :
                 new FileInputStream(HAMLET_SOURCE);
     }
@@ -84,7 +85,7 @@ public class Benchmarks
         start = System.currentTimeMillis();
         try
         {
-            runBenchmark(getResourceInputStream(), counters[UNSORTED-1]);
+            runBenchmark(getResourceInputStream(), counters[UNSORTED - 1]);
         }
         catch (IOException e)
         {
@@ -96,7 +97,7 @@ public class Benchmarks
         start = System.currentTimeMillis();
         try
         {
-            runBenchmark(getResourceInputStream(), counters[SORTED-1]);
+            runBenchmark(getResourceInputStream(), counters[SORTED - 1]);
         }
         catch (IOException e)
         {
@@ -106,15 +107,16 @@ public class Benchmarks
 
         // Print Results
         System.out.println("Benchmarks Complete");
-        for(int i=0; i<BENCHMARK_NAMES.length; i++)
+        for (int i = 0; i < BENCHMARK_NAMES.length; i++)
         {
             System.out.print(BENCHMARK_NAMES[i] + ": Duration: " + (double) time[i] / 1000d + " seconds");
 
-            if(i != OVERHEAD){
-                WordCounter counter = counters[i-1];
+            if (i != OVERHEAD)
+            {
+                WordCounter counter = counters[i - 1];
 
                 // Some counter implementations don't exist yet
-                if(counter != null)
+                if (counter != null)
                     System.out.print("\tWord Count: " + counter.getWordCount() +
                             ", Distinct: " + counter.getDistinctWordCount() +
                             ", Comparisons: " + counter.getComparisonCount() +

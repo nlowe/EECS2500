@@ -1,4 +1,5 @@
 package edu.utoledo.nlowe.WordCount;
+
 /**
  * Records a word and the occurrence of the word
  */
@@ -25,8 +26,10 @@ public class Word implements Comparable<Word>
 
         StringBuilder output = new StringBuilder(parts.length);
         boolean start = false;
-        for(int i=parts.length-1; i>=0; i--){
-            if(start || (parts[i] >= 'a' && parts[i] <= 'z')){
+        for (int i = parts.length - 1; i >= 0; i--)
+        {
+            if (start || (parts[i] >= 'a' && parts[i] <= 'z'))
+            {
                 start = true;
                 output.append(parts[i]);
             }
@@ -53,9 +56,12 @@ public class Word implements Comparable<Word>
     @Override
     public int compareTo(Word o)
     {
-        if(o != null){
+        if (o != null)
+        {
             return this.value.compareTo(o.getValue());
-        }else{
+        }
+        else
+        {
             return 1;
         }
     }
@@ -63,6 +69,6 @@ public class Word implements Comparable<Word>
     @Override
     public boolean equals(Object obj)
     {
-        return obj != null && obj instanceof Word && this.value.equals(((Word)obj).value);
+        return obj != null && obj instanceof Word && this.value.equals(((Word) obj).value);
     }
 }

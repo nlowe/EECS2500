@@ -9,7 +9,8 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Created by nathan on 10/22/15
@@ -21,13 +22,15 @@ public class UnsortedWordCounterTests
     private UnsortedWordCounter counter;
 
     @Before
-    public void setUp(){
+    public void setUp()
+    {
         counter = new UnsortedWordCounter();
         source = WordCounter.class.getClassLoader().getResourceAsStream("Hamlet-Scene-1.txt");
     }
 
     @Test
-    public void correctlyCountsWords(){
+    public void correctlyCountsWords()
+    {
         try
         {
             Benchmarks.runBenchmark(source, counter);

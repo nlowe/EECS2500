@@ -16,10 +16,12 @@ public class UnsortedWordCounter extends WordCounter
     @Override
     public void encounter(String word)
     {
-        for(Word w : words){
+        for (Word w : words)
+        {
             comparisons++;
 
-            if(w.getValue().equals(word)){
+            if (w.getValue().equals(word))
+            {
                 w.increment();
                 return;
             }
@@ -33,7 +35,7 @@ public class UnsortedWordCounter extends WordCounter
     {
         long count = 0;
 
-        for(Word w : words)
+        for (Word w : words)
         {
             count += w.getOccurrenceCount();
         }

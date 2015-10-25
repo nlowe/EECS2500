@@ -178,7 +178,7 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
             // This is the first element we've added to the list
             // So we can just update the head and tail pointers
             head = tail = node;
-            referenceChangeCount+=2;
+            referenceChangeCount += 2;
         }
         else if (index == 0)
         {
@@ -186,7 +186,7 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
             // So link the new node to the first node and update the head pointer
             node.linkTo(head);
             head = node;
-            referenceChangeCount+=2;
+            referenceChangeCount += 2;
         }
         else if (index == size)
         {
@@ -194,7 +194,7 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
             // Link the last element in the list to the new node and update the tail pointer
             tail.linkTo(node);
             tail = node;
-            referenceChangeCount+=2;
+            referenceChangeCount += 2;
         }
         else if (index > 0 && index < size)
         {
@@ -207,7 +207,7 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
             node.linkTo(next);
             parent.linkTo(node);
 
-            referenceChangeCount+=2;
+            referenceChangeCount += 2;
         }
 
         // We added something, increase the cached size of the list
@@ -274,7 +274,7 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
                 tail = parent;
             }
 
-            referenceChangeCount+=2;
+            referenceChangeCount += 2;
         }
 
         // We removed an element, decrease the cached size
@@ -309,7 +309,7 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
     {
         // Simply set the head and tail pointers to null and reset the size cache
         head = tail = null;
-        referenceChangeCount+=2;
+        referenceChangeCount += 2;
         size = 0;
     }
 
