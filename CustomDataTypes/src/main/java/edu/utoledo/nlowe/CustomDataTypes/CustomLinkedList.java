@@ -5,15 +5,30 @@ import java.util.Iterator;
 /**
  * A custom, generic, linked list implementation
  */
-public class CustomLinkedList<T> implements Iterable<T>
+public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
 {
 
     /** A pointer to the first item in the list */
-    private Node<T> head = null;
+    protected Node<T> head = null;
     /** A pointer to the last item in the list */
-    private Node<T> tail = null;
+    protected Node<T> tail = null;
     /** The cached size of the list */
-    private int size = 0;
+    protected int size = 0;
+
+    protected int comparisonCount = 0;
+    protected int referenceChangeCount = 0;
+
+    @Override
+    public long getComparisonCount()
+    {
+        return comparisonCount;
+    }
+
+    @Override
+    public long getReferenceAssignmentCount()
+    {
+        return referenceChangeCount;
+    }
 
     /**
      * An iterator for traversing the list in order
@@ -52,7 +67,7 @@ public class CustomLinkedList<T> implements Iterable<T>
      *
      * @param <U> The underlying payload type
      */
-    private final class Node<U>
+    protected final class Node<U>
     {
 
         /** The payload of the node */
@@ -113,7 +128,7 @@ public class CustomLinkedList<T> implements Iterable<T>
      * @return <code>true</code> if and only if the specified index is greater than or equal to
      * zero and less than or equal to the size of the list
      */
-    private boolean validateInsertableBounds(int index)
+    protected boolean validateInsertableBounds(int index)
     {
         return index >= 0 && index <= size;
     }
@@ -123,7 +138,7 @@ public class CustomLinkedList<T> implements Iterable<T>
      * @return <code>true</code> if and only if the specified index is greater than or equal to
      * zero and less than the size of the list
      */
-    private boolean validateBounds(int index)
+    protected boolean validateBounds(int index)
     {
         return index >= 0 && index < size;
     }
@@ -163,6 +178,7 @@ public class CustomLinkedList<T> implements Iterable<T>
             // This is the first element we've added to the list
             // So we can just update the head and tail pointers
             head = tail = node;
+            referenceChangeCount+=2;
         }
         else if (index == 0)
         {
@@ -170,6 +186,7 @@ public class CustomLinkedList<T> implements Iterable<T>
             // So link the new node to the first node and update the head pointer
             node.linkTo(head);
             head = node;
+            referenceChangeCount+=2;
         }
         else if (index == size)
         {
@@ -177,6 +194,7 @@ public class CustomLinkedList<T> implements Iterable<T>
             // Link the last element in the list to the new node and update the tail pointer
             tail.linkTo(node);
             tail = node;
+            referenceChangeCount+=2;
         }
         else if (index > 0 && index < size)
         {
@@ -188,6 +206,8 @@ public class CustomLinkedList<T> implements Iterable<T>
             // Link all the things
             node.linkTo(next);
             parent.linkTo(node);
+
+            referenceChangeCount+=2;
         }
 
         // We added something, increase the cached size of the list
@@ -232,6 +252,7 @@ public class CustomLinkedList<T> implements Iterable<T>
             Node<T> oldHead = head;
 
             head = head.next();
+            referenceChangeCount++;
 
             oldHead.linkTo(null);
         }
@@ -252,6 +273,8 @@ public class CustomLinkedList<T> implements Iterable<T>
             {
                 tail = parent;
             }
+
+            referenceChangeCount+=2;
         }
 
         // We removed an element, decrease the cached size
@@ -269,6 +292,7 @@ public class CustomLinkedList<T> implements Iterable<T>
         // We implement Iterable<T>, so we can just use a for-each loop
         for (T element : this)
         {
+            comparisonCount++;
             if (element.equals(value))
             {
                 return true;
@@ -285,6 +309,7 @@ public class CustomLinkedList<T> implements Iterable<T>
     {
         // Simply set the head and tail pointers to null and reset the size cache
         head = tail = null;
+        referenceChangeCount+=2;
         size = 0;
     }
 
@@ -294,7 +319,7 @@ public class CustomLinkedList<T> implements Iterable<T>
      * @param index the index of the target node
      * @return the node at the specified index
      */
-    private Node<T> getNodeAt(int index)
+    protected Node<T> getNodeAt(int index)
     {
         // We should never be trying to get a node outside of the bounds of the list
         // An exception should have been thrown by now if the user was trying to

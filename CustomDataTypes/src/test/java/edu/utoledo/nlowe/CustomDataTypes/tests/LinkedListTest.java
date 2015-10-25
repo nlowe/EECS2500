@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by nathan on 9/8/15
+ * Tests for edu.utoledo.nlowe.CustomDataTypes.CustomLinkedList
  */
 public class LinkedListTest
 {

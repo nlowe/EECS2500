@@ -16,6 +16,7 @@
         <module>CustomDataTypes</module>
         <module>libpostfix</module>
         <module>PostfixFX</module>
+        <module>WordCounter</module>
     </modules>
 
     <dependencies>

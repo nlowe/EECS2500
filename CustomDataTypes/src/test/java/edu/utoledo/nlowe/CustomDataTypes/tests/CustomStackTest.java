@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by nathan on 9/26/15
+ * Tests for edu.utoledo.nlowe.CustomDataTypes.CustomStack
  */
 public class CustomStackTest
 {
