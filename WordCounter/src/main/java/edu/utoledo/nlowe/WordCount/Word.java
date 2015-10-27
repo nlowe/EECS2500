@@ -18,11 +18,11 @@ public class Word implements Comparable<Word>
      * from the beginning and end of the string.
      *
      * @param input the string to sanitize
-     * @return the sanatized string
+     * @return the sanitized string
      */
     public static String sanitize(String input)
     {
-        char[] parts = input.toLowerCase().toCharArray();
+        char[] parts = input.toLowerCase().replace("--", "").toCharArray();
 
         StringBuilder output = new StringBuilder(parts.length);
         boolean start = false;
@@ -56,14 +56,8 @@ public class Word implements Comparable<Word>
     @Override
     public int compareTo(Word o)
     {
-        if (o != null)
-        {
-            return this.value.compareTo(o.getValue());
-        }
-        else
-        {
-            return 1;
-        }
+
+        return o != null ? this.value.compareTo(o.getValue()) : 1;
     }
 
     @Override

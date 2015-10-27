@@ -72,6 +72,7 @@ public class Benchmarks
         long[] time = new long[5];
 
         // The first pass is just to calculate overhead
+        System.out.println("Benchmarking " + BENCHMARK_NAMES[OVERHEAD] + "...");
         long start = System.currentTimeMillis();
         try
         {
@@ -84,6 +85,7 @@ public class Benchmarks
         time[OVERHEAD] = System.currentTimeMillis() - start;
 
         // Unsorted
+        System.out.println("Benchmarking " + BENCHMARK_NAMES[UNSORTED] + "...");
         start = System.currentTimeMillis();
         try
         {
@@ -96,6 +98,7 @@ public class Benchmarks
         time[UNSORTED] = System.currentTimeMillis() - start;
 
         // Sorted
+        System.out.println("Benchmarking " + BENCHMARK_NAMES[SORTED] + "...");
         start = System.currentTimeMillis();
         try
         {
@@ -108,6 +111,7 @@ public class Benchmarks
         time[SORTED] = System.currentTimeMillis() - start;
 
         // Front Self-Adjusted
+        System.out.println("Benchmarking " + BENCHMARK_NAMES[SELF_ADJUST_FRONT] + "...");
         start = System.currentTimeMillis();
         try
         {
@@ -120,6 +124,7 @@ public class Benchmarks
         time[SELF_ADJUST_FRONT] = System.currentTimeMillis() - start;
 
         // Bubble Self-Adjusted
+        System.out.println("Benchmarking " + BENCHMARK_NAMES[SELF_ADJUST_BUBBLE] + "...");
         start = System.currentTimeMillis();
         try
         {
@@ -132,7 +137,7 @@ public class Benchmarks
         time[SELF_ADJUST_BUBBLE] = System.currentTimeMillis() - start;
 
         // Print Results
-        System.out.println("Benchmarks Complete");
+        System.out.println("Benchmarks Complete\nResults:\n\n");
         for (int i = 0; i < BENCHMARK_NAMES.length; i++)
         {
             System.out.print(BENCHMARK_NAMES[i] + ": Duration: " + (double) time[i] / 1000d + " seconds");
@@ -154,17 +159,17 @@ public class Benchmarks
 
         System.out.println("\n----------\n");
 
-        // Print top ten words for the latter two benchmarks
-        System.out.println("First ten elements in Front Self-Adjusting:");
-        for (Word w : ((FrontSelfAdjustingWordCounter) counters[SELF_ADJUST_FRONT - 1]).getTopTenWords())
+        // Print top 100 words for the latter two benchmarks
+        System.out.println("First 100 elements in Front Self-Adjusting:");
+        for (Word w : ((FrontSelfAdjustingWordCounter) counters[SELF_ADJUST_FRONT - 1]).getTopWords(100))
         {
-            System.out.println("\t" + w.getValue() + ": " + w.getOccurrenceCount());
+            System.out.println("\t" + w.getValue() + ", " + w.getOccurrenceCount());
         }
 
-        System.out.println("First ten elements in Bubble Self-Adjusting:");
-        for (Word w : ((BubbleSelfAdjustingWordCounter) counters[SELF_ADJUST_BUBBLE - 1]).getTopTenWords())
+        System.out.println("First 100 elements in Bubble Self-Adjusting:");
+        for (Word w : ((BubbleSelfAdjustingWordCounter) counters[SELF_ADJUST_BUBBLE - 1]).getTopWords(100))
         {
-            System.out.println("\t" + w.getValue() + ": " + w.getOccurrenceCount());
+            System.out.println("\t" + w.getValue() + ", " + w.getOccurrenceCount());
         }
     }
 }

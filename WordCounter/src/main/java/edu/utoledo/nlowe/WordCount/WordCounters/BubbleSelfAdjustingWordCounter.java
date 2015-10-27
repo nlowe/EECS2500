@@ -132,12 +132,12 @@ public class BubbleSelfAdjustingWordCounter extends WordCounter
         }
     }
 
-    public CustomLinkedList<Word> getTopTenWords()
+    public CustomLinkedList<Word> getTopWords(int count)
     {
         CustomLinkedList<Word> results = new CustomLinkedList<>();
 
         Node target = head;
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < count; i++)
         {
             if (target != null)
             {

@@ -1,7 +1,10 @@
 package edu.utoledo.nlowe.WordCount.tests;
 
+import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounters.SortedWordCounter;
 import org.junit.Test;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,5 +33,24 @@ public class SortedWordCounterTest
         assertEquals(4, counter.getWordCount());
         assertEquals(3, counter.getDistinctWordCount());
     }
+
+    @Test
+    public void wordCountTestTwo()
+    {
+        String[] words = new String[]{
+                "a", "b", "c", "d", "e",
+                "a", "b", "c", "d", "e",
+                "a?", "b!", "c-", "d\"", "e'",
+                "ab", "cd", "ef", "gh", "ij",
+                "a-b", "c-d", "e-f", "g-h", "i-j"
+        };
+
+        SortedWordCounter counter = new SortedWordCounter();
+        Arrays.stream(words).forEach((w) -> counter.encounter(Word.sanitize(w)));
+
+        assertEquals(25, counter.getWordCount());
+        assertEquals(15, counter.getDistinctWordCount());
+    }
+
 
 }
