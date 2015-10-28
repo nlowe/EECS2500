@@ -11,22 +11,10 @@ public class SortedWordCounter extends WordCounter
 {
     CustomSortedLinkedList<Word> words = new CustomSortedLinkedList<>();
 
-    private int comparisons = 0;
-
     @Override
     public void encounter(String word)
     {
-        for (Word w : words)
-        {
-            comparisons++;
-            if (w.getValue().equals(word))
-            {
-                w.increment();
-                return;
-            }
-        }
-
-        words.add(new Word(word));
+        words.addOr(new Word(word), Word::increment);
     }
 
     public Word getFirstWord()
@@ -56,7 +44,7 @@ public class SortedWordCounter extends WordCounter
     @Override
     public long getComparisonCount()
     {
-        return comparisons + words.getComparisonCount();
+        return words.getComparisonCount();
     }
 
     @Override

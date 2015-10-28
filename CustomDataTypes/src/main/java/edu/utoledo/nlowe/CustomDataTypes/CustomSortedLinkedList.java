@@ -1,6 +1,8 @@
 package edu.utoledo.nlowe.CustomDataTypes;
 
 
+import java.util.function.Consumer;
+
 /**
  * A Custom, Generic, Sorted Linked List implementation.
  * <p>
@@ -13,15 +15,27 @@ public class CustomSortedLinkedList<T extends Comparable<T>> extends CustomLinke
     @Override
     public void add(T value)
     {
+        this.addOr(value, null);
+    }
+
+    public void addOr(T value, Consumer<T> ifFound){
         Node<T> toInsert = new Node<>(value);
         size++;
         referenceChangeCount += 2;
+        comparisonCount ++;
+
+        int headComparison = head != null ? head.getValue().compareTo(value) : -1;
 
         if (head == null)
         {
             head = tail = toInsert;
         }
-        else if (head.getValue().compareTo(value) >= 0)
+        else if (headComparison == 0)
+        {
+            size--;
+            if(ifFound != null) ifFound.accept(head.getValue());
+        }
+        else if (headComparison > 0)
         {
             toInsert.linkTo(head);
             head = toInsert;
@@ -31,12 +45,20 @@ public class CustomSortedLinkedList<T extends Comparable<T>> extends CustomLinke
             Node<T> ref = head;
             while (ref.next() != null)
             {
-                if (ref.next().getValue().compareTo(value) > 0)
+                comparisonCount++;
+                
+                int comparison = ref.next().getValue().compareTo(value);
+                if (comparison > 0)
                 {
                     toInsert.linkTo(ref.next());
                     ref.linkTo(toInsert);
                     return;
+                }else if(comparison == 0){
+                    size--;
+                    if(ifFound != null) ifFound.accept(ref.getValue());
+                    return;
                 }
+
                 ref = ref.next();
             }
 

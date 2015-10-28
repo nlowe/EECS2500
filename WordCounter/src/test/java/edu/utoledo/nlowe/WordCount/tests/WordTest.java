@@ -29,13 +29,17 @@ public class WordTest
         Word b = new Word("wxyz");
 
         assertEquals("AbZd".compareTo("wxyz"), a.compareTo(b));
+        assertEquals("wxyz".compareTo("AbZd"), b.compareTo(a));
 
         a.increment();
         b.increment();
         b.increment();
 
         assertEquals("AbZd".compareTo("wxyz"), a.compareTo(b));
+        assertEquals("wxyz".compareTo("AbZd"), b.compareTo(a));
 
+        assertEquals(0, a.compareTo(a));
+        assertEquals(0, b.compareTo(b));
         assertEquals(1, a.compareTo(null));
     }
 
