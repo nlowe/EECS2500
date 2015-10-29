@@ -6,8 +6,10 @@ import edu.utoledo.nlowe.WordCount.WordCounters.BubbleSelfAdjustingWordCounter;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Tests for edu.utoledo.nlowe.WordCount.WordCounters.BubbleSelfAdjustingWordCounter
@@ -29,13 +31,21 @@ public class BubbleSelfAdjustingListTest
         counter.encounter("cdefg");
         counter.encounter("abc");
 
-        CustomLinkedList<Word> topTen = counter.getTopWords(3);
+        Iterator<Word> words = counter.iterator();
 
-        assertEquals(3, topTen.size());
+        Word current = words.next();
+        assertEquals("abc", current.getValue());
+        assertEquals(4, current.getOccurrenceCount());
 
-        assertEquals("abc", topTen.getFirst().getValue());
-        assertEquals("cdefg", topTen.get(1).getValue());
-        assertEquals("def", topTen.getLast().getValue());
+        current = words.next();
+        assertEquals("cdefg", current.getValue());
+        assertEquals(2, current.getOccurrenceCount());
+
+        current = words.next();
+        assertEquals("def", current.getValue());
+        assertEquals(2, current.getOccurrenceCount());
+
+        assertFalse(words.hasNext());
 
         assertEquals(8, counter.getWordCount());
         assertEquals(3, counter.getDistinctWordCount());

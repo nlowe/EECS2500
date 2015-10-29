@@ -8,7 +8,7 @@ import edu.utoledo.nlowe.CustomDataTypes.PerformanceTraceable;
  * number of comparisons made and references changed during the lifetime
  * of the Word Counter.
  */
-public abstract class WordCounter implements PerformanceTraceable
+public abstract class WordCounter implements Iterable<Word>, PerformanceTraceable
 {
 
     /**

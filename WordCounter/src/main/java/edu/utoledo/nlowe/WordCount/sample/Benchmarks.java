@@ -19,6 +19,8 @@ public class Benchmarks
 
     public static final String WORD_SEPARATOR = "[\\s]";
 
+    public static final int EXIT_BENCHMARK_IO_ERROR = -1;
+
     public static final int OVERHEAD = 0;
     public static final int UNSORTED = 1;
     public static final int SORTED = 2;
@@ -33,14 +35,23 @@ public class Benchmarks
             "Self-Adjusting (Bubble)"
     };
 
-    public static final WordCounter[] counters = new WordCounter[]{
+    public final WordCounter[] counters = new WordCounter[]{
             new UnsortedWordCounter(),
             new SortedWordCounter(),
             new FrontSelfAdjustingWordCounter(),
             new BubbleSelfAdjustingWordCounter()
     };
 
-    public static void runBenchmark(InputStream in, WordCounter counter) throws IOException
+    private long[] results = new long[5];
+
+    /**
+     * Run the specified word counter using the specified input stream
+     *
+     * @param in the stream to read words from
+     * @param counter the word counter to benchmark
+     * @throws IOException
+     */
+    public void runBenchmark(InputStream in, WordCounter counter) throws IOException
     {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in)))
         {
@@ -60,98 +71,77 @@ public class Benchmarks
         }
     }
 
-    public static InputStream getResourceInputStream() throws FileNotFoundException
+    public InputStream getResourceInputStream() throws FileNotFoundException
     {
         return HAMLET_SOURCE == null ?
                 Benchmarks.class.getClassLoader().getResourceAsStream("Hamlet.txt") :
                 new FileInputStream(HAMLET_SOURCE);
     }
 
+    public boolean runAllBenchmarks()
+    {
+        try{
+            // The first pass is just to calculate overhead
+            System.out.println("Benchmarking " + BENCHMARK_NAMES[OVERHEAD] + "...");
+            long start = System.currentTimeMillis();
+            runBenchmark(getResourceInputStream(), null);
+            results[OVERHEAD] = System.currentTimeMillis() - start;
+
+            // Unsorted
+            System.out.println("Benchmarking " + BENCHMARK_NAMES[UNSORTED] + "...");
+            start = System.currentTimeMillis();
+            runBenchmark(getResourceInputStream(), counters[UNSORTED - 1]);
+            results[UNSORTED] = System.currentTimeMillis() - start;
+
+            // Sorted
+            System.out.println("Benchmarking " + BENCHMARK_NAMES[SORTED] + "...");
+            start = System.currentTimeMillis();
+            runBenchmark(getResourceInputStream(), counters[SORTED - 1]);
+            results[SORTED] = System.currentTimeMillis() - start;
+
+            // Front Self-Adjusted
+            System.out.println("Benchmarking " + BENCHMARK_NAMES[SELF_ADJUST_FRONT] + "...");
+            start = System.currentTimeMillis();
+            runBenchmark(getResourceInputStream(), counters[SELF_ADJUST_FRONT - 1]);
+            results[SELF_ADJUST_FRONT] = System.currentTimeMillis() - start;
+
+            // Bubble Self-Adjusted
+            System.out.println("Benchmarking " + BENCHMARK_NAMES[SELF_ADJUST_BUBBLE] + "...");
+            start = System.currentTimeMillis();
+            runBenchmark(getResourceInputStream(), counters[SELF_ADJUST_BUBBLE - 1]);
+            results[SELF_ADJUST_BUBBLE] = System.currentTimeMillis() - start;
+
+            return true;
+        }
+        catch (IOException e)
+        {
+            System.err.println("Encountered an error while running benchmarks");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static void main(String[] args)
     {
-        long[] time = new long[5];
-
-        // The first pass is just to calculate overhead
-        System.out.println("Benchmarking " + BENCHMARK_NAMES[OVERHEAD] + "...");
-        long start = System.currentTimeMillis();
-        try
-        {
-            runBenchmark(getResourceInputStream(), null);
+        Benchmarks b = new Benchmarks();
+        if(!b.runAllBenchmarks()){
+            System.exit(EXIT_BENCHMARK_IO_ERROR);
         }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        time[OVERHEAD] = System.currentTimeMillis() - start;
-
-        // Unsorted
-        System.out.println("Benchmarking " + BENCHMARK_NAMES[UNSORTED] + "...");
-        start = System.currentTimeMillis();
-        try
-        {
-            runBenchmark(getResourceInputStream(), counters[UNSORTED - 1]);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        time[UNSORTED] = System.currentTimeMillis() - start;
-
-        // Sorted
-        System.out.println("Benchmarking " + BENCHMARK_NAMES[SORTED] + "...");
-        start = System.currentTimeMillis();
-        try
-        {
-            runBenchmark(getResourceInputStream(), counters[SORTED - 1]);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        time[SORTED] = System.currentTimeMillis() - start;
-
-        // Front Self-Adjusted
-        System.out.println("Benchmarking " + BENCHMARK_NAMES[SELF_ADJUST_FRONT] + "...");
-        start = System.currentTimeMillis();
-        try
-        {
-            runBenchmark(getResourceInputStream(), counters[SELF_ADJUST_FRONT - 1]);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        time[SELF_ADJUST_FRONT] = System.currentTimeMillis() - start;
-
-        // Bubble Self-Adjusted
-        System.out.println("Benchmarking " + BENCHMARK_NAMES[SELF_ADJUST_BUBBLE] + "...");
-        start = System.currentTimeMillis();
-        try
-        {
-            runBenchmark(getResourceInputStream(), counters[SELF_ADJUST_BUBBLE - 1]);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        time[SELF_ADJUST_BUBBLE] = System.currentTimeMillis() - start;
 
         // Print Results
         System.out.println("Benchmarks Complete\nResults:\n\n");
         for (int i = 0; i < BENCHMARK_NAMES.length; i++)
         {
-            System.out.print(BENCHMARK_NAMES[i] + ": Duration: " + (double) time[i] / 1000d + " seconds");
+            System.out.print(BENCHMARK_NAMES[i] + ": Duration: " + (double) b.results[i] / 1000d + " seconds");
 
             if (i != OVERHEAD)
             {
-                WordCounter counter = counters[i - 1];
+                WordCounter counter = b.counters[i - 1];
 
-                // Some counter implementations don't exist yet
-                if (counter != null)
-                    System.out.print("\tWord Count: " + counter.getWordCount() +
-                            ", Distinct: " + counter.getDistinctWordCount() +
-                            ", Comparisons: " + counter.getComparisonCount() +
-                            ", Reference Changes: " + counter.getReferenceAssignmentCount());
+                System.out.print("\tWord Count: " + counter.getWordCount() +
+                        ", Distinct: " + counter.getDistinctWordCount() +
+                        ", Comparisons: " + counter.getComparisonCount() +
+                        ", Reference Changes: " + counter.getReferenceAssignmentCount());
             }
 
             System.out.println();
@@ -160,16 +150,20 @@ public class Benchmarks
         System.out.println("\n----------\n");
 
         // Print top 100 words for the latter two benchmarks
+        int counter = 0;
         System.out.println("First 100 elements in Front Self-Adjusting:");
-        for (Word w : ((FrontSelfAdjustingWordCounter) counters[SELF_ADJUST_FRONT - 1]).getTopWords(100))
+        for (Word w : b.counters[SELF_ADJUST_FRONT - 1])
         {
             System.out.println("\t" + w.getValue() + ", " + w.getOccurrenceCount());
+            if(++counter == 100) break;
         }
 
+        counter = 0;
         System.out.println("First 100 elements in Bubble Self-Adjusting:");
-        for (Word w : ((BubbleSelfAdjustingWordCounter) counters[SELF_ADJUST_BUBBLE - 1]).getTopWords(100))
+        for (Word w : b.counters[SELF_ADJUST_BUBBLE - 1])
         {
             System.out.println("\t" + w.getValue() + ", " + w.getOccurrenceCount());
+            if(++counter == 100) break;
         }
     }
 }

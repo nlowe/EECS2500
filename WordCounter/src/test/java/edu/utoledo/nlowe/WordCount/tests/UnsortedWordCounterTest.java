@@ -10,8 +10,10 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.fail;
 
 /**
@@ -35,7 +37,7 @@ public class UnsortedWordCounterTest
     {
         try
         {
-            Benchmarks.runBenchmark(source, counter);
+            new Benchmarks().runBenchmark(source, counter);
         }
         catch (IOException e)
         {
@@ -51,7 +53,7 @@ public class UnsortedWordCounterTest
     @Test
     public void wordCountTestTwo()
     {
-        String[] words = new String[]{
+        String[] input = new String[]{
                 "a", "b", "c", "d", "e",
                 "a", "b", "c", "d", "e",
                 "a?", "b!", "c-", "d\"", "e'",
@@ -59,7 +61,13 @@ public class UnsortedWordCounterTest
                 "a-b", "c-d", "e-f", "g-h", "i-j"
         };
 
-        Arrays.stream(words).forEach((w) -> counter.encounter(Word.sanitize(w)));
+        Arrays.stream(input).forEach((w) -> counter.encounter(Word.sanitize(w)));
+
+        Iterator<Word> words = counter.iterator();
+        Word current = words.next();
+
+        assertEquals("i-j", current.getValue());
+        assertEquals(1, current.getOccurrenceCount());
 
         assertEquals(25, counter.getWordCount());
         assertEquals(15, counter.getDistinctWordCount());

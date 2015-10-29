@@ -1,9 +1,10 @@
 package edu.utoledo.nlowe.WordCount.WordCounters;
 
-import edu.utoledo.nlowe.CustomDataTypes.CustomLinkedList;
 import edu.utoledo.nlowe.CustomDataTypes.Node;
 import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounter;
+
+import java.util.Iterator;
 
 /**
  * A word counter which moves words to the front of the list
@@ -71,27 +72,6 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
         }
     }
 
-    public CustomLinkedList<Word> getTopWords(int count)
-    {
-        CustomLinkedList<Word> results = new CustomLinkedList<>();
-
-        Node<Word> target = head;
-        for (int i = 0; i < count; i++)
-        {
-            if (target != null)
-            {
-                results.add(target.getValue());
-                target = target.next();
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        return results;
-    }
-
     @Override
     public long getWordCount()
     {
@@ -120,6 +100,29 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
         } while (element != null);
 
         return count;
+    }
+
+    @Override
+    public Iterator<Word> iterator()
+    {
+        return new Iterator<Word>()
+        {
+            private Node<Word> element = head;
+
+            @Override
+            public boolean hasNext()
+            {
+                return element != null;
+            }
+
+            @Override
+            public Word next()
+            {
+                Word w = element.getValue();
+                element = element.next();
+                return w;
+            }
+        };
     }
 
     @Override

@@ -5,10 +5,10 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.regex.Pattern;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -57,6 +57,8 @@ public class BenchmarkTest
             "First 100 elements in Front Self-Adjusting:\\n(\\t[a-z\\-']+, \\d+\\n){100}" +
             "First 100 elements in Bubble Self-Adjusting:\\n(\\t[a-z\\-'\\!\\,]+, \\d+\\n){99}(\\t[a-z\\-'\\!\\,]+, \\d+)";
 
+    public static final String FAILURE_REGEX = "Encountered an error while running benchmarks\n" +
+            "java.io.FileNotFoundException: ThisFileTotallyDoesNotExist";
 
     private RegexMatcher matches(String regex){
         return new RegexMatcher(regex);
@@ -67,9 +69,27 @@ public class BenchmarkTest
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
 
-        new Benchmarks().main(new String[]{});
+        Benchmarks.main(new String[]{});
 
         assertThat(out.toString(), matches(BENCHMARK_REGEX));
+    }
+
+    @Test
+    public void failsWithInvalidInput(){
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setErr(new PrintStream(out));
+
+        boolean success = new Benchmarks(){
+            @Override
+            public InputStream getResourceInputStream() throws FileNotFoundException
+            {
+                return new FileInputStream("ThisFileTotallyDoesNotExist" + Math.random() + ".foobar");
+            }
+        }.runAllBenchmarks();
+
+        assertFalse(success);
+        assertThat(out.toString(), matches(FAILURE_REGEX));
+
     }
 
 }

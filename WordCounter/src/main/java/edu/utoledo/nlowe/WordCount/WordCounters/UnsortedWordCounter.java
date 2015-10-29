@@ -4,6 +4,8 @@ import edu.utoledo.nlowe.CustomDataTypes.CustomLinkedList;
 import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounter;
 
+import java.util.Iterator;
+
 /**
  * A Word Counter implementation that simply inserts new words
  * at the start of a list
@@ -11,8 +13,10 @@ import edu.utoledo.nlowe.WordCount.WordCounter;
 public class UnsortedWordCounter extends WordCounter
 {
 
+    /** All encountered words are collected in this list */
     private CustomLinkedList<Word> words = new CustomLinkedList<>();
 
+    /** The number of comparisons made during the lifetime of this class */
     private int comparisons = 0;
 
     @Override
@@ -24,11 +28,13 @@ public class UnsortedWordCounter extends WordCounter
 
             if (w.getValue().equals(word))
             {
+                // We found the word. Increment the word count and exit early
                 w.increment();
                 return;
             }
         }
 
+        // The word was not found, add it to the list
         words.add(0, new Word(word));
     }
 
@@ -61,5 +67,11 @@ public class UnsortedWordCounter extends WordCounter
     public long getReferenceAssignmentCount()
     {
         return words.getReferenceAssignmentCount();
+    }
+
+    @Override
+    public Iterator<Word> iterator()
+    {
+        return words.iterator();
     }
 }
