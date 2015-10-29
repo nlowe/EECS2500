@@ -18,18 +18,6 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
     protected int comparisonCount = 0;
     protected int referenceChangeCount = 0;
 
-    @Override
-    public long getComparisonCount()
-    {
-        return comparisonCount;
-    }
-
-    @Override
-    public long getReferenceAssignmentCount()
-    {
-        return referenceChangeCount;
-    }
-
     /**
      * An iterator for traversing the list in order
      */
@@ -312,4 +300,15 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
         return size;
     }
 
+    @Override
+    public long getComparisonCount()
+    {
+        return comparisonCount;
+    }
+
+    @Override
+    public long getReferenceAssignmentCount()
+    {
+        return referenceChangeCount;
+    }
 }

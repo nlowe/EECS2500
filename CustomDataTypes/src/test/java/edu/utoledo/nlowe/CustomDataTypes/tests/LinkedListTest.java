@@ -49,9 +49,14 @@ public class LinkedListTest
         list.add("one");
         list.add("two");
         list.add("three");
+
         assertEquals("one", list.get(0));
         assertEquals("two", list.get(1));
         assertEquals("three", list.get(2));
+        assertTrue(list.contains("two"));
+
+        assertEquals(6, list.getReferenceAssignmentCount());
+        assertEquals(2, list.getComparisonCount());
     }
 
     @Test

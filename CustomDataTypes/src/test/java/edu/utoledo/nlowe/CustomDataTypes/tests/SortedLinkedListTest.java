@@ -30,6 +30,25 @@ public class SortedLinkedListTest
     }
 
     @Test
+    public void canReturnEarlyWhenTargetAlreadyInList()
+    {
+        CustomSortedLinkedList<String> list = new CustomSortedLinkedList<>();
+
+        list.add("a");
+        list.addOr("a", (s) -> assertEquals("a", s));
+
+        assertEquals(1, list.size());
+
+        list.addOr("b", (s) -> fail());
+        list.addOr("c", (s) -> fail());
+
+        list.addOr("b", (s) -> assertEquals("b", s));
+        list.addOr("c", (s) -> assertEquals("c", s));
+
+        assertEquals(3, list.size());
+    }
+
+    @Test
     public void throwsExceptionWhenInsertingAtArbitraryIndex()
     {
         try

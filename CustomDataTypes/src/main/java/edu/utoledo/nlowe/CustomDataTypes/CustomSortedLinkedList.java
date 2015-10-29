@@ -55,7 +55,7 @@ public class CustomSortedLinkedList<T extends Comparable<T>> extends CustomLinke
                     return;
                 }else if(comparison == 0){
                     size--;
-                    if(ifFound != null) ifFound.accept(ref.getValue());
+                    if(ifFound != null) ifFound.accept(ref.next().getValue());
                     return;
                 }
 
