@@ -27,10 +27,12 @@ public class BubbleSelfAdjustingWordCounter extends WordCounter
             // There are no words in the list. Start the list now
             head = new Node<>(new Word(word));
             referenceChanges++;
+            return;
         }
-        else if (head.getValue().getValue().equals(word))
+
+        comparisons++;
+        if (head.getValue().getValue().equals(word))
         {
-            comparisons++;
             // The word is already at the front of the list
             head.getValue().increment();
         }
@@ -54,10 +56,10 @@ public class BubbleSelfAdjustingWordCounter extends WordCounter
 
                     return;
                 }
-                else if (target.getValue().getValue().equals(word))
-                {
-                    comparisons++;
 
+                comparisons++;
+                if (target.getValue().getValue().equals(word))
+                {
                     // We found the word. Increment the count
                     target.getValue().increment();
 
