@@ -97,12 +97,12 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
         {
             throw new IndexOutOfBoundsException("The Index " + index + " is not in the bounds of the list!");
         }
-        else if (size == 0)
+
+        if (size == 0)
         {
             // This is the first element we've added to the list
             // So we can just update the head and tail pointers
             head = tail = node;
-            referenceChangeCount += 2;
         }
         else if (index == 0)
         {
@@ -110,7 +110,6 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
             // So link the new node to the first node and update the head pointer
             node.linkTo(head);
             head = node;
-            referenceChangeCount += 2;
         }
         else if (index == size)
         {
@@ -118,7 +117,6 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
             // Link the last element in the list to the new node and update the tail pointer
             tail.linkTo(node);
             tail = node;
-            referenceChangeCount += 2;
         }
         else if (index > 0 && index < size)
         {
@@ -130,9 +128,9 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
             // Link all the things
             node.linkTo(next);
             parent.linkTo(node);
-
-            referenceChangeCount += 2;
         }
+
+        referenceChangeCount += 2;
 
         // We added something, increase the cached size of the list
         size++;

@@ -28,6 +28,7 @@ public class CustomSortedLinkedList<T extends Comparable<T>> extends CustomLinke
 
         if (head == null)
         {
+            comparisonCount--;
             head = tail = toInsert;
         }
         else if (headComparison == 0)
