@@ -17,7 +17,9 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
     /** A pointer to the start of the word linked-list */
     private Node<Word> head = null;
 
+    /** The number of comparisons made during the lifetime of the word counter */
     private long comparisons = 0;
+    /** The number of reference changes made to the internal data structure of the word counter */
     private long referenceChanges = 0;
 
     @Override

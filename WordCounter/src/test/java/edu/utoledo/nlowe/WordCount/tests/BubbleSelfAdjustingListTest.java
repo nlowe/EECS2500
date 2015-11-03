@@ -1,6 +1,5 @@
 package edu.utoledo.nlowe.WordCount.tests;
 
-import edu.utoledo.nlowe.CustomDataTypes.CustomLinkedList;
 import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounters.BubbleSelfAdjustingWordCounter;
 import org.junit.Test;

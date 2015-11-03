@@ -10,15 +10,18 @@ import edu.utoledo.nlowe.WordCount.WordCounters.UnsortedWordCounter;
 import java.io.*;
 
 /**
- * A class to benchmark each of the WordCounters implementations by
- * using Hamlet
+ * A class to benchmark each of the WordCounters implementations
+ * against the entire text of Hamlet.
  */
 public class Benchmarks
 {
+    /** The path to the file to read. If left null, the file will be loaded from the classpath */
     private static final String HAMLET_SOURCE = null;
 
+    /** The token that separates words (Any whitespace) */
     public static final String WORD_SEPARATOR = "[\\s]";
 
+    /** The exit code returned when an error occurs while running the benchmarks */
     public static final int EXIT_BENCHMARK_IO_ERROR = -1;
 
     public static final int OVERHEAD = 0;
@@ -27,6 +30,7 @@ public class Benchmarks
     public static final int SELF_ADJUST_FRONT = 3;
     public static final int SELF_ADJUST_BUBBLE = 4;
 
+    /** The names of all benchmarks */
     public static final String[] BENCHMARK_NAMES = {
             "Overhead",
             "Unsorted",
@@ -35,6 +39,7 @@ public class Benchmarks
             "Self-Adjusting (Bubble)"
     };
 
+    /** All word counters to benchmark */
     public final WordCounter[] counters = new WordCounter[]{
             new UnsortedWordCounter(),
             new SortedWordCounter(),
@@ -42,7 +47,8 @@ public class Benchmarks
             new BubbleSelfAdjustingWordCounter()
     };
 
-    private long[] results = new long[5];
+    /** Time results are stored here */
+    private long[] results = new long[counters.length];
 
     /**
      * Run the specified word counter using the specified input stream
@@ -71,6 +77,14 @@ public class Benchmarks
         }
     }
 
+    /**
+     * The project spec requires a constant to appear towards the top of the benchmark class that points to the
+     * path to the input file. In order to maintain compatibility on different workstations, default to getting
+     * the input stream from the class path instead if the constant is null
+     *
+     * @return an InputStream for the resource to benchmark against
+     * @throws FileNotFoundException
+     */
     public InputStream getResourceInputStream() throws FileNotFoundException
     {
         return HAMLET_SOURCE == null ?
@@ -78,6 +92,11 @@ public class Benchmarks
                 new FileInputStream(HAMLET_SOURCE);
     }
 
+    /**
+     * Runs all benchmarks
+     *
+     * @return false iff there was an exception thrown while the benchmarks were running
+     */
     public boolean runAllBenchmarks()
     {
         try
@@ -88,29 +107,14 @@ public class Benchmarks
             runBenchmark(getResourceInputStream(), null);
             results[OVERHEAD] = System.currentTimeMillis() - start;
 
-            // Unsorted
-            System.out.println("Benchmarking " + BENCHMARK_NAMES[UNSORTED] + "...");
-            start = System.currentTimeMillis();
-            runBenchmark(getResourceInputStream(), counters[UNSORTED - 1]);
-            results[UNSORTED] = System.currentTimeMillis() - start;
-
-            // Sorted
-            System.out.println("Benchmarking " + BENCHMARK_NAMES[SORTED] + "...");
-            start = System.currentTimeMillis();
-            runBenchmark(getResourceInputStream(), counters[SORTED - 1]);
-            results[SORTED] = System.currentTimeMillis() - start;
-
-            // Front Self-Adjusted
-            System.out.println("Benchmarking " + BENCHMARK_NAMES[SELF_ADJUST_FRONT] + "...");
-            start = System.currentTimeMillis();
-            runBenchmark(getResourceInputStream(), counters[SELF_ADJUST_FRONT - 1]);
-            results[SELF_ADJUST_FRONT] = System.currentTimeMillis() - start;
-
-            // Bubble Self-Adjusted
-            System.out.println("Benchmarking " + BENCHMARK_NAMES[SELF_ADJUST_BUBBLE] + "...");
-            start = System.currentTimeMillis();
-            runBenchmark(getResourceInputStream(), counters[SELF_ADJUST_BUBBLE - 1]);
-            results[SELF_ADJUST_BUBBLE] = System.currentTimeMillis() - start;
+            // Run the rest of the benchmarks
+            for (int i = 1; i < BENCHMARK_NAMES.length; i++)
+            {
+                System.out.println("Benchmarking " + BENCHMARK_NAMES[i] + "...");
+                start = System.currentTimeMillis();
+                runBenchmark(getResourceInputStream(), counters[i - 1]);
+                results[i] = System.currentTimeMillis() - start;
+            }
 
             return true;
         }
@@ -122,6 +126,11 @@ public class Benchmarks
         }
     }
 
+    /**
+     * The main entry point of the program
+     *
+     * @param args Any arguments passed on the command line
+     */
     public static void main(String[] args)
     {
         Benchmarks b = new Benchmarks();
@@ -167,10 +176,5 @@ public class Benchmarks
             System.out.println("\t" + w.getValue() + ", " + w.getOccurrenceCount());
             if (++counter == 100) break;
         }
-    }
-
-    public long[] getResults()
-    {
-        return results.clone();
     }
 }

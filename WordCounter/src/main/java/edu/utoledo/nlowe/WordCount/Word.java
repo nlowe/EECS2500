@@ -5,7 +5,9 @@ package edu.utoledo.nlowe.WordCount;
  */
 public class Word implements Comparable<Word>
 {
+    /** The word that this object represents */
     private final String value;
+    /** The number of times this word has been encountered */
     private int count = 1;
 
     public Word(String value)
@@ -38,16 +40,25 @@ public class Word implements Comparable<Word>
         return output.reverse().toString();
     }
 
+    /**
+     * Increase the occurance count of this word by one
+     */
     public void increment()
     {
         count++;
     }
 
+    /**
+     * @return the String representation of this word
+     */
     public String getValue()
     {
         return value;
     }
 
+    /**
+     * @return the number of times this word has been encountered
+     */
     public int getOccurrenceCount()
     {
         return count;

@@ -19,24 +19,27 @@ public class BenchmarkTest
 
     /**
      * Piotr Gabryanczyk - March 27, 2009
-     *
+     * <p>
      * A regular expression matcher for hamcrest
-     *
+     * <p>
      * See https://piotrga.wordpress.com/2009/03/27/hamcrest-regex-matcher/
      */
     class RegexMatcher extends BaseMatcher<String>
     {
         private final Pattern regex;
 
-        public RegexMatcher(String regex){
+        public RegexMatcher(String regex)
+        {
             this.regex = Pattern.compile(regex);
         }
 
-        public boolean matches(Object o){
-            return regex.matcher((String)o).find();
+        public boolean matches(Object o)
+        {
+            return regex.matcher((String) o).find();
         }
 
-        public void describeTo(Description description){
+        public void describeTo(Description description)
+        {
             description.appendText('"' + regex.pattern() + '"');
         }
     }
@@ -60,12 +63,14 @@ public class BenchmarkTest
     public static final String FAILURE_REGEX = "Encountered an error while running benchmarks\n" +
             "java.io.FileNotFoundException: ThisFileTotallyDoesNotExist";
 
-    private RegexMatcher matches(String regex){
+    private RegexMatcher matches(String regex)
+    {
         return new RegexMatcher(regex);
     }
 
     @Test
-    public void successfullyRunsBenchmarks(){
+    public void successfullyRunsBenchmarks()
+    {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
 
@@ -75,11 +80,13 @@ public class BenchmarkTest
     }
 
     @Test
-    public void failsWithInvalidInput(){
+    public void failsWithInvalidInput()
+    {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setErr(new PrintStream(out));
 
-        boolean success = new Benchmarks(){
+        boolean success = new Benchmarks()
+        {
             @Override
             public InputStream getResourceInputStream() throws FileNotFoundException
             {

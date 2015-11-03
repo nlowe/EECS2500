@@ -17,7 +17,9 @@ public class BubbleSelfAdjustingWordCounter extends WordCounter
     /** The first element in the word list */
     private Node<Word> head;
 
+    /** The number of comparisons made during the lifetime of the word counter */
     private long comparisons = 0;
+    /** The number of reference changes made to the internal data structure of the word counter */
     private long referenceChanges = 0;
 
     @Override
