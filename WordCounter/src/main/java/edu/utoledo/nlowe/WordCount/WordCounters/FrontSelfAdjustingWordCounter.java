@@ -1,6 +1,7 @@
 package edu.utoledo.nlowe.WordCount.WordCounters;
 
 import edu.utoledo.nlowe.CustomDataTypes.Node;
+import edu.utoledo.nlowe.CustomDataTypes.NodeIterator;
 import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounter;
 
@@ -109,24 +110,7 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
     @Override
     public Iterator<Word> iterator()
     {
-        return new Iterator<Word>()
-        {
-            private Node<Word> element = head;
-
-            @Override
-            public boolean hasNext()
-            {
-                return element != null;
-            }
-
-            @Override
-            public Word next()
-            {
-                Word w = element.getValue();
-                element = element.next();
-                return w;
-            }
-        };
+        return new NodeIterator<>(head);
     }
 
     @Override

@@ -19,35 +19,6 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
     protected int referenceChangeCount = 0;
 
     /**
-     * An iterator for traversing the list in order
-     */
-    private final class CustomLinkedListIterator<U> implements Iterator<U>
-    {
-
-        /** The next item in the list */
-        private Node<U> pointer;
-
-        public CustomLinkedListIterator(Node<U> head)
-        {
-            this.pointer = head;
-        }
-
-        @Override
-        public boolean hasNext()
-        {
-            return pointer != null;
-        }
-
-        @Override
-        public U next()
-        {
-            U result = pointer.getValue();
-            pointer = pointer.next();
-            return result;
-        }
-    }
-
-    /**
      * @param index the index being inserted at
      * @return <code>true</code> if and only if the specified index is greater than or equal to
      * zero and less than or equal to the size of the list
@@ -70,7 +41,7 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
     @Override
     public Iterator<T> iterator()
     {
-        return new CustomLinkedListIterator<>(this.head);
+        return new NodeIterator<>(this.head);
     }
 
     /**
