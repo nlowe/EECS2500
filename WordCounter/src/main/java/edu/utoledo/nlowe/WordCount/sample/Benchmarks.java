@@ -47,7 +47,7 @@ public class Benchmarks
     /**
      * Run the specified word counter using the specified input stream
      *
-     * @param in the stream to read words from
+     * @param in      the stream to read words from
      * @param counter the word counter to benchmark
      * @throws IOException
      */
@@ -80,7 +80,8 @@ public class Benchmarks
 
     public boolean runAllBenchmarks()
     {
-        try{
+        try
+        {
             // The first pass is just to calculate overhead
             System.out.println("Benchmarking " + BENCHMARK_NAMES[OVERHEAD] + "...");
             long start = System.currentTimeMillis();
@@ -124,7 +125,8 @@ public class Benchmarks
     public static void main(String[] args)
     {
         Benchmarks b = new Benchmarks();
-        if(!b.runAllBenchmarks()){
+        if (!b.runAllBenchmarks())
+        {
             System.exit(EXIT_BENCHMARK_IO_ERROR);
         }
 
@@ -155,7 +157,7 @@ public class Benchmarks
         for (Word w : b.counters[SELF_ADJUST_FRONT - 1])
         {
             System.out.println("\t" + w.getValue() + ", " + w.getOccurrenceCount());
-            if(++counter == 100) break;
+            if (++counter == 100) break;
         }
 
         counter = 0;
@@ -163,7 +165,12 @@ public class Benchmarks
         for (Word w : b.counters[SELF_ADJUST_BUBBLE - 1])
         {
             System.out.println("\t" + w.getValue() + ", " + w.getOccurrenceCount());
-            if(++counter == 100) break;
+            if (++counter == 100) break;
         }
+    }
+
+    public long[] getResults()
+    {
+        return results.clone();
     }
 }

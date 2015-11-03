@@ -27,8 +27,11 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
             // There are no words in the list. Start the list now
             head = new Node<>(new Word(word));
             referenceChanges++;
+            return;
         }
-        else if (head.getValue().getValue().equals(word))
+
+        comparisons++;
+        if (head.getValue().getValue().equals(word))
         {
             // The word is already at the front of the list
             head.getValue().increment();
@@ -41,7 +44,6 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
             {
                 Node<Word> target = parent.next();
 
-                comparisons++;
                 if (target == null)
                 {
                     // The word is not in the list. Add it
@@ -49,11 +51,13 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
 
                     added.linkTo(head);
                     head = added;
-                    referenceChanges++;
+                    referenceChanges += 2;
 
                     return;
                 }
-                else if (target.getValue().getValue().equals(word))
+
+                comparisons++;
+                if (target.getValue().getValue().equals(word))
                 {
                     // We found the word. Increment the count
                     target.getValue().increment();

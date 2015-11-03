@@ -1,5 +1,6 @@
 package edu.utoledo.nlowe.WordCount.WordCounters;
 
+import edu.utoledo.nlowe.CustomDataTypes.Node;
 import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounter;
 
@@ -12,53 +13,8 @@ import java.util.Iterator;
 public class BubbleSelfAdjustingWordCounter extends WordCounter
 {
 
-
-
-    /**
-     * An internal double-linked node to build the structure of the word list
-     */
-    private class Node
-    {
-
-        private Node previousLink;
-        private Node link;
-
-        private final Word word;
-
-        public Node(Word word)
-        {
-            this.word = word;
-        }
-
-        public Word getWord()
-        {
-            return word;
-        }
-
-        public void linkBackwards(Node target)
-        {
-            this.previousLink = target;
-        }
-
-        public void linkForwards(Node target)
-        {
-            this.link = target;
-        }
-
-        public Node parent()
-        {
-            return previousLink;
-        }
-
-        public Node next()
-        {
-            return link;
-        }
-
-    }
-
     /** The first element in the word list */
-    private Node head;
+    private Node<Word> head;
 
     private long comparisons = 0;
     private long referenceChanges = 0;
@@ -69,67 +25,64 @@ public class BubbleSelfAdjustingWordCounter extends WordCounter
         if (head == null)
         {
             // There are no words in the list. Start the list now
-            head = new Node(new Word(word));
+            head = new Node<>(new Word(word));
             referenceChanges++;
+            return;
         }
-        else if (head.getWord().getValue().equals(word))
+
+        comparisons++;
+        if (head.getValue().getValue().equals(word))
         {
             // The word is already at the front of the list
-            head.getWord().increment();
+            head.getValue().increment();
         }
         else
         {
             // The word is somewhere else in the list, or not in the list at all
-            Node parent = head;
+            Node<Word> parentOfParent = null;
+            Node<Word> parent = head;
             do
             {
-                Node target = parent.next();
+                Node<Word> target = parent.next();
 
-                comparisons++;
                 if (target == null)
                 {
                     // The word is not in the list. Add it
-                    Node added = new Node(new Word(word));
+                    Node<Word> added = new Node<>(new Word(word));
 
-                    added.linkForwards(head);
-                    head.linkBackwards(added);
+                    added.linkTo(head);
                     head = added;
-                    referenceChanges += 3;
+                    referenceChanges += 2;
 
                     return;
                 }
-                else if (target.getWord().getValue().equals(word))
+
+                comparisons++;
+                if (target.getValue().getValue().equals(word))
                 {
                     // We found the word. Increment the count
-                    target.getWord().increment();
+                    target.getValue().increment();
 
                     // Move the node up one
                     // First, link the parent to the following node
+                    parent.linkTo(target.next());
+                    target.linkTo(parent);
 
-                    parent.linkForwards(target.next());
-                    if (target.next() != null)
-                    {
-                        target.next().linkBackwards(parent);
-                    }
-
-                    //Now, insert in-between the parent's parent and the parent
-                    if (parent.parent() == null)
+                    //Now, re-insert in-between the parent's parent and the parent
+                    if (parentOfParent == null)
                     {
                         head = target;
                     }
                     else
                     {
-                        parent.parent().linkForwards(target);
+                        parentOfParent.linkTo(target);
                     }
-                    target.linkBackwards(parent.parent());
 
-                    target.linkForwards(parent);
-                    parent.linkBackwards(target);
-
-                    referenceChanges += 6;
+                    referenceChanges += 3;
                     return;
                 }
 
+                parentOfParent = parent;
                 parent = parent.next();
             } while (parent != null);
         }
@@ -140,10 +93,10 @@ public class BubbleSelfAdjustingWordCounter extends WordCounter
     {
         long count = 0;
 
-        Node element = head;
+        Node<Word> element = head;
         do
         {
-            count += element.getWord().getOccurrenceCount();
+            count += element.getValue().getOccurrenceCount();
             element = element.next();
         } while (element != null);
 
@@ -170,7 +123,7 @@ public class BubbleSelfAdjustingWordCounter extends WordCounter
     {
         return new Iterator<Word>()
         {
-            private Node element = head;
+            private Node<Word> element = head;
 
             @Override
             public boolean hasNext()
@@ -181,7 +134,7 @@ public class BubbleSelfAdjustingWordCounter extends WordCounter
             @Override
             public Word next()
             {
-                Word w = element.getWord();
+                Word w = element.getValue();
                 element = element.next();
                 return w;
             }
