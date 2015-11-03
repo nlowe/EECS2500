@@ -48,7 +48,7 @@ public class Benchmarks
     };
 
     /** Time results are stored here */
-    private long[] results = new long[counters.length];
+    private long[] results = new long[BENCHMARK_NAMES.length];
 
     /**
      * Run the specified word counter using the specified input stream
