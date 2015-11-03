@@ -66,8 +66,9 @@ public class BubbleSelfAdjustingWordCounter extends WordCounter
                     // Move the node up one
                     // First, link the parent to the following node
                     parent.linkTo(target.next());
+                    target.linkTo(parent);
 
-                    //Now, insert in-between the parent's parent and the parent
+                    //Now, re-insert in-between the parent's parent and the parent
                     if (parentOfParent == null)
                     {
                         head = target;
@@ -76,8 +77,6 @@ public class BubbleSelfAdjustingWordCounter extends WordCounter
                     {
                         parentOfParent.linkTo(target);
                     }
-
-                    target.linkTo(parent);
 
                     referenceChanges += 3;
                     return;

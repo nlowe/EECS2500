@@ -196,7 +196,7 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
                 tail = parent;
             }
 
-            referenceChangeCount += 2;
+            referenceChangeCount++;
         }
 
         // We removed an element, decrease the cached size

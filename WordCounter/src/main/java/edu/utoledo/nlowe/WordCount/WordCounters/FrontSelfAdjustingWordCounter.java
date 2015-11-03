@@ -51,7 +51,7 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
 
                     added.linkTo(head);
                     head = added;
-                    referenceChanges++;
+                    referenceChanges += 2;
 
                     return;
                 }
