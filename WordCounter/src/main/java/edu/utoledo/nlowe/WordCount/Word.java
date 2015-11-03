@@ -22,7 +22,7 @@ public class Word implements Comparable<Word>
      */
     public static String sanitize(String input)
     {
-        char[] parts = input.toLowerCase().replace("--", "").toCharArray();
+        char[] parts = input.toLowerCase().toCharArray();
 
         StringBuilder output = new StringBuilder(parts.length);
         boolean start = false;
