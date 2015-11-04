@@ -52,10 +52,10 @@ public class BenchmarkTest
             "Benchmarks Complete\\n" +
             "Results:\\n\\n\\n" +
             "Overhead: Duration: \\d+\\.\\d+ seconds\\n" +
-            "Unsorted: Duration: \\d+\\.\\d+ seconds\\tWord Count: 31991, Distinct: 4868, Comparisons: \\d+, Reference Changes: \\d+\\n" +
-            "Sorted \\(Alphabetically\\): Duration: \\d+\\.\\d+ seconds\\tWord Count: 31991, Distinct: 4868, Comparisons: \\d+, Reference Changes: \\d+\\n" +
-            "Self-Adjusting \\(Front\\): Duration: \\d+\\.\\d+ seconds\\tWord Count: 31991, Distinct: 4868, Comparisons: \\d+, Reference Changes: \\d+\\n" +
-            "Self-Adjusting \\(Bubble\\): Duration: \\d+\\.\\d+ seconds\\tWord Count: 31991, Distinct: 4868, Comparisons: \\d+, Reference Changes: \\d+\\n" +
+            "Unsorted: Duration: \\d+\\.\\d+ seconds\\tWord Count: \\d+, Distinct: \\d+, Comparisons: \\d+, Reference Changes: \\d+\\n" +
+            "Sorted \\(Alphabetically\\): Duration: \\d+\\.\\d+ seconds\\tWord Count: \\d+, Distinct: \\d+, Comparisons: \\d+, Reference Changes: \\d+\\n" +
+            "Self-Adjusting \\(Front\\): Duration: \\d+\\.\\d+ seconds\\tWord Count: \\d+, Distinct: \\d+, Comparisons: \\d+, Reference Changes: \\d+\\n" +
+            "Self-Adjusting \\(Bubble\\): Duration: \\d+\\.\\d+ seconds\\tWord Count: \\d+, Distinct: \\d+, Comparisons: \\d+, Reference Changes: \\d+\\n" +
             "\\n----------\\n\\n" +
             "First 100 elements in Front Self-Adjusting:\\n(\\t[a-z\\-']+, \\d+\\n){100}" +
             "First 100 elements in Bubble Self-Adjusting:\\n(\\t[a-z\\-'\\!\\,]+, \\d+\\n){99}(\\t[a-z\\-'\\!\\,]+, \\d+)";

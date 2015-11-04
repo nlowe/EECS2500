@@ -25,19 +25,26 @@ public class Word implements Comparable<Word>
     public static String sanitize(String input)
     {
         char[] parts = input.toLowerCase().toCharArray();
+        int lastLetterIndex=parts.length;
 
         StringBuilder output = new StringBuilder(parts.length);
         boolean start = false;
         for (int i = parts.length - 1; i >= 0; i--)
         {
-            if (start || (parts[i] >= 'a' && parts[i] <= 'z'))
+            boolean isLetter = (parts[i] >= 'a' && parts[i] <= 'z');
+            if (start || isLetter)
             {
                 start = true;
                 output.append(parts[i]);
+                if(isLetter)
+                {
+                    lastLetterIndex = i;
+                }
             }
         }
 
-        return output.reverse().toString();
+        String temp = output.reverse().toString();
+        return temp.isEmpty() ? "" : temp.substring(lastLetterIndex);
     }
 
     /**

@@ -20,6 +20,7 @@ public class WordTest
         assertEquals("castle", Word.sanitize("castle?'"));
         assertEquals("ab-cd", Word.sanitize("ab-cd"));
         assertEquals("ab-cd", Word.sanitize("ab-cd'"));
+        assertEquals("abc--def", Word.sanitize("\",.?abc--def"));
     }
 
     @Test
