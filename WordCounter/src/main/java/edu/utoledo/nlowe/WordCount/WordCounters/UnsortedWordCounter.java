@@ -17,7 +17,7 @@ public class UnsortedWordCounter extends WordCounter
     private CustomLinkedList<Word> words = new CustomLinkedList<>();
 
     /** The number of comparisons made during the lifetime of this class */
-    private int comparisons = 0;
+    private long comparisons = 0;
 
     @Override
     public void encounter(String word)

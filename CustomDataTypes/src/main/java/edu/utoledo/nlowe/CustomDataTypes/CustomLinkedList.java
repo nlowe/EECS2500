@@ -15,8 +15,8 @@ public class CustomLinkedList<T> implements Iterable<T>, PerformanceTraceable
     /** The cached size of the list */
     protected int size = 0;
 
-    protected int comparisonCount = 0;
-    protected int referenceChangeCount = 0;
+    protected long comparisonCount = 0;
+    protected long referenceChangeCount = 0;
 
     /**
      * @param index the index being inserted at
