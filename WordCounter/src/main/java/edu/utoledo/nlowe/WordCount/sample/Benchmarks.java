@@ -57,6 +57,7 @@ public class Benchmarks
 
     /**
      * Construct the benchmark runner to run benchmarks against the specified file
+     *
      * @param file The path to the file to benchmark against
      */
     public Benchmarks(String file)
@@ -150,7 +151,7 @@ public class Benchmarks
     public static void main(String[] args)
     {
         String source = null;
-        if(args.length >= 1)
+        if (args.length >= 1)
         {
             source = args[0];
         }

@@ -25,7 +25,7 @@ public class Word implements Comparable<Word>
     public static String sanitize(String input)
     {
         char[] parts = input.toLowerCase().toCharArray();
-        int lastLetterIndex=parts.length;
+        int lastLetterIndex = parts.length;
 
         // Walk backwards until we hit a letter. Ignore everything until we get there
         StringBuilder output = new StringBuilder(parts.length);
@@ -37,7 +37,7 @@ public class Word implements Comparable<Word>
             {
                 start = true;
                 output.append(parts[i]);
-                if(isLetter)
+                if (isLetter)
                 {
                     // Remember the last index of a letter that we encountered
                     lastLetterIndex = i;
