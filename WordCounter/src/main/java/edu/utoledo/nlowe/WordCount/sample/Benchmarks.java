@@ -55,6 +55,10 @@ public class Benchmarks
         this(null);
     }
 
+    /**
+     * Construct the benchmark runner to run benchmarks against the specified file
+     * @param file The path to the file to benchmark against
+     */
     public Benchmarks(String file)
     {
         TEST_FILE = file;
@@ -71,6 +75,7 @@ public class Benchmarks
     {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(in)))
         {
+            // Read the file line by line
             String line;
             while ((line = reader.readLine()) != null)
             {
@@ -78,6 +83,7 @@ public class Benchmarks
                 {
                     String sanitized = Word.sanitize(word);
 
+                    // If, after sanitizing the word, it is not empty, submit it to the word counter
                     if (!sanitized.isEmpty() && counter != null)
                     {
                         counter.encounter(sanitized);

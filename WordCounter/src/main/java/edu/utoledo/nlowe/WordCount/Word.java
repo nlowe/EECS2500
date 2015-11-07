@@ -27,6 +27,7 @@ public class Word implements Comparable<Word>
         char[] parts = input.toLowerCase().toCharArray();
         int lastLetterIndex=parts.length;
 
+        // Walk backwards until we hit a letter. Ignore everything until we get there
         StringBuilder output = new StringBuilder(parts.length);
         boolean start = false;
         for (int i = parts.length - 1; i >= 0; i--)
@@ -38,11 +39,14 @@ public class Word implements Comparable<Word>
                 output.append(parts[i]);
                 if(isLetter)
                 {
+                    // Remember the last index of a letter that we encountered
                     lastLetterIndex = i;
                 }
             }
         }
 
+        // Reverse the temporary buffer and take the substring up until the "last" letter
+        // This cuts off all punctuation from the front of the string
         String temp = output.reverse().toString();
         return temp.isEmpty() ? "" : temp.substring(lastLetterIndex);
     }
@@ -74,13 +78,14 @@ public class Word implements Comparable<Word>
     @Override
     public int compareTo(Word o)
     {
-
+        // Compare to the value of the word instead of the word itself
         return o != null ? this.value.compareTo(o.getValue()) : 1;
     }
 
     @Override
     public boolean equals(Object obj)
     {
+        // Two words are "equal" when the string they contain is equal
         return obj != null && obj instanceof Word && this.value.equals(((Word) obj).value);
     }
 }
