@@ -61,8 +61,8 @@ public class BenchmarkTest
             "Self-Adjusting \\(Front\\): Duration: \\d+\\.\\d+ seconds\\tWord Count: \\d+, Distinct: \\d+, Comparisons: \\d+, Reference Changes: \\d+\\n" +
             "Self-Adjusting \\(Bubble\\): Duration: \\d+\\.\\d+ seconds\\tWord Count: \\d+, Distinct: \\d+, Comparisons: \\d+, Reference Changes: \\d+\\n" +
             "\\n----------\\n\\n" +
-            "First 100 elements in Front Self-Adjusting:\\n(\\t[a-z\\-']+, \\d+\\n){100}" +
-            "First 100 elements in Bubble Self-Adjusting:\\n(\\t[a-z\\-'\\!\\,]+, \\d+\\n){99}(\\t[a-z\\-'\\!\\,]+, \\d+)";
+            "First 100 elements in Front Self-Adjusting:\\n(\\t[a-z\\-']+\\t\\d+\\n){100}" +
+            "First 100 elements in Bubble Self-Adjusting:\\n(\\t[a-z\\-'\\!\\,]+\\t\\d+\\n){99}(\\t[a-z\\-'\\!\\,]+, \\d+)";
 
     public static final String FAILURE_REGEX = "Encountered an error while running benchmarks\n" +
             "java.io.FileNotFoundException: ThisFileTotallyDoesNotExist";

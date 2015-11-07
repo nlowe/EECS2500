@@ -119,18 +119,20 @@ public class Benchmarks
         try
         {
             // The first pass is just to calculate overhead
-            System.out.println("Benchmarking " + BENCHMARK_NAMES[OVERHEAD] + "...");
+            System.out.print("Benchmarking " + BENCHMARK_NAMES[OVERHEAD] + "...");
             long start = System.currentTimeMillis();
             runBenchmark(getResourceInputStream(), null);
             results[OVERHEAD] = System.currentTimeMillis() - start;
+            System.out.println((double)results[OVERHEAD] / 1000d + " seconds");
 
             // Run the rest of the benchmarks
             for (int i = 1; i < BENCHMARK_NAMES.length; i++)
             {
-                System.out.println("Benchmarking " + BENCHMARK_NAMES[i] + "...");
+                System.out.print("Benchmarking " + BENCHMARK_NAMES[i] + "...");
                 start = System.currentTimeMillis();
                 runBenchmark(getResourceInputStream(), counters[i - 1]);
                 results[i] = System.currentTimeMillis() - start;
+                System.out.println((double)results[i] / 1000d + " seconds");
             }
 
             return true;
@@ -188,7 +190,7 @@ public class Benchmarks
         System.out.println("First 100 elements in Front Self-Adjusting:");
         for (Word w : b.counters[SELF_ADJUST_FRONT - 1])
         {
-            System.out.println("\t" + w.getValue() + ", " + w.getOccurrenceCount());
+            System.out.println("\t" + w.getValue() + "\t" + w.getOccurrenceCount());
             if (++counter == 100) break;
         }
 
@@ -196,7 +198,7 @@ public class Benchmarks
         System.out.println("First 100 elements in Bubble Self-Adjusting:");
         for (Word w : b.counters[SELF_ADJUST_BUBBLE - 1])
         {
-            System.out.println("\t" + w.getValue() + ", " + w.getOccurrenceCount());
+            System.out.println("\t" + w.getValue() + "\t" + w.getOccurrenceCount());
             if (++counter == 100) break;
         }
     }
