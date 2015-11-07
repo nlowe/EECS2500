@@ -16,7 +16,7 @@ import java.io.*;
 public class Benchmarks
 {
     /** The path to the file to read. If left null, the file will be loaded from the classpath */
-    private static final String HAMLET_SOURCE = null;
+    private final String TEST_FILE;
 
     /** The token that separates words (Any whitespace) */
     public static final String WORD_SEPARATOR = "[\\s]";
@@ -49,6 +49,16 @@ public class Benchmarks
 
     /** Time results are stored here */
     private long[] results = new long[BENCHMARK_NAMES.length];
+
+    public Benchmarks()
+    {
+        this(null);
+    }
+
+    public Benchmarks(String file)
+    {
+        TEST_FILE = file;
+    }
 
     /**
      * Run the specified word counter using the specified input stream
@@ -87,9 +97,9 @@ public class Benchmarks
      */
     public InputStream getResourceInputStream() throws FileNotFoundException
     {
-        return HAMLET_SOURCE == null ?
-                Benchmarks.class.getClassLoader().getResourceAsStream("Hamlet.txt") :
-                new FileInputStream(HAMLET_SOURCE);
+        return TEST_FILE == null ?
+                Benchmarks.class.getClassLoader().getResourceAsStream("Shakespeare.txt") :
+                new FileInputStream(TEST_FILE);
     }
 
     /**
@@ -133,7 +143,13 @@ public class Benchmarks
      */
     public static void main(String[] args)
     {
-        Benchmarks b = new Benchmarks();
+        String source = null;
+        if(args.length >= 1)
+        {
+            source = args[0];
+        }
+
+        Benchmarks b = new Benchmarks(source);
         if (!b.runAllBenchmarks())
         {
             System.exit(EXIT_BENCHMARK_IO_ERROR);

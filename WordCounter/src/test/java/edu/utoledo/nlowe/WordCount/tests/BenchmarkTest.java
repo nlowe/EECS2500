@@ -3,19 +3,26 @@ package edu.utoledo.nlowe.WordCount.tests;
 import edu.utoledo.nlowe.WordCount.sample.Benchmarks;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 /**
  * Tests for the Benchmark Class
  */
 public class BenchmarkTest
 {
+
+    @Rule
+    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
     /**
      * Piotr Gabryanczyk - March 27, 2009
@@ -74,9 +81,25 @@ public class BenchmarkTest
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
 
-        Benchmarks.main(new String[]{});
+        try
+        {
+            Benchmarks.main(new String[]{new File(Benchmarks.class.getClassLoader().getResource("Hamlet.txt").toURI()).getAbsolutePath()});
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            fail();
+        }
 
         assertThat(out.toString(), matches(BENCHMARK_REGEX));
+    }
+
+    @Test
+    public void exitsWithErrorCodeWhenFileNotFoundInMain()
+    {
+        exit.expectSystemExitWithStatus(Benchmarks.EXIT_BENCHMARK_IO_ERROR);
+
+        Benchmarks.main(new String[]{"ThisFileTotallyDoesNotExist" + Math.random() + ".foobar"});
     }
 
     @Test
