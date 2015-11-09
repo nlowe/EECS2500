@@ -84,12 +84,9 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
     {
         long count = 0;
 
-        Node<Word> element = head;
-        do
-        {
-            count += element.getValue().getOccurrenceCount();
-            element = element.next();
-        } while (element != null);
+        for(Word w : this){
+            count += w.getOccurrenceCount();
+        }
 
         return count;
     }
@@ -99,12 +96,9 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
     {
         long count = 0;
 
-        Node element = head;
-        do
-        {
+        for(Word w : this){
             count++;
-            element = element.next();
-        } while (element != null);
+        }
 
         return count;
     }
