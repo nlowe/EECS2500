@@ -145,4 +145,22 @@ public class BenchmarkTest
 
     }
 
+    @Test
+    public void runsWithEmptyFile()
+    {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setErr(new PrintStream(out));
+
+        boolean success = new Benchmarks()
+        {
+            @Override
+            public InputStream getResourceInputStream() throws FileNotFoundException
+            {
+                return Benchmarks.class.getClassLoader().getResourceAsStream("Empty.txt");
+            }
+        }.runAllBenchmarks();
+
+        assertTrue(success);
+    }
+
 }
