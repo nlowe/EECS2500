@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 
 import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
@@ -72,6 +74,19 @@ public class BenchmarkTest
         return new RegexMatcher(regex);
     }
 
+    private void setTestFilePath(String target) throws NoSuchFieldException, IllegalAccessException
+    {
+        Field TEST_FILE = Benchmarks.class.getDeclaredField("TEST_FILE");
+        TEST_FILE.setAccessible(true);
+
+        Field modifiersField = Field.class.getDeclaredField("modifiers");
+
+        modifiersField.setAccessible(true);
+        modifiersField.setInt(TEST_FILE, TEST_FILE.getModifiers() & ~Modifier.FINAL);
+
+        TEST_FILE.set(null, target);
+    }
+
     @Test
     public void successfullyRunsBenchmarks()
     {
@@ -80,7 +95,8 @@ public class BenchmarkTest
 
         try
         {
-            Benchmarks.main(new String[]{new File(Benchmarks.class.getClassLoader().getResource("Hamlet.txt").toURI()).getAbsolutePath()});
+            setTestFilePath(new File(Benchmarks.class.getClassLoader().getResource("Hamlet.txt").toURI()).getAbsolutePath());
+            Benchmarks.main(new String[]{});
         }
         catch (Exception e)
         {
@@ -96,7 +112,17 @@ public class BenchmarkTest
     {
         exit.expectSystemExitWithStatus(Benchmarks.EXIT_BENCHMARK_IO_ERROR);
 
-        Benchmarks.main(new String[]{"ThisFileTotallyDoesNotExist" + Math.random() + ".foobar"});
+        try
+        {
+            setTestFilePath("ThisFileTotallyDoesNotExist" + Math.random() + ".foobar");
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            fail();
+        }
+
+        Benchmarks.main(new String[]{});
     }
 
     @Test
