@@ -17,6 +17,7 @@
         <module>libpostfix</module>
         <module>PostfixFX</module>
         <module>WordCounter</module>
+        <module>Sorting</module>
     </modules>
 
     <dependencies>
