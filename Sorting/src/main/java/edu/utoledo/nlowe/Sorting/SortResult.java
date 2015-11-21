@@ -6,16 +6,16 @@ package edu.utoledo.nlowe.Sorting;
 public class SortResult
 {
     /** The number of comparisons made during the sort */
-    public final int comparisons;
+    public final long comparisons;
     /** The number of swaps made during the sort */
-    public final int swaps;
+    public final long swaps;
     /** The time in milliseconds that the sort took to complete */
-    public final long Time;
+    public final long time;
 
-    protected SortResult(int comparisons, int swaps, long time)
+    protected SortResult(long comparisons, long swaps, long time)
     {
         this.comparisons = comparisons;
         this.swaps = swaps;
-        this.Time = time;
+        this.time = time;
     }
 }

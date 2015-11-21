@@ -16,8 +16,8 @@ public class SortEngine<T extends Comparable<T>>
     {
         long start = System.currentTimeMillis();
 
-        int comparisons = 0;
-        int swaps = 0;
+        long comparisons = 0;
+        long swaps = 0;
 
         for (int offset = 1; offset < data.length; offset++)
         {
@@ -50,8 +50,8 @@ public class SortEngine<T extends Comparable<T>>
     {
         long start = System.currentTimeMillis();
 
-        int comparisons = 0;
-        int swaps = 0;
+        long comparisons = 0;
+        long swaps = 0;
 
         // Cache the end index so we don't have to compute it on each iteration
         int endIndex = data.length - 1;
@@ -91,8 +91,8 @@ public class SortEngine<T extends Comparable<T>>
     {
         long start = System.currentTimeMillis();
 
-        int comparisons = 0;
-        int swaps = 0;
+        long comparisons = 0;
+        long swaps = 0;
 
         // Cache the end index so we don't have to compute it on each iteration
         int endIndex = data.length - 1;
@@ -136,8 +136,8 @@ public class SortEngine<T extends Comparable<T>>
     {
         long start = System.currentTimeMillis();
 
-        int comparisons = 0;
-        int swaps = 0;
+        long comparisons = 0;
+        long swaps = 0;
 
         if (startIndex < endIndex)
         {
@@ -189,8 +189,8 @@ public class SortEngine<T extends Comparable<T>>
     {
         long start = System.currentTimeMillis();
 
-        int comparisons = 0;
-        int swaps = 0;
+        long comparisons = 0;
+        long swaps = 0;
 
         int delta = partitionGenerator.generateDelta(data.length, -1);
 
