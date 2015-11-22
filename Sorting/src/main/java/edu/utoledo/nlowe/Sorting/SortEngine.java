@@ -200,12 +200,14 @@ public class SortEngine<T extends Comparable<T>>
             {
                 for (int j = i; j >= 0; j -= delta)
                 {
+                    comparisons++;
                     if (data[j].compareTo(data[j + delta]) <= 0)
                     {
                         break;
                     }
                     else
                     {
+                        swaps++;
                         swap(data, j, j + delta);
                     }
                 }
