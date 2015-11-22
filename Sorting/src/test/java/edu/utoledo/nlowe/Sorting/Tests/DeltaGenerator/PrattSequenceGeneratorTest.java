@@ -4,7 +4,7 @@ import edu.utoledo.nlowe.Sorting.DeltaGenerator.PrattSequenceGenerator;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Tests for the Pratt sequence
@@ -46,6 +46,26 @@ public class PrattSequenceGeneratorTest
         assertEquals(1, generator.generateDelta(100, 2));
         assertEquals(0, generator.generateDelta(100, 1));
         assertEquals(0, generator.generateDelta(100, 0));
+    }
 
+    @Test
+    public void throwsExceptionWhenLastDeltaJumps()
+    {
+        assertEquals(96, generator.generateDelta(100, -1));
+        assertEquals(81, generator.generateDelta(100, 96));
+        assertEquals(72, generator.generateDelta(100, 81));
+
+        try
+        {
+            generator.generateDelta(1200, 96);
+            fail();
+        }
+        catch (Exception e)
+        {
+            assertTrue(e instanceof IllegalStateException);
+            assertEquals("Unable to determine the next delta in the sequence because " +
+                    "the last delta value jumped more than expected. Construct a new generator or reset this" +
+                    "one by passing a 'lastDelta' of -1 to this method.", e.getMessage());
+        }
     }
 }
