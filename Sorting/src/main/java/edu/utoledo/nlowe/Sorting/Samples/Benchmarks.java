@@ -21,6 +21,7 @@ public class Benchmarks
     public int MAX_SIZE = 20_000;
     public int STEP = 100;
 
+    public int WARMUP_ROUNDS = 30000;
     public int SLOW_ROUNDS = 10;
     public int FAST_ROUNDS = 100;
 
@@ -75,6 +76,10 @@ public class Benchmarks
                 {
                     runner.FAST_ROUNDS = Integer.parseInt(args[++i]);
                 }
+                else if(args[i].equalsIgnoreCase("--warmup") || args[i].equalsIgnoreCase("-w"))
+                {
+                    runner.WARMUP_ROUNDS = Integer.parseInt(args[++i]);
+                }
             }
         }
         else
@@ -118,8 +123,25 @@ public class Benchmarks
         {
             writer.write(config + "\n");
         }
+
+        System.out.print("Warming up...");
         
-        System.out.println("\n\nResults:\n\n");
+        // Try to warm-up the JVM
+        long warmupStart = System.currentTimeMillis();
+        for(int i = 0; i < WARMUP_ROUNDS; i++)
+        {
+            Integer[] data = generate(5);
+            sorter.bubbleSort(data.clone());
+            sorter.insertionSort(data.clone());
+            sorter.selectionSort(data.clone());
+            sorter.quickSort(data.clone());
+
+            sorter.shellSort(data.clone(), hibbard);
+            sorter.shellSort(data.clone(), knuth);
+            sorter.shellSort(data.clone(), pratt);
+        }
+
+        System.out.println((System.currentTimeMillis() - warmupStart ) +"ms\n\nResults:\n\n");
 
         String headers = getHeaders();
         System.out.println(headers);
@@ -227,7 +249,8 @@ public class Benchmarks
         "# \tWill generate random numbers from " + RANDOM_LOWER_BOUND + " to " + RANDOM_UPPER_BOUND + "\n" +
         "# \tData size ranges from " + INITIAL_SIZE + " to " + MAX_SIZE + " in steps of " + STEP + "\n" +
         "# \tSlower sorts will have " + SLOW_ROUNDS + " rounds to average results for each size\n" +
-        "# \tFaster sorts will have " + FAST_ROUNDS + " rounds to average results for each size";
+        "# \tFaster sorts will have " + FAST_ROUNDS + " rounds to average results for each size\n" +
+        "# \tWarming up the JVM over " + WARMUP_ROUNDS + " rounds for each algorithm";
     }
 
     /**

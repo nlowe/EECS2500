@@ -26,6 +26,8 @@ public class BenchmarkTest
             "# \\tData size ranges from \\d+ to \\d+ in steps of \\d+\\n" +
             "# \\tSlower sorts will have \\d+ rounds to average results for each size\\n" +
             "# \\tFaster sorts will have \\d+ rounds to average results for each size\\n" +
+            "# \\tWarming up the JVM over \\d+ rounds for each algorithm\\n" +
+            "Warming up\\.\\.\\.\\d+ms" +
             "\\n\\nResults:\\n\\n\\n" +
             "Data Size\\tBubble Comparisons\\tBubble Swaps\\tBubble Time\\tInsertion Comparisons\\t" +
             "Insertion Swaps\\tInsertion Time\\tSelection Comparisons\\tSelection Swaps\\tSelection Time\\t" +
@@ -39,6 +41,7 @@ public class BenchmarkTest
             "# \\tData size ranges from \\d+ to \\d+ in steps of \\d+\\n" +
             "# \\tSlower sorts will have \\d+ rounds to average results for each size\\n" +
             "# \\tFaster sorts will have \\d+ rounds to average results for each size\\n" +
+            "# \\tWarming up the JVM over \\d+ rounds for each algorithm\\n" +
             "Data Size\\tBubble Comparisons\\tBubble Swaps\\tBubble Time\\tInsertion Comparisons\\t" +
             "Insertion Swaps\\tInsertion Time\\tSelection Comparisons\\tSelection Swaps\\tSelection Time\\t" +
             "Quick Comparisons\\tQuick Swaps\\tQuick Time\\tHibbard Comparisons\\tHibbard Swaps\\t" +
