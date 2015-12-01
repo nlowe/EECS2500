@@ -21,11 +21,20 @@ public class Benchmarks
     public int MAX_SIZE = 20_000;
     public int STEP = 100;
 
+    public int WARMUP_ROUNDS = 30000;
     public int SLOW_ROUNDS = 10;
     public int FAST_ROUNDS = 100;
 
     public static int RANDOM_LOWER_BOUND = 0;
     public static int RANDOM_UPPER_BOUND = 9_999_999;
+
+    private long TOTAL_BUBBLE = 0L;
+    private long TOTAL_INSERTION = 0L;
+    private long TOTAL_SELECTION = 0L;
+    private long TOTAL_QUICK = 0L;
+    private long TOTAL_HIBBARD = 0L;
+    private long TOTAL_KNUTH = 0L;
+    private long TOTAL_PRATT = 0L;
 
     private String outFile = null;
     private String delimiter = "\t";
@@ -75,6 +84,10 @@ public class Benchmarks
                 {
                     runner.FAST_ROUNDS = Integer.parseInt(args[++i]);
                 }
+                else if(args[i].equalsIgnoreCase("--warmup") || args[i].equalsIgnoreCase("-w"))
+                {
+                    runner.WARMUP_ROUNDS = Integer.parseInt(args[++i]);
+                }
             }
         }
         else
@@ -118,8 +131,25 @@ public class Benchmarks
         {
             writer.write(config + "\n");
         }
+
+        System.out.print("Warming up...");
         
-        System.out.println("\n\nResults:\n\n");
+        // Try to warm-up the JVM
+        long warmupStart = System.currentTimeMillis();
+        for(int i = 0; i < WARMUP_ROUNDS; i++)
+        {
+            Integer[] data = generate(5);
+            sorter.bubbleSort(data.clone());
+            sorter.insertionSort(data.clone());
+            sorter.selectionSort(data.clone());
+            sorter.quickSort(data.clone());
+
+            sorter.shellSort(data.clone(), hibbard);
+            sorter.shellSort(data.clone(), knuth);
+            sorter.shellSort(data.clone(), pratt);
+        }
+
+        System.out.println((System.currentTimeMillis() - warmupStart ) +"ms\n\nResults:\n\n");
 
         String headers = getHeaders();
         System.out.println(headers);
@@ -144,14 +174,33 @@ public class Benchmarks
 
             for(int i = 0; i < SLOW_ROUNDS; i++)
             {
-                bubble.add(sorter.bubbleSort(data.clone()));
-                insertion.add(sorter.insertionSort(data.clone()));
-                selection.add(sorter.selectionSort(data.clone()));
-                quick.add(sorter.quickSort(data.clone()));
+                SortResult bubbleResult = sorter.bubbleSort(data.clone());
+                TOTAL_BUBBLE += bubbleResult.time;
+                bubble.add(bubbleResult);
 
-                shellHibbard.add(sorter.shellSort(data.clone(), hibbard));
-                shellKnuth.add(sorter.shellSort(data.clone(), knuth));
-                shellPratt.add(sorter.shellSort(data.clone(), pratt));
+                SortResult insertionResult = sorter.insertionSort(data.clone());
+                TOTAL_INSERTION += insertionResult.time;
+                insertion.add(insertionResult);
+
+                SortResult selectionResult = sorter.selectionSort(data.clone());
+                TOTAL_SELECTION += selectionResult.time;
+                selection.add(selectionResult);
+
+                SortResult quickResult = sorter.quickSort(data.clone());
+                TOTAL_QUICK += quickResult.time;
+                quick.add(quickResult);
+
+                SortResult hibbardResult = sorter.shellSort(data.clone(), hibbard);
+                TOTAL_HIBBARD += hibbardResult.time;
+                shellHibbard.add(hibbardResult);
+
+                SortResult knuthResult = sorter.shellSort(data.clone(), knuth);
+                TOTAL_KNUTH += knuthResult.time;
+                shellKnuth.add(knuthResult);
+
+                SortResult prattResult = sorter.shellSort(data.clone(), pratt);
+                TOTAL_PRATT += prattResult.time;
+                shellPratt.add(prattResult);
             }
 
             // The quicker sorts use more rounds to even out the performance results
@@ -192,6 +241,16 @@ public class Benchmarks
         {
             writer.close();
         }
+
+        System.out.println("\n\nBenchmarks complete. Total runtime per algorithm:");
+        System.out.println("\tBubble: " + TOTAL_BUBBLE + "ms");
+        System.out.println("\tSelection: " + TOTAL_SELECTION + "ms");
+        System.out.println("\tInsertion: " + TOTAL_INSERTION + "ms");
+        System.out.println("\tQuick: " + TOTAL_QUICK + "ms");
+        System.out.println("\tHibbard: " + TOTAL_HIBBARD + "ms");
+        System.out.println("\tKnuth: " + TOTAL_KNUTH + "ms");
+        System.out.println("\tPratt: " + TOTAL_PRATT + "ms");
+
     }
 
     private String getHeaders()
@@ -227,7 +286,8 @@ public class Benchmarks
         "# \tWill generate random numbers from " + RANDOM_LOWER_BOUND + " to " + RANDOM_UPPER_BOUND + "\n" +
         "# \tData size ranges from " + INITIAL_SIZE + " to " + MAX_SIZE + " in steps of " + STEP + "\n" +
         "# \tSlower sorts will have " + SLOW_ROUNDS + " rounds to average results for each size\n" +
-        "# \tFaster sorts will have " + FAST_ROUNDS + " rounds to average results for each size";
+        "# \tFaster sorts will have " + FAST_ROUNDS + " rounds to average results for each size\n" +
+        "# \tWarming up the JVM over " + WARMUP_ROUNDS + " rounds for each algorithm";
     }
 
     /**

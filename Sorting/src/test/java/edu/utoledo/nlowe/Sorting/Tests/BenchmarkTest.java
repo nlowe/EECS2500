@@ -26,19 +26,30 @@ public class BenchmarkTest
             "# \\tData size ranges from \\d+ to \\d+ in steps of \\d+\\n" +
             "# \\tSlower sorts will have \\d+ rounds to average results for each size\\n" +
             "# \\tFaster sorts will have \\d+ rounds to average results for each size\\n" +
+            "# \\tWarming up the JVM over \\d+ rounds for each algorithm\\n" +
+            "Warming up\\.\\.\\.\\d+ms" +
             "\\n\\nResults:\\n\\n\\n" +
             "Data Size\\tBubble Comparisons\\tBubble Swaps\\tBubble Time\\tInsertion Comparisons\\t" +
             "Insertion Swaps\\tInsertion Time\\tSelection Comparisons\\tSelection Swaps\\tSelection Time\\t" +
             "Quick Comparisons\\tQuick Swaps\\tQuick Time\\tHibbard Comparisons\\tHibbard Swaps\\t" +
             "Hibbard Time\\tKnuth Comparisons\\tKnuth Swaps\\tKnuth Time\\tPratt Comparisons\\tPratt Swaps\\t" +
             "Pratt Time\\n" +
-            "(\\d+(\\t(\\d+)?\\.\\d+){21}\\n){10}";
+            "(\\d+(\\t(\\d+)?\\.\\d+){21}\\n){10}\\n\\n" +
+            "Benchmarks complete. Total runtime per algorithm:\\n" +
+            "\\tBubble: \\d+ms\n" +
+            "\\tSelection: \\d+ms\n" +
+            "\\tInsertion: \\d+ms\n" +
+            "\\tQuick: \\d+ms\n" +
+            "\\tHibbard: \\d+ms\n" +
+            "\\tKnuth: \\d+ms\n" +
+            "\\tPratt: \\d+ms\n";
 
     private final String OUTPUT_FILE_REGEX = "# Configuration: \\n" +
             "# \\tWill generate random numbers from \\d+ to \\d+\\n" +
             "# \\tData size ranges from \\d+ to \\d+ in steps of \\d+\\n" +
             "# \\tSlower sorts will have \\d+ rounds to average results for each size\\n" +
             "# \\tFaster sorts will have \\d+ rounds to average results for each size\\n" +
+            "# \\tWarming up the JVM over \\d+ rounds for each algorithm\\n" +
             "Data Size\\tBubble Comparisons\\tBubble Swaps\\tBubble Time\\tInsertion Comparisons\\t" +
             "Insertion Swaps\\tInsertion Time\\tSelection Comparisons\\tSelection Swaps\\tSelection Time\\t" +
             "Quick Comparisons\\tQuick Swaps\\tQuick Time\\tHibbard Comparisons\\tHibbard Swaps\\t" +
