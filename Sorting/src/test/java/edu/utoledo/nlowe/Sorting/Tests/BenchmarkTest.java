@@ -34,7 +34,15 @@ public class BenchmarkTest
             "Quick Comparisons\\tQuick Swaps\\tQuick Time\\tHibbard Comparisons\\tHibbard Swaps\\t" +
             "Hibbard Time\\tKnuth Comparisons\\tKnuth Swaps\\tKnuth Time\\tPratt Comparisons\\tPratt Swaps\\t" +
             "Pratt Time\\n" +
-            "(\\d+(\\t(\\d+)?\\.\\d+){21}\\n){10}";
+            "(\\d+(\\t(\\d+)?\\.\\d+){21}\\n){10}\\n\\n" +
+            "Benchmarks complete. Total runtime per algorithm:\\n" +
+            "\\tBubble: \\d+ms\n" +
+            "\\tSelection: \\d+ms\n" +
+            "\\tInsertion: \\d+ms\n" +
+            "\\tQuick: \\d+ms\n" +
+            "\\tHibbard: \\d+ms\n" +
+            "\\tKnuth: \\d+ms\n" +
+            "\\tPratt: \\d+ms\n";
 
     private final String OUTPUT_FILE_REGEX = "# Configuration: \\n" +
             "# \\tWill generate random numbers from \\d+ to \\d+\\n" +
