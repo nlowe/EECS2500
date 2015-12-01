@@ -8,7 +8,8 @@ course offered by the University of Toledo.
 ### Projects
 * CustomDataTypes - Abstract Data types used for almost all projects
 * Postfix calculator (`libpostfix`, `PostfixFX` is a bonus). [Project Spec](Assignments/Assignment_1.pdf)
-* Various Word Counter implementations. [Project Spec](Assignments/Assignment_2.pdf)
+* Various Word Counter implementations. [Part One](Assignments/Assignment_2.pdf) and [Part Two](Assignments/Assignment_4.pdf)
+* Various Sorting Algorithms. [Project Spec](Assignments/Assignment_3.pdf)
 
 ### License
 All projects in this repository are licensed under the MIT license unless otherwise noted
