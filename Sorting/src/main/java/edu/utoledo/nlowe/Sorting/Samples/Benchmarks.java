@@ -88,11 +88,18 @@ public class Benchmarks
                 {
                     runner.WARMUP_ROUNDS = Integer.parseInt(args[++i]);
                 }
+                else
+                {
+                    System.out.println("Unrecognized argument: " + args[i]);
+                    printHelp();
+                    return;
+                }
             }
         }
         else
         {
-            System.err.println("WARNING: Invalid number of arguments (each key must have a value). They will be ignored");
+            printHelp();
+            return;
         }
 
         if(runner.FAST_ROUNDS < runner.SLOW_ROUNDS)
@@ -288,6 +295,24 @@ public class Benchmarks
         "# \tSlower sorts will have " + SLOW_ROUNDS + " rounds to average results for each size\n" +
         "# \tFaster sorts will have " + FAST_ROUNDS + " rounds to average results for each size\n" +
         "# \tWarming up the JVM over " + WARMUP_ROUNDS + " rounds for each algorithm";
+    }
+
+    private static void printHelp()
+    {
+        System.out.println("Usage: java -Jar sorting.jar [--option\tvalue]");
+        System.out.println("Options:");
+        System.out.println("\t--out-file, -o\t<string>\tThe path to save results to");
+        System.out.println("\t--delimiter, -d\t<string>\tThe delimiter to use when printing results (default: Tab)");
+        System.out.println("\t--gen-min, -m\t<int>\tThe minimum bound on the randomly generated data (default: 0)");
+        System.out.println("\t--gen-max, -M\t<int>\tThe maximum bound on the randomly generated data (default: 9999999");
+        System.out.println("\t--initial-size, -i\t<int>\tThe initial size of the data to sort (default: 100)");
+        System.out.println("\t--max-size, -mx\t<int>\tThe maximum size of the data to sort (default: 20000)");
+        System.out.println("\t--step, -s\t<int>\tThe amount to increment the size of the data to sort by (default: 100)");
+        System.out.println("\t--slow-rounds, -r\t<int>\tThe number of rounds to average all algorithms by (default: 10)");
+        System.out.println("\t--fast-rounds, -R\t<int>\tThe number of additional rounds to average Quick sort and all shell algorithms by (default: 100)");
+        System.out.println("\t--warmup, -w\t<int>\tThe number of rounds to run each algorithm before starting the benchmark (default: 30000)");
+        System.out.println("\nFlags:");
+        System.out.println("\t--help, -h\tPrint this dialog");
     }
 
     /**
