@@ -120,8 +120,6 @@ public class Benchmarks
 
     public void runAllBenchmarks() throws IOException
     {
-        SortEngine<Integer> sorter = new SortEngine<>();
-
         HibbardSequenceGenerator hibbard = new HibbardSequenceGenerator();
         KnuthSequenceGenerator knuth = new KnuthSequenceGenerator();
         PrattSequenceGenerator pratt = new PrattSequenceGenerator();
@@ -146,14 +144,14 @@ public class Benchmarks
         for(int i = 0; i < WARMUP_ROUNDS; i++)
         {
             Integer[] data = generate(5);
-            sorter.bubbleSort(data.clone());
-            sorter.insertionSort(data.clone());
-            sorter.selectionSort(data.clone());
-            sorter.quickSort(data.clone());
+            SortEngine.bubbleSort(data.clone());
+            SortEngine.insertionSort(data.clone());
+            SortEngine.selectionSort(data.clone());
+            SortEngine.quickSort(data.clone());
 
-            sorter.shellSort(data.clone(), hibbard);
-            sorter.shellSort(data.clone(), knuth);
-            sorter.shellSort(data.clone(), pratt);
+            SortEngine.shellSort(data.clone(), hibbard);
+            SortEngine.shellSort(data.clone(), knuth);
+            SortEngine.shellSort(data.clone(), pratt);
         }
 
         System.out.println((System.currentTimeMillis() - warmupStart ) +"ms\n\nResults:\n\n");
@@ -181,31 +179,31 @@ public class Benchmarks
 
             for(int i = 0; i < SLOW_ROUNDS; i++)
             {
-                SortResult bubbleResult = sorter.bubbleSort(data.clone());
+                SortResult bubbleResult = SortEngine.bubbleSort(data.clone());
                 TOTAL_BUBBLE += bubbleResult.time;
                 bubble.add(bubbleResult);
 
-                SortResult insertionResult = sorter.insertionSort(data.clone());
+                SortResult insertionResult = SortEngine.insertionSort(data.clone());
                 TOTAL_INSERTION += insertionResult.time;
                 insertion.add(insertionResult);
 
-                SortResult selectionResult = sorter.selectionSort(data.clone());
+                SortResult selectionResult = SortEngine.selectionSort(data.clone());
                 TOTAL_SELECTION += selectionResult.time;
                 selection.add(selectionResult);
 
-                SortResult quickResult = sorter.quickSort(data.clone());
+                SortResult quickResult = SortEngine.quickSort(data.clone());
                 TOTAL_QUICK += quickResult.time;
                 quick.add(quickResult);
 
-                SortResult hibbardResult = sorter.shellSort(data.clone(), hibbard);
+                SortResult hibbardResult = SortEngine.shellSort(data.clone(), hibbard);
                 TOTAL_HIBBARD += hibbardResult.time;
                 shellHibbard.add(hibbardResult);
 
-                SortResult knuthResult = sorter.shellSort(data.clone(), knuth);
+                SortResult knuthResult = SortEngine.shellSort(data.clone(), knuth);
                 TOTAL_KNUTH += knuthResult.time;
                 shellKnuth.add(knuthResult);
 
-                SortResult prattResult = sorter.shellSort(data.clone(), pratt);
+                SortResult prattResult = SortEngine.shellSort(data.clone(), pratt);
                 TOTAL_PRATT += prattResult.time;
                 shellPratt.add(prattResult);
             }
@@ -213,11 +211,11 @@ public class Benchmarks
             // The quicker sorts use more rounds to even out the performance results
             for(int i = SLOW_ROUNDS; i < FAST_ROUNDS; i++)
             {
-                quick.add(sorter.quickSort(data.clone()));
+                quick.add(SortEngine.quickSort(data.clone()));
 
-                shellHibbard.add(sorter.shellSort(data.clone(), hibbard));
-                shellKnuth.add(sorter.shellSort(data.clone(), knuth));
-                shellPratt.add(sorter.shellSort(data.clone(), pratt));
+                shellHibbard.add(SortEngine.shellSort(data.clone(), hibbard));
+                shellKnuth.add(SortEngine.shellSort(data.clone(), knuth));
+                shellPratt.add(SortEngine.shellSort(data.clone(), pratt));
             }
 
             AverageSortResult averageBubble = new AverageSortResult(bubble);

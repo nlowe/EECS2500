@@ -3,7 +3,7 @@ package edu.utoledo.nlowe.Sorting;
 /**
  * A compilation of various sorting algorithms
  */
-public class SortEngine<T extends Comparable<T>>
+public class SortEngine
 {
 
     /**
@@ -12,7 +12,7 @@ public class SortEngine<T extends Comparable<T>>
      * @param data The data to sort
      * @return a SortResult with statistics about the operation
      */
-    public SortResult insertionSort(T[] data)
+    public static <T extends Comparable<T>> SortResult insertionSort(T[] data)
     {
         long start = System.currentTimeMillis();
 
@@ -46,7 +46,7 @@ public class SortEngine<T extends Comparable<T>>
      * @param data The data to sort
      * @return a SortResult with statistics about the operation
      */
-    public SortResult selectionSort(T[] data)
+    public static <T extends Comparable<T>> SortResult selectionSort(T[] data)
     {
         long start = System.currentTimeMillis();
 
@@ -87,7 +87,7 @@ public class SortEngine<T extends Comparable<T>>
      * @param data The data to sort
      * @return a SortResult with statistics about the operation
      */
-    public SortResult bubbleSort(T[] data)
+    public static <T extends Comparable<T>> SortResult bubbleSort(T[] data)
     {
         long start = System.currentTimeMillis();
 
@@ -120,7 +120,7 @@ public class SortEngine<T extends Comparable<T>>
      * @param data The data to sort
      * @return a SortResult with statistics about the operation
      */
-    public SortResult quickSort(T[] data)
+    public static <T extends Comparable<T>> SortResult quickSort(T[] data)
     {
         return quickSortIteration(data, 0, data.length - 1);
     }
@@ -132,7 +132,7 @@ public class SortEngine<T extends Comparable<T>>
      * @param data The data to sort
      * @return a SortResult with statistics about the operation and all recursive operations made
      */
-    private SortResult quickSortIteration(T[] data, int startIndex, int endIndex)
+    private static <T extends Comparable<T>> SortResult quickSortIteration(T[] data, int startIndex, int endIndex)
     {
         long start = System.currentTimeMillis();
 
@@ -185,7 +185,7 @@ public class SortEngine<T extends Comparable<T>>
         return new SortResult(comparisons, swaps, System.currentTimeMillis() - start);
     }
 
-    public SortResult shellSort(T[] data, ShellSortDeltaGenerator partitionGenerator)
+    public static <T extends Comparable<T>> SortResult shellSort(T[] data, ShellSortDeltaGenerator partitionGenerator)
     {
         long start = System.currentTimeMillis();
 
@@ -230,7 +230,7 @@ public class SortEngine<T extends Comparable<T>>
      * @param a    the index of the first element
      * @param b    the index of the second element
      */
-    private void swap(T[] data, int a, int b)
+    private static <T extends Comparable<T>> void swap(T[] data, int a, int b)
     {
         assert (a >= 0 && a < data.length);
         assert (b >= 0 && b < data.length);
@@ -246,7 +246,7 @@ public class SortEngine<T extends Comparable<T>>
      * @param data The array of data to check
      * @return true iff for i from 0 to data.length-1, data[i] < data[i+1]
      */
-    public boolean isSorted(T[] data)
+    public static <T extends Comparable<T>> boolean isSorted(T[] data)
     {
         for (int i = 0; i < data.length - 1; i++)
         {

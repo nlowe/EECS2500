@@ -14,22 +14,15 @@ import static org.junit.Assert.*;
  */
 public class ShellSortTest
 {
-    private SortEngine<Integer> sorter;
-
-    @Before
-    public void setUp()
-    {
-        sorter = new SortEngine<>();
-    }
 
     @Test
     public void hibbardSequenceValid()
     {
         Integer[] data = Benchmarks.generate(100);
 
-        sorter.shellSort(data, new HibbardSequenceGenerator());
+        SortEngine.shellSort(data, new HibbardSequenceGenerator());
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -37,9 +30,9 @@ public class ShellSortTest
     {
         Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
 
-        SortResult result = sorter.shellSort(data, new HibbardSequenceGenerator());
+        SortResult result = SortEngine.shellSort(data, new HibbardSequenceGenerator());
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
         assertEquals(0, result.swaps);
     }
 
@@ -48,9 +41,9 @@ public class ShellSortTest
     {
         Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
 
-        sorter.shellSort(data, new HibbardSequenceGenerator());
+        SortEngine.shellSort(data, new HibbardSequenceGenerator());
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -58,9 +51,9 @@ public class ShellSortTest
     {
         Integer[] data = Benchmarks.generate(100);
 
-        sorter.shellSort(data, new KnuthSequenceGenerator());
+        SortEngine.shellSort(data, new KnuthSequenceGenerator());
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -68,9 +61,9 @@ public class ShellSortTest
     {
         Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
 
-        SortResult result = sorter.shellSort(data, new KnuthSequenceGenerator());
+        SortResult result = SortEngine.shellSort(data, new KnuthSequenceGenerator());
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
         assertEquals(0, result.swaps);
     }
 
@@ -79,9 +72,9 @@ public class ShellSortTest
     {
         Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
 
-        sorter.shellSort(data, new KnuthSequenceGenerator());
+        SortEngine.shellSort(data, new KnuthSequenceGenerator());
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -89,9 +82,9 @@ public class ShellSortTest
     {
         Integer[] data = Benchmarks.generate(100);
 
-        sorter.shellSort(data, new PrattSequenceGenerator());
+        SortEngine.shellSort(data, new PrattSequenceGenerator());
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -99,9 +92,9 @@ public class ShellSortTest
     {
         Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
 
-        SortResult result = sorter.shellSort(data, new PrattSequenceGenerator());
+        SortResult result = SortEngine.shellSort(data, new PrattSequenceGenerator());
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
         assertEquals(0, result.swaps);
     }
 
@@ -110,8 +103,8 @@ public class ShellSortTest
     {
         Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
 
-        sorter.shellSort(data, new PrattSequenceGenerator());
+        SortEngine.shellSort(data, new PrattSequenceGenerator());
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 }

@@ -13,22 +13,15 @@ import static org.junit.Assert.*;
  */
 public class SortEngineTest
 {
-    private SortEngine<Integer> sorter;
-
-    @Before
-    public void setUp()
-    {
-        sorter = new SortEngine<>();
-    }
 
     @Test
     public void insertionSortValid()
     {
         Integer[] data = Benchmarks.generate(100);
 
-        sorter.insertionSort(data);
+        SortEngine.insertionSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -36,9 +29,9 @@ public class SortEngineTest
     {
         Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
 
-        SortResult result = sorter.insertionSort(data);
+        SortResult result = SortEngine.insertionSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
         assertEquals(0, result.swaps);
     }
 
@@ -47,9 +40,9 @@ public class SortEngineTest
     {
         Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
 
-        sorter.insertionSort(data);
+        SortEngine.insertionSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -57,9 +50,9 @@ public class SortEngineTest
     {
         Integer[] data = Benchmarks.generate(100);
 
-        sorter.selectionSort(data);
+        SortEngine.selectionSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -67,9 +60,9 @@ public class SortEngineTest
     {
         Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
 
-        SortResult result = sorter.selectionSort(data);
+        SortResult result = SortEngine.selectionSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
         assertEquals(0, result.swaps);
     }
 
@@ -78,9 +71,9 @@ public class SortEngineTest
     {
         Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
 
-        sorter.selectionSort(data);
+        SortEngine.selectionSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -88,9 +81,9 @@ public class SortEngineTest
     {
         Integer[] data = Benchmarks.generate(100);
 
-        sorter.bubbleSort(data);
+        SortEngine.bubbleSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -98,9 +91,9 @@ public class SortEngineTest
     {
         Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
 
-        SortResult result = sorter.bubbleSort(data);
+        SortResult result = SortEngine.bubbleSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
         assertEquals(0, result.swaps);
     }
 
@@ -109,9 +102,9 @@ public class SortEngineTest
     {
         Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
 
-        sorter.bubbleSort(data);
+        SortEngine.bubbleSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -119,9 +112,9 @@ public class SortEngineTest
     {
         Integer[] data = Benchmarks.generate(100);
 
-        sorter.quickSort(data);
+        SortEngine.quickSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 
     @Test
@@ -129,9 +122,9 @@ public class SortEngineTest
     {
         Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
 
-        SortResult result = sorter.quickSort(data);
+        SortResult result = SortEngine.quickSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
         assertEquals(0, result.swaps);
     }
 
@@ -140,8 +133,8 @@ public class SortEngineTest
     {
         Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
 
-        sorter.quickSort(data);
+        SortEngine.quickSort(data);
 
-        assertTrue(sorter.isSorted(data));
+        assertTrue(SortEngine.isSorted(data));
     }
 }
