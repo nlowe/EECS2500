@@ -53,9 +53,9 @@ public class PrattSequenceGenerator implements ShellSortDeltaGenerator
     @Override
     public int generateDelta(int dataSize, int lastDelta)
     {
-        // Locate the first delta for this sequence
         if (lastDelta < 0)
         {
+            // Locate the first delta for this sequence
             int i = -1;
             do
             {
@@ -67,14 +67,17 @@ public class PrattSequenceGenerator implements ShellSortDeltaGenerator
         }
         else if (lastDeltaIndex < 0)
         {
+            // We're at the end of the sequence, just return 0 to indicate we're done
             return 0;
         }
         else if (PRATT_SEQUENCE[lastDeltaIndex + 1] == lastDelta)
         {
+            // lastDeltaIndex has not changed, return the one we returned the last time
             return PRATT_SEQUENCE[lastDeltaIndex];
         }
         else if (PRATT_SEQUENCE[lastDeltaIndex] == lastDelta)
         {
+            // Find the next delta, return zero if we're done
             if (--lastDeltaIndex >= 0)
             {
                 return PRATT_SEQUENCE[lastDeltaIndex];
@@ -86,6 +89,7 @@ public class PrattSequenceGenerator implements ShellSortDeltaGenerator
         }
         else
         {
+            // This implementation doesn't support jumping to arbitrary delta values
             throw new IllegalStateException("Unable to determine the next delta in the sequence because " +
                     "the last delta value jumped more than expected. Construct a new generator or reset this" +
                     "one by passing a 'lastDelta' of -1 to this method.");

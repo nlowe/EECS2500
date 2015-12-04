@@ -40,7 +40,7 @@ public class BenchmarkTest
             "\\tHibbard: \\d+ms\n" +
             "\\tKnuth: \\d+ms\n" +
             "\\tPratt: \\d+ms\n";
-    
+
     private final String HELP_REGEX = "Usage: java -Jar sorting.jar \\[--option\\tvalue\\]\\n" +
             "Options:\\n" +
             "\\t--out-file, -o\\t<string>\\tThe path to save results to\\n" +
@@ -281,7 +281,7 @@ public class BenchmarkTest
         File readOnlyFile = new File("readonlytestfile" + System.currentTimeMillis() + Math.random() + ".tsv");
         try
         {
-            if(!readOnlyFile.createNewFile())
+            if (!readOnlyFile.createNewFile())
             {
                 fail();
             }
@@ -293,7 +293,7 @@ public class BenchmarkTest
         }
 
         // Mark it read only
-        if(!readOnlyFile.setReadOnly())
+        if (!readOnlyFile.setReadOnly())
         {
             fail();
         }

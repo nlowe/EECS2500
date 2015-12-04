@@ -3,10 +3,10 @@ package edu.utoledo.nlowe.Sorting.Tests;
 import edu.utoledo.nlowe.Sorting.Samples.Benchmarks;
 import edu.utoledo.nlowe.Sorting.SortEngine;
 import edu.utoledo.nlowe.Sorting.SortResult;
-import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for the Sort Engine
@@ -27,7 +27,7 @@ public class SortEngineTest
     @Test
     public void insertionSortValidPerfectlySorted()
     {
-        Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
+        Integer[] data = {-4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
 
         SortResult result = SortEngine.insertionSort(data);
 
@@ -38,7 +38,7 @@ public class SortEngineTest
     @Test
     public void insertionSortValidPerfectlyUnSorted()
     {
-        Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
+        Integer[] data = {5, 4, 3, 2, 1, 0, -1, -2, -3, -4};
 
         SortEngine.insertionSort(data);
 
@@ -58,7 +58,7 @@ public class SortEngineTest
     @Test
     public void selectionSortValidPerfectlySorted()
     {
-        Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
+        Integer[] data = {-4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
 
         SortResult result = SortEngine.selectionSort(data);
 
@@ -69,7 +69,7 @@ public class SortEngineTest
     @Test
     public void selectionSortValidPerfectlyUnSorted()
     {
-        Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
+        Integer[] data = {5, 4, 3, 2, 1, 0, -1, -2, -3, -4};
 
         SortEngine.selectionSort(data);
 
@@ -89,7 +89,7 @@ public class SortEngineTest
     @Test
     public void bubbleSortValidPerfectlySorted()
     {
-        Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
+        Integer[] data = {-4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
 
         SortResult result = SortEngine.bubbleSort(data);
 
@@ -100,7 +100,7 @@ public class SortEngineTest
     @Test
     public void bubbleSortValidPerfectlyUnSorted()
     {
-        Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
+        Integer[] data = {5, 4, 3, 2, 1, 0, -1, -2, -3, -4};
 
         SortEngine.bubbleSort(data);
 
@@ -120,7 +120,7 @@ public class SortEngineTest
     @Test
     public void quickSortValidPerfectlySorted()
     {
-        Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
+        Integer[] data = {-4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
 
         SortResult result = SortEngine.quickSort(data);
 
@@ -131,7 +131,7 @@ public class SortEngineTest
     @Test
     public void quickSortValidPerfectlyUnSorted()
     {
-        Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
+        Integer[] data = {5, 4, 3, 2, 1, 0, -1, -2, -3, -4};
 
         SortEngine.quickSort(data);
 

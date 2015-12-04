@@ -53,7 +53,6 @@ public class SortEngine
         long comparisons = 0;
         long swaps = 0;
 
-        // Cache the end index so we don't have to compute it on each iteration
         int endIndex = data.length - 1;
 
         for (int offset = 0; offset < endIndex; offset++)
@@ -94,7 +93,6 @@ public class SortEngine
         long comparisons = 0;
         long swaps = 0;
 
-        // Cache the end index so we don't have to compute it on each iteration
         int endIndex = data.length - 1;
 
         for (int offset = 0; offset < endIndex; offset++)
@@ -147,12 +145,14 @@ public class SortEngine
             // For simplicity, assume the value we're pivoting around is the first element in the sub array
             T pivot = data[startIndex];
 
+            // Move the pointers towards each other, swapping items along the way if needed
+            // Do this until the pointers cross
             do
             {
                 // Find an item on the lower half to swap
                 do comparisons++; while (++leftBound < data.length && data[leftBound].compareTo(pivot) < 0);
                 // Find an item on the upper half to swap
-                do comparisons++; while (data[--rightBound].compareTo(pivot) > 0);
+                do comparisons++; while (--rightBound >= 0 && data[rightBound].compareTo(pivot) > 0);
 
                 // If the pointers have not crossed, swap the elements at the pointers
                 if (leftBound < rightBound)
@@ -160,12 +160,7 @@ public class SortEngine
                     swaps++;
                     swap(data, leftBound, rightBound);
                 }
-                else
-                {
-                    // If they have, we're done 'partitioning' the sub-array
-                    break;
-                }
-            } while (true);
+            } while (leftBound < rightBound);
 
             // rightBound is now at the index the pivot value should be placed at
             // Place the pivot at the correct place in the array
@@ -185,17 +180,25 @@ public class SortEngine
         return new SortResult(comparisons, swaps, System.currentTimeMillis() - start);
     }
 
-    public static <T extends Comparable<T>> SortResult shellSort(T[] data, ShellSortDeltaGenerator partitionGenerator)
+    /**
+     * Performs an in-place shellsort using the specified delta generator
+     *
+     * @param data the data to sort
+     * @param deltaGenerator the delta generator to use
+     * @return a SortResult with statistics about the operation
+     */
+    public static <T extends Comparable<T>> SortResult shellSort(T[] data, ShellSortDeltaGenerator deltaGenerator)
     {
         long start = System.currentTimeMillis();
 
         long comparisons = 0;
         long swaps = 0;
 
-        int delta = partitionGenerator.generateDelta(data.length, -1);
+        int delta = deltaGenerator.generateDelta(data.length, -1);
 
         do
         {
+            // For each delta, compare some elements some d away and swap them as needed
             for (int i = 0; i < (data.length - delta); i++)
             {
                 for (int j = i; j >= 0; j -= delta)
@@ -214,8 +217,9 @@ public class SortEngine
             }
 
             // Generate the next delta size
-            int newDelta = partitionGenerator.generateDelta(data.length, delta);
+            int newDelta = deltaGenerator.generateDelta(data.length, delta);
 
+            // Make sure we were given a valid delta
             assert (newDelta < delta && newDelta >= 0 && newDelta <= data.length);
             delta = newDelta;
         } while (delta > 0);

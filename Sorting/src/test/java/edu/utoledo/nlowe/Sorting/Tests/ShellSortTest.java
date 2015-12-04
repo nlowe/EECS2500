@@ -1,13 +1,15 @@
 package edu.utoledo.nlowe.Sorting.Tests;
 
-import edu.utoledo.nlowe.Sorting.DeltaGenerator.*;
+import edu.utoledo.nlowe.Sorting.DeltaGenerator.HibbardSequenceGenerator;
+import edu.utoledo.nlowe.Sorting.DeltaGenerator.KnuthSequenceGenerator;
+import edu.utoledo.nlowe.Sorting.DeltaGenerator.PrattSequenceGenerator;
 import edu.utoledo.nlowe.Sorting.Samples.Benchmarks;
 import edu.utoledo.nlowe.Sorting.SortEngine;
 import edu.utoledo.nlowe.Sorting.SortResult;
-import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for Shell Sort
@@ -28,7 +30,7 @@ public class ShellSortTest
     @Test
     public void hibbardSequenceValidPerfectlySorted()
     {
-        Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
+        Integer[] data = {-4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
 
         SortResult result = SortEngine.shellSort(data, new HibbardSequenceGenerator());
 
@@ -39,7 +41,7 @@ public class ShellSortTest
     @Test
     public void hibbardSequenceValidPerfectlyUnSorted()
     {
-        Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
+        Integer[] data = {5, 4, 3, 2, 1, 0, -1, -2, -3, -4};
 
         SortEngine.shellSort(data, new HibbardSequenceGenerator());
 
@@ -59,7 +61,7 @@ public class ShellSortTest
     @Test
     public void knuthSequenceValidPerfectlySorted()
     {
-        Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
+        Integer[] data = {-4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
 
         SortResult result = SortEngine.shellSort(data, new KnuthSequenceGenerator());
 
@@ -70,7 +72,7 @@ public class ShellSortTest
     @Test
     public void knuthSequenceValidPerfectlyUnSorted()
     {
-        Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
+        Integer[] data = {5, 4, 3, 2, 1, 0, -1, -2, -3, -4};
 
         SortEngine.shellSort(data, new KnuthSequenceGenerator());
 
@@ -90,7 +92,7 @@ public class ShellSortTest
     @Test
     public void prattSequenceValidPerfectlySorted()
     {
-        Integer[] data = {-4,-3,-2,-1,0,1,2,3,4,5};
+        Integer[] data = {-4, -3, -2, -1, 0, 1, 2, 3, 4, 5};
 
         SortResult result = SortEngine.shellSort(data, new PrattSequenceGenerator());
 
@@ -101,7 +103,7 @@ public class ShellSortTest
     @Test
     public void prattSequenceValidPerfectlyUnSorted()
     {
-        Integer[] data = {5,4,3,2,1,0,-1,-2,-3,-4};
+        Integer[] data = {5, 4, 3, 2, 1, 0, -1, -2, -3, -4};
 
         SortEngine.shellSort(data, new PrattSequenceGenerator());
 

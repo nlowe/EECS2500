@@ -21,6 +21,7 @@ public class KnuthSequenceGenerator implements ShellSortDeltaGenerator
     {
         if (lastDelta < 0)
         {
+            // Generate D0
             int delta = 1;
             do
             {

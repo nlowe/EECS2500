@@ -7,8 +7,19 @@ import java.util.ArrayList;
  */
 public class AverageSortResult
 {
+    /**
+     * The average number of comparisons made
+     */
     public final double comparisons;
+
+    /**
+     * The average number of swaps made
+     */
     public final double swaps;
+
+    /**
+     * The average time taken (in milliseconds)
+     */
     public final double time;
 
     public AverageSortResult(ArrayList<SortResult> results)
@@ -24,8 +35,8 @@ public class AverageSortResult
             time += result.time;
         }
 
-        this.comparisons = comparisons/(double)results.size();
-        this.swaps = swaps/(double)results.size();
-        this.time = time/(double)results.size();
+        this.comparisons = comparisons / (double) results.size();
+        this.swaps = swaps / (double) results.size();
+        this.time = time / (double) results.size();
     }
 }

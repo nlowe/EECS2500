@@ -7,7 +7,9 @@ import edu.utoledo.nlowe.Sorting.DeltaGenerator.PrattSequenceGenerator;
 import edu.utoledo.nlowe.Sorting.SortEngine;
 import edu.utoledo.nlowe.Sorting.SortResult;
 
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -17,26 +19,43 @@ import java.util.Random;
  */
 public class Benchmarks
 {
+    /** The initial size of the data to sort */
     public int INITIAL_SIZE = 100;
+    /** The maximum size of the data to sort */
     public int MAX_SIZE = 20_000;
+    /** How much to change the data size by each iteration*/
     public int STEP = 100;
 
+    /** The number of iterations to run each algorithm before starting benchmarks */
     public int WARMUP_ROUNDS = 30000;
+    /** The number of iterations to average sort results over for the slow sorts */
     public int SLOW_ROUNDS = 10;
+    /** The number of of iterations to average sort results over for the fast sorts*/
     public int FAST_ROUNDS = 100;
 
+    /** The lower bound of the random numbers to generate when creating data to sort */
     public static int RANDOM_LOWER_BOUND = 0;
+    /** The upper bound of the random numbers to generate when creating data to sort */
     public static int RANDOM_UPPER_BOUND = 9_999_999;
 
+    /** The total time taken on Bubble Sort */
     private long TOTAL_BUBBLE = 0L;
+    /** The total time taken on Insertion Sort */
     private long TOTAL_INSERTION = 0L;
+    /** The total time taken on Selection Sort */
     private long TOTAL_SELECTION = 0L;
+    /** The total time taken on Quick Sort */
     private long TOTAL_QUICK = 0L;
+    /** The total time taken on Shell (Hibbard) */
     private long TOTAL_HIBBARD = 0L;
+    /** The total time taken on Shell (Knuth) */
     private long TOTAL_KNUTH = 0L;
+    /** The total time taken on Shell (Pratt) */
     private long TOTAL_PRATT = 0L;
 
+    /** The file to write results to */
     private String outFile = null;
+    /** The delimiter to print between each result */
     private String delimiter = "\t";
 
     public static void main(String[] args)
@@ -44,47 +63,47 @@ public class Benchmarks
         Benchmarks runner = new Benchmarks();
 
         // Parse command line arguments, if any
-        if(args.length % 2 == 0)
+        if (args.length % 2 == 0)
         {
-            for(int i=0; i<args.length; i++)
+            for (int i = 0; i < args.length; i++)
             {
-                if(args[i].equalsIgnoreCase("--out-file") || args[i].equalsIgnoreCase("-o"))
+                if (args[i].equalsIgnoreCase("--out-file") || args[i].equalsIgnoreCase("-o"))
                 {
                     runner.outFile = args[++i];
                 }
-                else if(args[i].equalsIgnoreCase("--delimiter") || args[i].equalsIgnoreCase("-d"))
+                else if (args[i].equalsIgnoreCase("--delimiter") || args[i].equalsIgnoreCase("-d"))
                 {
                     runner.delimiter = args[++i];
                 }
-                else if(args[i].equalsIgnoreCase("--gen-min") || args[i].equals("-m"))
+                else if (args[i].equalsIgnoreCase("--gen-min") || args[i].equals("-m"))
                 {
                     RANDOM_LOWER_BOUND = Integer.parseInt(args[++i]);
                 }
-                else if(args[i].equalsIgnoreCase("--gen-max") || args[i].equals("-M"))
+                else if (args[i].equalsIgnoreCase("--gen-max") || args[i].equals("-M"))
                 {
                     RANDOM_UPPER_BOUND = Integer.parseInt(args[++i]);
                 }
-                else if(args[i].equalsIgnoreCase("--initial-size") || args[i].equalsIgnoreCase("-i"))
+                else if (args[i].equalsIgnoreCase("--initial-size") || args[i].equalsIgnoreCase("-i"))
                 {
                     runner.INITIAL_SIZE = Integer.parseInt(args[++i]);
                 }
-                else if(args[i].equalsIgnoreCase("--max-size") || args[i].equalsIgnoreCase("-mx"))
+                else if (args[i].equalsIgnoreCase("--max-size") || args[i].equalsIgnoreCase("-mx"))
                 {
                     runner.MAX_SIZE = Integer.parseInt(args[++i]);
                 }
-                else if(args[i].equalsIgnoreCase("--step") || args[i].equalsIgnoreCase("-s"))
+                else if (args[i].equalsIgnoreCase("--step") || args[i].equalsIgnoreCase("-s"))
                 {
                     runner.STEP = Integer.parseInt(args[++i]);
                 }
-                else if(args[i].equalsIgnoreCase("--slow-rounds") || args[i].equalsIgnoreCase("-r"))
+                else if (args[i].equalsIgnoreCase("--slow-rounds") || args[i].equalsIgnoreCase("-r"))
                 {
                     runner.SLOW_ROUNDS = Integer.parseInt(args[++i]);
                 }
-                else if(args[i].equalsIgnoreCase("--fast-rounds") || args[i].equalsIgnoreCase("-f"))
+                else if (args[i].equalsIgnoreCase("--fast-rounds") || args[i].equalsIgnoreCase("-f"))
                 {
                     runner.FAST_ROUNDS = Integer.parseInt(args[++i]);
                 }
-                else if(args[i].equalsIgnoreCase("--warmup") || args[i].equalsIgnoreCase("-w"))
+                else if (args[i].equalsIgnoreCase("--warmup") || args[i].equalsIgnoreCase("-w"))
                 {
                     runner.WARMUP_ROUNDS = Integer.parseInt(args[++i]);
                 }
@@ -102,7 +121,7 @@ public class Benchmarks
             return;
         }
 
-        if(runner.FAST_ROUNDS < runner.SLOW_ROUNDS)
+        if (runner.FAST_ROUNDS < runner.SLOW_ROUNDS)
         {
             System.err.println("WARNING: The number of rounds for the faster sorts is lower than that for the slow sorts! The faster sorts will still run as many rounds as the slow sorts!");
         }
@@ -118,30 +137,38 @@ public class Benchmarks
         }
     }
 
+    /**
+     * Runs benchmarks against all sorting algorithms with the parameters specified in this instance
+     * @throws IOException
+     */
     public void runAllBenchmarks() throws IOException
     {
+        // Initialize the shell sequence generators
         HibbardSequenceGenerator hibbard = new HibbardSequenceGenerator();
         KnuthSequenceGenerator knuth = new KnuthSequenceGenerator();
         PrattSequenceGenerator pratt = new PrattSequenceGenerator();
 
+        // Setup the output file if specified
         PrintWriter writer = null;
-        if(outFile != null){
+        if (outFile != null)
+        {
             writer = new PrintWriter(new FileWriter(outFile));
         }
 
+        // Print the benchmark configuration
         String config = getConfigString();
         System.out.println(config);
 
-        if(writer != null)
+        if (writer != null)
         {
             writer.write(config + "\n");
         }
 
         System.out.print("Warming up...");
-        
+
         // Try to warm-up the JVM
         long warmupStart = System.currentTimeMillis();
-        for(int i = 0; i < WARMUP_ROUNDS; i++)
+        for (int i = 0; i < WARMUP_ROUNDS; i++)
         {
             Integer[] data = generate(5);
             SortEngine.bubbleSort(data.clone());
@@ -154,30 +181,35 @@ public class Benchmarks
             SortEngine.shellSort(data.clone(), pratt);
         }
 
-        System.out.println((System.currentTimeMillis() - warmupStart ) +"ms\n\nResults:\n\n");
+        System.out.println((System.currentTimeMillis() - warmupStart) + "ms\n\nResults:\n\n");
 
+        // Print Column headers
         String headers = getHeaders();
         System.out.println(headers);
 
-        if(writer != null)
+        if (writer != null)
         {
             writer.write(headers + "\n");
         }
 
-        for(int size=INITIAL_SIZE; size<= MAX_SIZE; size += STEP)
+        // Benchmark all the things
+        for (int size = INITIAL_SIZE; size <= MAX_SIZE; size += STEP)
         {
             Integer[] data = generate(size);
 
+            // Each iteration will store intermediate results in these lists
+            // That way, we can average the results for each data size over many rounds
             ArrayList<SortResult> bubble = new ArrayList<>(SLOW_ROUNDS);
             ArrayList<SortResult> insertion = new ArrayList<>(SLOW_ROUNDS);
             ArrayList<SortResult> selection = new ArrayList<>(SLOW_ROUNDS);
             ArrayList<SortResult> quick = new ArrayList<>(FAST_ROUNDS);
-            
+
             ArrayList<SortResult> shellHibbard = new ArrayList<>(FAST_ROUNDS);
             ArrayList<SortResult> shellKnuth = new ArrayList<>(FAST_ROUNDS);
             ArrayList<SortResult> shellPratt = new ArrayList<>(FAST_ROUNDS);
 
-            for(int i = 0; i < SLOW_ROUNDS; i++)
+            // Each sort gets run at least SLOW_ROUNDS rounds
+            for (int i = 0; i < SLOW_ROUNDS; i++)
             {
                 SortResult bubbleResult = SortEngine.bubbleSort(data.clone());
                 TOTAL_BUBBLE += bubbleResult.time;
@@ -209,7 +241,7 @@ public class Benchmarks
             }
 
             // The quicker sorts use more rounds to even out the performance results
-            for(int i = SLOW_ROUNDS; i < FAST_ROUNDS; i++)
+            for (int i = SLOW_ROUNDS; i < FAST_ROUNDS; i++)
             {
                 quick.add(SortEngine.quickSort(data.clone()));
 
@@ -218,6 +250,7 @@ public class Benchmarks
                 shellPratt.add(SortEngine.shellSort(data.clone(), pratt));
             }
 
+            // Calculate the average results
             AverageSortResult averageBubble = new AverageSortResult(bubble);
             AverageSortResult averageInsertion = new AverageSortResult(insertion);
             AverageSortResult averageSelection = new AverageSortResult(selection);
@@ -231,18 +264,18 @@ public class Benchmarks
                     size, averageBubble, averageInsertion,
                     averageSelection, averageQuick, averageHibbard,
                     averageKnuth, averagePratt
-            );
+                                            );
 
-            // Print the intermediate results
+            // Print the results for this data size
             System.out.println(results);
-            if(writer != null)
+            if (writer != null)
             {
                 writer.write(results + "\n");
                 writer.flush();
             }
         }
 
-        if(writer != null)
+        if (writer != null)
         {
             writer.close();
         }
@@ -258,18 +291,24 @@ public class Benchmarks
 
     }
 
+    /**
+     * @return the column headers to print to standard output / file
+     */
     private String getHeaders()
     {
         return "Data Size" + delimiter +
-            "Bubble Comparisons" + delimiter + "Bubble Swaps" + delimiter + "Bubble Time" + delimiter +
-            "Insertion Comparisons" + delimiter + "Insertion Swaps" + delimiter + "Insertion Time" + delimiter +
-            "Selection Comparisons" + delimiter + "Selection Swaps" + delimiter + "Selection Time" + delimiter +
-            "Quick Comparisons" + delimiter + "Quick Swaps" + delimiter + "Quick Time" + delimiter +
-            "Hibbard Comparisons" + delimiter + "Hibbard Swaps" + delimiter + "Hibbard Time" + delimiter +
-            "Knuth Comparisons" + delimiter + "Knuth Swaps" + delimiter + "Knuth Time" + delimiter +
-            "Pratt Comparisons" + delimiter + "Pratt Swaps" + delimiter + "Pratt Time";
+                "Bubble Comparisons" + delimiter + "Bubble Swaps" + delimiter + "Bubble Time" + delimiter +
+                "Insertion Comparisons" + delimiter + "Insertion Swaps" + delimiter + "Insertion Time" + delimiter +
+                "Selection Comparisons" + delimiter + "Selection Swaps" + delimiter + "Selection Time" + delimiter +
+                "Quick Comparisons" + delimiter + "Quick Swaps" + delimiter + "Quick Time" + delimiter +
+                "Hibbard Comparisons" + delimiter + "Hibbard Swaps" + delimiter + "Hibbard Time" + delimiter +
+                "Knuth Comparisons" + delimiter + "Knuth Swaps" + delimiter + "Knuth Time" + delimiter +
+                "Pratt Comparisons" + delimiter + "Pratt Swaps" + delimiter + "Pratt Time";
     }
 
+    /**
+     * @return A string representing the specified input data
+     */
     private String getResultString(
             int dataSize, AverageSortResult bubble, AverageSortResult insertion, AverageSortResult selection, AverageSortResult quick,
             AverageSortResult hibbard, AverageSortResult knuth, AverageSortResult pratt
@@ -285,16 +324,22 @@ public class Benchmarks
                 pratt.comparisons + delimiter + pratt.swaps + delimiter + pratt.time;
     }
 
+    /**
+     * @return the formatted configuration options for this instance
+     */
     private String getConfigString()
     {
         return "# Configuration: \n" +
-        "# \tWill generate random numbers from " + RANDOM_LOWER_BOUND + " to " + RANDOM_UPPER_BOUND + "\n" +
-        "# \tData size ranges from " + INITIAL_SIZE + " to " + MAX_SIZE + " in steps of " + STEP + "\n" +
-        "# \tSlower sorts will have " + SLOW_ROUNDS + " rounds to average results for each size\n" +
-        "# \tFaster sorts will have " + FAST_ROUNDS + " rounds to average results for each size\n" +
-        "# \tWarming up the JVM over " + WARMUP_ROUNDS + " rounds for each algorithm";
+                "# \tWill generate random numbers from " + RANDOM_LOWER_BOUND + " to " + RANDOM_UPPER_BOUND + "\n" +
+                "# \tData size ranges from " + INITIAL_SIZE + " to " + MAX_SIZE + " in steps of " + STEP + "\n" +
+                "# \tSlower sorts will have " + SLOW_ROUNDS + " rounds to average results for each size\n" +
+                "# \tFaster sorts will have " + FAST_ROUNDS + " rounds to average results for each size\n" +
+                "# \tWarming up the JVM over " + WARMUP_ROUNDS + " rounds for each algorithm";
     }
 
+    /**
+     * Prints the command line help to standard output
+     */
     private static void printHelp()
     {
         System.out.println("Usage: java -Jar sorting.jar [--option\tvalue]");

@@ -7,7 +7,7 @@ public interface ShellSortDeltaGenerator
 {
     /**
      * Generate the next delta value for shell sort.
-     *
+     * <p>
      * The following properties should hold:
      * <ul>
      *     <li>Successive calls with the same data size and lastDelta should return the same delta</li>
@@ -16,11 +16,11 @@ public interface ShellSortDeltaGenerator
      *     <li>the returned delta should not be larger than the size of the input data</li>
      *     <li>The generated sequence eventually collapses to 0, indicating that the list should now be sorted</li>
      * </ul>
-     *
+     * <p>
      * The behavior of the generator is undefined if lastDelta was returned some <code>n</code> iterations prior.
      * This will never happen in our implementation of shell sort
      *
-     * @param dataSize The size of the input data being sorted
+     * @param dataSize  The size of the input data being sorted
      * @param lastDelta The size of the last delta returned by the generator
      * @return The next delta in the sequence
      */

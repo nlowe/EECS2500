@@ -4,7 +4,7 @@ import edu.utoledo.nlowe.Sorting.DeltaGenerator.HibbardSequenceGenerator;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for the HibbardSequenceGenerator
