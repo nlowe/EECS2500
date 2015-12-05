@@ -1,7 +1,7 @@
 package edu.utoledo.nlowe.WordCount.WordCounters;
 
 import edu.utoledo.nlowe.CustomDataTypes.Node;
-import edu.utoledo.nlowe.CustomDataTypes.NodeIterator;
+import edu.utoledo.nlowe.CustomDataTypes.Iterator.NodeIterator;
 import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounter;
 

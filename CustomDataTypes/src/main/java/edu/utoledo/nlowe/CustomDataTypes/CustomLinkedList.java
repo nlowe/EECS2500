@@ -1,5 +1,7 @@
 package edu.utoledo.nlowe.CustomDataTypes;
 
+import edu.utoledo.nlowe.CustomDataTypes.Iterator.NodeIterator;
+
 import java.util.Iterator;
 
 /**
