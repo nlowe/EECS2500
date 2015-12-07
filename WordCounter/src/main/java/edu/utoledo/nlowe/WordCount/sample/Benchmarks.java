@@ -90,7 +90,7 @@ public class Benchmarks
     public InputStream getResourceInputStream() throws FileNotFoundException
     {
         return TEST_FILE == null || TEST_FILE.isEmpty() ?
-                Benchmarks.class.getClassLoader().getResourceAsStream("Hamlet-Small.txt") :
+                Benchmarks.class.getClassLoader().getResourceAsStream("Shakespeare.txt") :
                 new FileInputStream(TEST_FILE);
     }
 
