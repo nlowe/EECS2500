@@ -12,7 +12,7 @@ public class InorderBinaryTreeIterator<K extends Comparable<K>, V> extends Binar
     /**
      * The traversal stack for this iterator.
      *
-     * The key is <code>True</code> when the node's right branch has been visited
+     * The key is <code>True</code> when the node has been visited
      */
     private final CustomStack<KeyValuePair<BinaryTreeNode<K, V>, Boolean>> traversalStack;
 
@@ -20,67 +20,59 @@ public class InorderBinaryTreeIterator<K extends Comparable<K>, V> extends Binar
     {
         super(head);
         traversalStack = new CustomStack<>();
+        traversalStack.push(new KeyValuePair<>(head, false));
+
+        // Navigate to the first node to visit
+        if(head != null)
+        {
+            moveLeft();
+        }
+    }
+
+    /**
+     * Moves the <code>nextNode</code> pointer as far left from the current node as possible
+     */
+    private void moveLeft()
+    {
+        while (traversalStack.peek().getKey().getLeftBranch() != null)
+        {
+            nextNode = traversalStack.peek().getKey().getLeftBranch();
+            traversalStack.push(new KeyValuePair<>(nextNode, false));
+        }
     }
 
     @Override
     public KeyValuePair<K, V> next()
     {
-        if(traversalStack.size() > 0 && nextNode.equals(traversalStack.peek().getKey()))
-        {
-            if(traversalStack.peek().getValue())
-            {
-                // We've already printed this node, we need to continue to go "up"
-                do
-                {
-                    traversalStack.pop();
-                    nextNode = traversalStack.peek().getKey();
-                }while (traversalStack.size() > 0 && traversalStack.peek().getValue());
-            }
-
-            KeyValuePair<K, V> result = nextNode.getPayload();
-            traversalStack.peek().setValue(true);
-
-            if(nextNode.getRightBranch() != null)
-            {
-                // Visit the right branch next
-                nextNode = nextNode.getRightBranch();
-            }
-            else
-            {
-                traversalStack.pop();
-
-                // Visit the next thing on the stack next
-                if(traversalStack.size() > 0)
-                {
-                    nextNode = traversalStack.peek().getKey();
-                }else
-                {
-                    nextNode = null;
-                }
-            }
-
-            return result;
-        }
-
-
-        // Visit the left branch first
-        while (nextNode.getLeftBranch() != null)
-        {
-            traversalStack.push(new KeyValuePair<>(nextNode, false));
-            nextNode = nextNode.getLeftBranch();
-        }
-
         KeyValuePair<K, V> result = nextNode.getPayload();
+        traversalStack.peek().setValue(true);
 
-        if(traversalStack.size() > 0)
+        if(nextNode.getRightBranch() != null)
         {
-            // Visit the parent node next, since we just finished visiting the left branch
-            nextNode = traversalStack.peek().getKey();
+            // go right next
+            traversalStack.peek().setValue(true);
+            nextNode = nextNode.getRightBranch();
+            traversalStack.push(new KeyValuePair<>(nextNode, false));
+            moveLeft();
         }
         else
         {
-            // We're done, nothing left to visit
-            nextNode = null;
+            // go up next
+            while (traversalStack.size() > 0 && traversalStack.peek().getValue())
+            {
+                nextNode = traversalStack.pop().getKey();
+            }
+
+            // The next node is now on the top of the stack
+            // If the stack is empty, we're done
+            if(traversalStack.size() > 0)
+            {
+                nextNode = traversalStack.peek().getKey();
+            }
+            else
+            {
+                nextNode = null;
+            }
         }
 
         return result;

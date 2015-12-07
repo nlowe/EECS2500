@@ -72,7 +72,7 @@ public class BinarySearchTreeMapTest
 
         int count = 0;
 
-        while(count < 500)
+        while(count < bigTree.getNodeCount())
         {
             count++;
 
@@ -92,6 +92,9 @@ public class BinarySearchTreeMapTest
                 fail();
             }
 
+            preOrder.next();
+            inOrder.next();
+            postOrder.next();
         }
 
         assertFalse(preOrder.hasNext());
