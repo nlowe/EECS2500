@@ -19,36 +19,66 @@ public class PostorderBinaryTreeIterator<K extends Comparable<K>, V> extends Bin
     {
         super(head);
         traversalStack = new CustomStack<>();
+        traversalStack.push(new KeyValuePair<>(head, false));
+
+        spider();
     }
 
+    /**
+     * Moves the next node pointer left as far as possible then
+     * right once if possible until we reach a leaf
+     */
+    private void spider()
+    {
+        moveLeftmost();
+
+        while (nextNode.getRightBranch() != null)
+        {
+            traversalStack.peek().setValue(true);
+            nextNode = nextNode.getRightBranch();
+            traversalStack.push(new KeyValuePair<>(nextNode, false));
+            moveLeftmost();
+        }
+    }
+
+    /**
+     * Moves the next node pointer as far left as possible
+     */
     private void moveLeftmost()
     {
-        while (nextNode != null)
+        while (nextNode.getLeftBranch() != null)
         {
-            traversalStack.push(new KeyValuePair<>(nextNode, false));
             nextNode = nextNode.getLeftBranch();
+            traversalStack.push(new KeyValuePair<>(nextNode, false));
         }
     }
 
     @Override
     public KeyValuePair<K, V> next()
     {
-        if(traversalStack.size() == 0)
+        KeyValuePair<K, V> result = traversalStack.pop().getKey().getPayload();
+
+        if(traversalStack.size() > 0)
         {
-            moveLeftmost();
+            nextNode = traversalStack.peek().getKey();
+
+            if(traversalStack.peek().getKey().getRightBranch() != null && !traversalStack.peek().getValue())
+            {
+                // Go right next since we haven't visited the right branch
+                traversalStack.peek().setValue(true);
+                nextNode = traversalStack.peek().getKey().getRightBranch();
+                traversalStack.push(new KeyValuePair<>(nextNode, false));
+
+                // If the node we're scheduled to visit next isn't a leaf, find the next leaf
+                spider();
+            }
+        }
+        else
+        {
+            // Nothing left, we're done
+            nextNode = null;
         }
 
-        // If there is no right branch, or we already visited it, we can "visit" this node
-        if(traversalStack.peek().getKey().getRightBranch() == null || traversalStack.peek().getValue())
-        {
-            return traversalStack.pop().getKey().getPayload();
-        }else{
-            // Go to the leftmost branch on the right subtree
-            traversalStack.peek().setValue(true);
-            nextNode = traversalStack.peek().getKey().getRightBranch();
-            moveLeftmost();
-
-            return next();
-        }
+        return result;
     }
 }
