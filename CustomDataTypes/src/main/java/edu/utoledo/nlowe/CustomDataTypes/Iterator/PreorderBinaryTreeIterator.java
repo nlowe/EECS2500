@@ -9,44 +9,67 @@ import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
  */
 public class PreorderBinaryTreeIterator<K extends Comparable<K>, V> extends BinaryTreeIterator<K, V>
 {
-    protected final CustomStack<BinaryTreeNode<K, V>> traversalStack;
+    /**
+     * The traversal stack
+     *
+     * The value is <code>true</code> when a node's right branch has been visited
+     */
+    protected final CustomStack<KeyValuePair<BinaryTreeNode<K, V>, Boolean>> traversalStack;
 
     public PreorderBinaryTreeIterator(BinaryTreeNode<K, V> head)
     {
         super(head);
         traversalStack = new CustomStack<>();
+        traversalStack.push(new KeyValuePair<>(head, false));
     }
 
-    @Override
-    public boolean hasNext()
-    {
-        return nextNode != null && traversalStack.size() > 0;
-    }
+
 
     @Override
     public KeyValuePair<K, V> next()
     {
         // "Visit" this node
         KeyValuePair<K, V> payload = nextNode.getPayload();
-        traversalStack.push(nextNode);
 
         if(nextNode.getLeftBranch() != null)
         {
-            // Go left next, if we can
+            // Visit the left branch next
             nextNode = nextNode.getLeftBranch();
+            traversalStack.push(new KeyValuePair<>(nextNode, false));
         }
         else if(nextNode.getRightBranch() != null)
         {
-            // go right next, if we can
+            // visit the right branch next
             nextNode = nextNode.getRightBranch();
+            traversalStack.peek().setValue(true);
+            traversalStack.push(new KeyValuePair<>(nextNode, false));
         }
         else
         {
+            // go Up and find a node that we haven't visted the right branch of
             do
             {
-                // Try to go up and right. If we can't we're done iterating
-                nextNode = traversalStack.pop().getRightBranch();
-            }while (traversalStack.size() > 0 && nextNode == null);
+                nextNode = traversalStack.pop().getKey();
+            }while(
+                traversalStack.size() > 0 &&
+                (
+                        traversalStack.peek().getKey().getRightBranch() == null ||
+                        traversalStack.peek().getValue()
+                )
+            );
+
+            if(traversalStack.size() > 0)
+            {
+                // Go right next
+                nextNode = traversalStack.peek().getKey().getRightBranch();
+                traversalStack.peek().setValue(true);
+                traversalStack.push(new KeyValuePair<>(nextNode, false));
+            }
+            else
+            {
+                // We're done
+                nextNode = null;
+            }
         }
 
         return payload;
