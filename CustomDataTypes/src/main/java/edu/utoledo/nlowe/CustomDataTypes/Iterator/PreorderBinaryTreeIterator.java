@@ -1,16 +1,20 @@
 package edu.utoledo.nlowe.CustomDataTypes.Iterator;
 
+import edu.utoledo.nlowe.CustomDataTypes.CustomStack;
 import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
-import edu.utoledo.nlowe.CustomDataTypes.TreeNode;
+import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
 
 /**
  * An iterator that traverses a tree in pre-order
  */
-public class PreorderTreeIterator<K extends Comparable<K>, V> extends TreeIterator<K, V>
+public class PreorderBinaryTreeIterator<K extends Comparable<K>, V> extends BinaryTreeIterator<K, V>
 {
-    public PreorderTreeIterator(TreeNode<K, V> head)
+    protected final CustomStack<BinaryTreeNode<K, V>> traversalStack;
+
+    public PreorderBinaryTreeIterator(BinaryTreeNode<K, V> head)
     {
         super(head);
+        traversalStack = new CustomStack<>();
     }
 
     @Override

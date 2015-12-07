@@ -2,10 +2,7 @@ package edu.utoledo.nlowe.WordCount.sample;
 
 import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounter;
-import edu.utoledo.nlowe.WordCount.WordCounters.BubbleSelfAdjustingWordCounter;
-import edu.utoledo.nlowe.WordCount.WordCounters.FrontSelfAdjustingWordCounter;
-import edu.utoledo.nlowe.WordCount.WordCounters.SortedWordCounter;
-import edu.utoledo.nlowe.WordCount.WordCounters.UnsortedWordCounter;
+import edu.utoledo.nlowe.WordCount.WordCounters.*;
 
 import java.io.*;
 
@@ -29,6 +26,7 @@ public class Benchmarks
     public static final int SORTED = 2;
     public static final int SELF_ADJUST_FRONT = 3;
     public static final int SELF_ADJUST_BUBBLE = 4;
+    public static final int BINARY_SEARCH_TREE = 5;
 
     /** The names of all benchmarks */
     public static final String[] BENCHMARK_NAMES = {
@@ -36,7 +34,8 @@ public class Benchmarks
             "Unsorted",
             "Sorted (Alphabetically)",
             "Self-Adjusting (Front)",
-            "Self-Adjusting (Bubble)"
+            "Self-Adjusting (Bubble)",
+            "Binary Search Tree",
     };
 
     /** All word counters to benchmark */
@@ -44,7 +43,8 @@ public class Benchmarks
             new UnsortedWordCounter(),
             new SortedWordCounter(),
             new FrontSelfAdjustingWordCounter(),
-            new BubbleSelfAdjustingWordCounter()
+            new BubbleSelfAdjustingWordCounter(),
+            new BinarySearchTreeWordCounter()
     };
 
     /** Time results are stored here */
@@ -90,7 +90,7 @@ public class Benchmarks
     public InputStream getResourceInputStream() throws FileNotFoundException
     {
         return TEST_FILE == null || TEST_FILE.isEmpty() ?
-                Benchmarks.class.getClassLoader().getResourceAsStream("Shakespeare.txt") :
+                Benchmarks.class.getClassLoader().getResourceAsStream("Hamlet-Small.txt") :
                 new FileInputStream(TEST_FILE);
     }
 

@@ -1,9 +1,9 @@
 package edu.utoledo.nlowe.CustomDataTypes;
 
-import edu.utoledo.nlowe.CustomDataTypes.Iterator.InorderTreeIterator;
-import edu.utoledo.nlowe.CustomDataTypes.Iterator.PostorderTreeIterator;
-import edu.utoledo.nlowe.CustomDataTypes.Iterator.PreorderTreeIterator;
-import edu.utoledo.nlowe.CustomDataTypes.Iterator.TreeIterator;
+import edu.utoledo.nlowe.CustomDataTypes.Iterator.InorderBinaryTreeIterator;
+import edu.utoledo.nlowe.CustomDataTypes.Iterator.PostorderBinaryTreeIterator;
+import edu.utoledo.nlowe.CustomDataTypes.Iterator.PreorderBinaryTreeIterator;
+import edu.utoledo.nlowe.CustomDataTypes.Iterator.BinaryTreeIterator;
 
 import java.util.Iterator;
 import java.util.function.Consumer;
@@ -16,35 +16,37 @@ public class BinarySearchTreeMap<K extends Comparable<K>, V>
 {
     private long comparisons = 0L;
     private long referenceChanges = 0L;
+    private long nodeCount = 0L;
 
-    private TreeNode<K, V> rootNode;
+    private BinaryTreeNode<K, V> rootNode;
 
     public void put(K key, V value)
     {
-        put(key, value, null);
+        putOr(key, value, null);
     }
 
     public void put(KeyValuePair<K, V> element)
     {
-        put(element, null);
+        putOr(element, null);
     }
 
-    public void put(K key, V value, Consumer<KeyValuePair<K, V>> ifFound)
+    public void putOr(K key, V value, Consumer<KeyValuePair<K, V>> ifFound)
     {
-        put(new KeyValuePair<>(key, value), ifFound);
+        putOr(new KeyValuePair<>(key, value), ifFound);
     }
 
-    public void put(KeyValuePair<K, V> element, Consumer<KeyValuePair<K, V>> ifFound)
+    public void putOr(KeyValuePair<K, V> element, Consumer<KeyValuePair<K, V>> ifFound)
     {
         if(rootNode == null)
         {
-            rootNode = new TreeNode<>(element);
+            rootNode = new BinaryTreeNode<>(element);
             referenceChanges++;
+            nodeCount++;
         }
         else
         {
-            TreeNode<K, V> parent;
-            TreeNode<K, V> candidate = rootNode;
+            BinaryTreeNode<K, V> parent;
+            BinaryTreeNode<K, V> candidate = rootNode;
             int branch;
 
             do
@@ -87,14 +89,15 @@ public class BinarySearchTreeMap<K extends Comparable<K>, V>
 
             // We're supposed to insert a node
             // Insert it on the correct branch
+            nodeCount++;
             referenceChanges++;
-            parent.graft(new TreeNode<>(element), branch < 0);
+            parent.graft(new BinaryTreeNode<>(element), branch < 0);
         }
     }
 
     public V get(K key)
     {
-        TreeNode<K, V> current = rootNode;
+        BinaryTreeNode<K, V> current = rootNode;
 
         do
         {
@@ -116,6 +119,17 @@ public class BinarySearchTreeMap<K extends Comparable<K>, V>
         return null;
     }
 
+    public void clear()
+    {
+        referenceChanges = nodeCount = comparisons = 0L;
+        rootNode = null;
+    }
+
+    public long getNodeCount()
+    {
+        return nodeCount;
+    }
+
     @Override
     public long getComparisonCount()
     {
@@ -132,16 +146,16 @@ public class BinarySearchTreeMap<K extends Comparable<K>, V>
      * Create an iterator to traverse the tree in the specified order
      *
      * @param order the order to perform the traversal in
-     * @return A <code>TreeIterator</code> that traverses the tree in the specified order
+     * @return A <code>BinaryTreeIterator</code> that traverses the tree in the specified order
      */
-    public TreeIterator<K,V> traverse(TraversalOrder order)
+    public BinaryTreeIterator<K,V> traverse(TraversalOrder order)
     {
         switch (order)
         {
-            case PREORDER: return new PreorderTreeIterator<>(rootNode);
-            case POSTORDER: return new PostorderTreeIterator<>(rootNode);
+            case PREORDER: return new PreorderBinaryTreeIterator<>(rootNode);
+            case POSTORDER: return new PostorderBinaryTreeIterator<>(rootNode);
             case INORDER:
-            default: return new InorderTreeIterator<>(rootNode);
+            default: return new InorderBinaryTreeIterator<>(rootNode);
         }
     }
 
