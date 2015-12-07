@@ -1,16 +1,18 @@
 package edu.utoledo.nlowe.CustomDataTypes.tests;
 
 import edu.utoledo.nlowe.CustomDataTypes.BinarySearchTreeMap;
+import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
+import edu.utoledo.nlowe.CustomDataTypes.Iterator.BinaryTreeIterator;
 import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
 import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * Tests for the BinarySearchTreeMap
@@ -55,6 +57,52 @@ public class BinarySearchTreeMapTest
     }
 
     @Test
+    public void canTraverseBigTree()
+    {
+        BinarySearchTreeMap<Integer, Integer> bigTree = new BinarySearchTreeMap<>();
+
+        new Random().ints()
+                .limit(500)
+                .boxed()
+                .forEach((i) -> bigTree.putOr(i, 1, (kvp) -> kvp.setValue(kvp.getValue())));
+
+        BinaryTreeIterator<Integer, Integer> preOrder = bigTree.traverse(TraversalOrder.PREORDER);
+        BinaryTreeIterator<Integer, Integer> inOrder = bigTree.traverse(TraversalOrder.INORDER);
+        BinaryTreeIterator<Integer, Integer> postOrder = bigTree.traverse(TraversalOrder.POSTORDER);
+
+        int count = 0;
+
+        while(count < bigTree.getNodeCount())
+        {
+            count++;
+
+            if(!preOrder.hasNext())
+            {
+                System.err.println("Preorder failed to find element " + count);
+                fail();
+            }
+            else if(!inOrder.hasNext())
+            {
+                System.err.println("Inorder failed to find element " + count);
+                fail();
+            }
+            else if(!postOrder.hasNext())
+            {
+                System.err.println("Postorder failed to find element " + count);
+                fail();
+            }
+
+            preOrder.next();
+            inOrder.next();
+            postOrder.next();
+        }
+
+        assertFalse(preOrder.hasNext());
+        assertFalse(inOrder.hasNext());
+        assertFalse(postOrder.hasNext());
+    }
+
+    @Test
     public void canTraversePreorder()
     {
         Iterator<KeyValuePair<String,Integer>> elements = map.traverse(TraversalOrder.PREORDER);
@@ -90,7 +138,6 @@ public class BinarySearchTreeMapTest
         assertFalse(elements.hasNext());
     }
 
-
     @Test
     public void canChangeValues()
     {
@@ -101,6 +148,15 @@ public class BinarySearchTreeMapTest
         assertEquals((Integer) 3, map.get("d"));
         assertEquals((Integer) 9, map.get("h"));
         assertEquals((Integer) 11, map.get("f"));
+    }
+
+    @Test
+    public void canClear()
+    {
+        map.clear();
+
+        assertEquals(0, map.getNodeCount());
+        assertFalse(map.iterator().hasNext());
     }
 
     @Test
@@ -120,7 +176,7 @@ public class BinarySearchTreeMapTest
     @Test
     public void supportsMutator()
     {
-        map.put("f", 2, (e) -> e.setValue(e.getValue() * 9));
+        map.putOr("f", 2, (e) -> e.setValue(e.getValue() * 9));
 
         assertEquals((Integer) 9, map.get("f"));
     }
@@ -128,7 +184,7 @@ public class BinarySearchTreeMapTest
     @Test
     public void supportsMutatorByKVP()
     {
-        map.put(new KeyValuePair<>("f", 2), (e) -> e.setValue(e.getValue() * 9));
+        map.putOr(new KeyValuePair<>("f", 2), (e) -> e.setValue(e.getValue() * 9));
 
         assertEquals((Integer) 9, map.get("f"));
     }
