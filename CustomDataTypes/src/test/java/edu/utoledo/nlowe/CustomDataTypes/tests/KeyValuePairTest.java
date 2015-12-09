@@ -13,6 +13,6 @@ public class KeyValuePairTest
     @Test
     public void toStringValid()
     {
-        assertEquals("{a, b}", new KeyValuePair<>("a", "b").toString());
+        assertEquals("{\"key\": \"a\", \"value\": \"b\"}", new KeyValuePair<>("a", "b").toString());
     }
 }
