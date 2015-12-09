@@ -2,6 +2,7 @@ package edu.utoledo.nlowe.WordCount.WordCounters;
 
 import edu.utoledo.nlowe.CustomDataTypes.BinarySearchTreeMap;
 import edu.utoledo.nlowe.CustomDataTypes.Iterator.BinaryTreeIterator;
+import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
 import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounter;
@@ -9,16 +10,20 @@ import edu.utoledo.nlowe.WordCount.WordCounter;
 import java.util.Iterator;
 
 /**
- * Created by nathan on 12/5/15
+ * A word counter that places newly encountered words in a Binary Search Tree Map
+ *
+ * Additionally, this class's iterator returns the words in alphabetical order
  */
 public class BinarySearchTreeWordCounter extends WordCounter
 {
-    private BinarySearchTreeMap<String, Long> words = new BinarySearchTreeMap<>();
+    /** All encountered words are collected in this map */
+    private BinarySearchTreeMap<String, Integer> words = new BinarySearchTreeMap<>();
 
     @Override
     public void encounter(String word)
     {
-        words.putOr(word, 1L, (e) -> e.setValue(e.getValue()+1));
+        // Add the word to the tree, or increment its count if it's already in the tree
+        words.putOr(word, 1, (w) -> w.setValue(w.getValue()+1));
     }
 
     @Override
@@ -26,11 +31,9 @@ public class BinarySearchTreeWordCounter extends WordCounter
     {
         long count = 0;
 
-        BinaryTreeIterator<String, Long> itr = words.traverse(TraversalOrder.INORDER);
-
-        while(itr.hasNext())
+        for(KeyValuePair<String, Integer> word : words)
         {
-            count += itr.next().getValue();
+            count += word.getValue();
         }
 
         return count;
@@ -45,8 +48,25 @@ public class BinarySearchTreeWordCounter extends WordCounter
     @Override
     public Iterator<Word> iterator()
     {
-        // TODO: Is there a way to "map" an iterator?
-        return null;
+        // The binary tree maps return an iterator of KeyValuePair's
+        // We need to map these to Words
+        return new Iterator<Word>()
+        {
+            private final Iterator<KeyValuePair<String, Integer>> itr = words.iterator();
+
+            @Override
+            public boolean hasNext()
+            {
+                return itr.hasNext();
+            }
+
+            @Override
+            public Word next()
+            {
+                KeyValuePair<String, Integer> word = itr.next();
+                return new Word(word.getKey(), word.getValue());
+            }
+        };
     }
 
     @Override

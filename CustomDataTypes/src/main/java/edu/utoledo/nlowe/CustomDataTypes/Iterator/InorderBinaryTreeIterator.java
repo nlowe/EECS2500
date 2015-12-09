@@ -3,6 +3,7 @@ package edu.utoledo.nlowe.CustomDataTypes.Iterator;
 import edu.utoledo.nlowe.CustomDataTypes.CustomStack;
 import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
 import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
+import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 
 /**
  * An iterator that traverses a tree in-order
@@ -76,5 +77,11 @@ public class InorderBinaryTreeIterator<K extends Comparable<K>, V> extends Binar
         }
 
         return result;
+    }
+
+    @Override
+    public TraversalOrder getTraversalOrder()
+    {
+        return TraversalOrder.INORDER;
     }
 }

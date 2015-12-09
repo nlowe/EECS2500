@@ -12,7 +12,13 @@ public class Word implements Comparable<Word>
 
     public Word(String value)
     {
+        this(value, 1);
+    }
+
+    public Word(String value, int count)
+    {
         this.value = value;
+        this.count = count;
     }
 
     /**

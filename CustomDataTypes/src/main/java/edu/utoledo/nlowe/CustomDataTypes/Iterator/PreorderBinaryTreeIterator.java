@@ -3,9 +3,10 @@ package edu.utoledo.nlowe.CustomDataTypes.Iterator;
 import edu.utoledo.nlowe.CustomDataTypes.CustomStack;
 import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
 import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
+import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 
 /**
- * An iterator that traverses a tree in pre-order
+ * An iterator that traverses a tree preorder
  */
 public class PreorderBinaryTreeIterator<K extends Comparable<K>, V> extends BinaryTreeIterator<K, V>
 {
@@ -22,8 +23,6 @@ public class PreorderBinaryTreeIterator<K extends Comparable<K>, V> extends Bina
         traversalStack = new CustomStack<>();
         traversalStack.push(new KeyValuePair<>(head, false));
     }
-
-
 
     @Override
     public KeyValuePair<K, V> next()
@@ -46,11 +45,14 @@ public class PreorderBinaryTreeIterator<K extends Comparable<K>, V> extends Bina
         }
         else
         {
-            // go Up and find a node that we haven't visted the right branch of
+            // go "up" and find a node that we haven't visited the right branch of
             do
             {
                 nextNode = traversalStack.pop().getKey();
             }while(
+                // Keep doing this while there are more items on the stack and
+                //  the node currently on the top of the stack doesn't have a right branch or
+                //  we have already visited it's right branch
                 traversalStack.size() > 0 &&
                 (
                         traversalStack.peek().getKey().getRightBranch() == null ||
@@ -73,5 +75,11 @@ public class PreorderBinaryTreeIterator<K extends Comparable<K>, V> extends Bina
         }
 
         return payload;
+    }
+
+    @Override
+    public TraversalOrder getTraversalOrder()
+    {
+        return TraversalOrder.PREORDER;
     }
 }

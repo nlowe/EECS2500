@@ -2,11 +2,12 @@ package edu.utoledo.nlowe.CustomDataTypes.Iterator;
 
 import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
 import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
+import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 
 import java.util.Iterator;
 
 /**
- * Created by nathan on 12/4/15
+ * An iterator for traversing a binary tree
  */
 public abstract class BinaryTreeIterator<K extends Comparable<K>, V> implements Iterator<KeyValuePair<K, V>>
 {
@@ -22,5 +23,10 @@ public abstract class BinaryTreeIterator<K extends Comparable<K>, V> implements 
     {
         return nextNode != null;
     }
+
+    /**
+     * @return The traversal order this iterator implements
+     */
+    public abstract TraversalOrder getTraversalOrder();
 
 }

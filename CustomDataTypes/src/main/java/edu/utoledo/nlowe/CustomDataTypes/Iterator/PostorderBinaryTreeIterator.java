@@ -3,9 +3,10 @@ package edu.utoledo.nlowe.CustomDataTypes.Iterator;
 import edu.utoledo.nlowe.CustomDataTypes.CustomStack;
 import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
 import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
+import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 
 /**
- * Created by nathan on 12/4/15
+ * An iterator that traverses a binary tree Postorder
  */
 public class PostorderBinaryTreeIterator<K extends Comparable<K>, V> extends BinaryTreeIterator<K, V>
 {
@@ -56,6 +57,7 @@ public class PostorderBinaryTreeIterator<K extends Comparable<K>, V> extends Bin
     @Override
     public KeyValuePair<K, V> next()
     {
+        // The next node is on the top of the stack, pop it off to go "up"
         KeyValuePair<K, V> result = traversalStack.pop().getKey().getPayload();
 
         if(traversalStack.size() > 0)
@@ -80,5 +82,11 @@ public class PostorderBinaryTreeIterator<K extends Comparable<K>, V> extends Bin
         }
 
         return result;
+    }
+
+    @Override
+    public TraversalOrder getTraversalOrder()
+    {
+        return TraversalOrder.POSTORDER;
     }
 }
