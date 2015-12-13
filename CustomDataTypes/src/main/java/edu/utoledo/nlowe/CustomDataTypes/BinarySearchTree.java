@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 
 /**
- * A Tree Map that exhibits the Binary Search Tree Property:
+ * A Tree that exhibits the Binary Search Tree Property:
  * <p/>
  * For any given node with a key of <code>k</code>:
  * <ul>
@@ -21,8 +21,8 @@ import java.util.function.Consumer;
  * and all reference changes made over the lifetime of the tree. If the tree is cleared, these stats
  * are reset.
  */
-public class BinarySearchTreeMap<K extends Comparable<K>, V>
-        implements PerformanceTraceable, Iterable<KeyValuePair<K, V>>
+public class BinarySearchTree<T extends Comparable<T>>
+        implements PerformanceTraceable, Iterable<T>
 {
     /** The number of comparisons made during the lifetime of the tree */
     private long comparisons = 0L;
@@ -32,52 +32,27 @@ public class BinarySearchTreeMap<K extends Comparable<K>, V>
     private long nodeCount = 0L;
 
     /** The first or "root" node of the tree. All other nodes are either in this node's left or right branch */
-    private BinaryTreeNode<K, V> rootNode;
+    private BinaryTreeNode<T> rootNode;
 
     /**
-     * Put the specified key and value in the tree
+     * Add the specified element to the tree
      *
-     * @param key The key to put
-     * @param value The value of the key to set
+     * @param element The element to add
      */
-    public void put(K key, V value)
+    public void add(T element)
     {
-        putOr(key, value, null);
+        addOr(element, null);
     }
 
     /**
-     * Put the specified Key Value Pair in the tree
+     * Adds the specified element to the tree. If the element already exists in
+     * the tree, this method will call the <code>ifFound</code> consumer instead.
+     * The item will <b>NOT</b> be added to the tree if this happens.
      *
      * @param element the element to add
+     * @param ifFound The consumer to call if the specified element is already in the tree
      */
-    public void put(KeyValuePair<K, V> element)
-    {
-        putOr(element, null);
-    }
-
-    /**
-     * Put the specified key and value in the tree. If the specified key exists
-     * in the tree, this method will call the <code>ifFound</code> Consumer
-     * instead. The item will <b>NOT</b> be added to the tree if this happens.
-     *
-     * @param key The key to put
-     * @param value The value of the key to set
-     * @param ifFound The consumer to call if the specified key already exists
-     */
-    public void putOr(K key, V value, Consumer<KeyValuePair<K, V>> ifFound)
-    {
-        putOr(new KeyValuePair<>(key, value), ifFound);
-    }
-
-    /**
-     * Puts the specified Key Value Pair in the tree. If key of the element already
-     * exists in the tree, this method will call the <code>ifFound</code> consumer
-     * instead. The item will <b>NOT</b> be added to the tree if this happens.
-     *
-     * @param element the element to add
-     * @param ifFound The consumer to call if the specified key already exists
-     */
-    public void putOr(KeyValuePair<K, V> element, Consumer<KeyValuePair<K, V>> ifFound)
+    public void addOr(T element, Consumer<T> ifFound)
     {
         if(rootNode == null)
         {
@@ -88,9 +63,9 @@ public class BinarySearchTreeMap<K extends Comparable<K>, V>
         }
         else
         {
-            BinaryTreeNode<K, V> parent;
-            BinaryTreeNode<K, V> candidate = rootNode;
-            int branchComparison;
+            BinaryTreeNode<T> parent;
+            BinaryTreeNode<T> candidate = rootNode;
+            int branchComparisonResult;
 
             do
             {
@@ -99,25 +74,20 @@ public class BinarySearchTreeMap<K extends Comparable<K>, V>
 
                 // Find which branch to take
                 comparisons++;
-                branchComparison = element.getKey().compareTo(candidate.getPayload().getKey());
+                branchComparisonResult = element.compareTo(candidate.getPayload());
 
-                if(branchComparison < 0)
+                if(branchComparisonResult < 0)
                 {
                     // The element we're inserting is less than the candidate
                     // Take the left branch
                     candidate = candidate.getLeftBranch();
                 }
-                else if(branchComparison == 0)
+                else if(branchComparisonResult == 0)
                 {
                     // The element we're inserting has the same key as another element
                     if(ifFound != null){
                         // Perform the specified action on its value if specified
                         ifFound.accept(candidate.getPayload());
-                    }
-                    else
-                    {
-                        // Otherwise, replace the value
-                        candidate.getPayload().setValue(element.getValue());
                     }
 
                     return;
@@ -134,39 +104,8 @@ public class BinarySearchTreeMap<K extends Comparable<K>, V>
             // Insert it on the correct branch
             nodeCount++;
             referenceChanges++;
-            parent.graft(new BinaryTreeNode<>(element), branchComparison < 0);
+            parent.graft(new BinaryTreeNode<>(element), branchComparisonResult < 0);
         }
-    }
-
-    /**
-     * Get the value in the tree for the specified key
-     *
-     * @param key The key of the element to retrieve
-     * @return The value associated with the specified key, or null if
-     * the specified key does not exist
-     */
-    public V get(K key)
-    {
-        BinaryTreeNode<K, V> current = rootNode;
-
-        do
-        {
-            int result = key.compareTo(current.getPayload().getKey());
-            if(result < 0)
-            {
-                current = current.getLeftBranch();
-            }
-            else if(result == 0)
-            {
-                return current.getPayload().getValue();
-            }
-            else if( result > 0)
-            {
-                current = current.getRightBranch();
-            }
-        }while (current != null);
-
-        return null;
     }
 
     /**
@@ -204,7 +143,7 @@ public class BinarySearchTreeMap<K extends Comparable<K>, V>
      * @param order the order to perform the traversal in
      * @return A <code>BinaryTreeIterator</code> that traverses the tree in the specified order
      */
-    public BinaryTreeIterator<K,V> traverse(TraversalOrder order)
+    public BinaryTreeIterator<T> traverse(TraversalOrder order)
     {
         switch (order)
         {
@@ -216,7 +155,7 @@ public class BinarySearchTreeMap<K extends Comparable<K>, V>
     }
 
     @Override
-    public Iterator<KeyValuePair<K, V>> iterator()
+    public Iterator<T> iterator()
     {
         return traverse(TraversalOrder.INORDER);
     }

@@ -8,16 +8,16 @@ import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 /**
  * An iterator that traverses a tree in-order
  */
-public class InorderBinaryTreeIterator<K extends Comparable<K>, V> extends BinaryTreeIterator<K, V>
+public class InorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
 {
     /**
      * The traversal stack for this iterator.
      *
      * The key is <code>True</code> when the node has been visited
      */
-    private final CustomStack<KeyValuePair<BinaryTreeNode<K, V>, Boolean>> traversalStack;
+    private final CustomStack<KeyValuePair<BinaryTreeNode<T>, Boolean>> traversalStack;
 
-    public InorderBinaryTreeIterator(BinaryTreeNode<K, V> head)
+    public InorderBinaryTreeIterator(BinaryTreeNode<T> head)
     {
         super(head);
         traversalStack = new CustomStack<>();
@@ -43,9 +43,9 @@ public class InorderBinaryTreeIterator<K extends Comparable<K>, V> extends Binar
     }
 
     @Override
-    public KeyValuePair<K, V> next()
+    public T next()
     {
-        KeyValuePair<K, V> result = nextNode.getPayload();
+        T result = nextNode.getPayload();
         traversalStack.peek().setValue(true);
 
         if(nextNode.getRightBranch() != null)

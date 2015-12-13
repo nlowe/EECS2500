@@ -6,7 +6,7 @@ package edu.utoledo.nlowe.CustomDataTypes;
 public class KeyValuePair<K, V>
 {
     /** The key of the element */
-    private final K key;
+    protected final K key;
     /** The value of the element */
     private V value;
 

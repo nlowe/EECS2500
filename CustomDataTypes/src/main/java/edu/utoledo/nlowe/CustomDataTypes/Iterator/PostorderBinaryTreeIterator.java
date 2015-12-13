@@ -8,15 +8,15 @@ import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 /**
  * An iterator that traverses a binary tree Postorder
  */
-public class PostorderBinaryTreeIterator<K extends Comparable<K>, V> extends BinaryTreeIterator<K, V>
+public class PostorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
 {
     /**
      * The traversal stack. The value of the KVP is true if we have already
      * visited the right subtree of the node in question
      */
-    protected final CustomStack<KeyValuePair<BinaryTreeNode<K, V>, Boolean>> traversalStack;
+    protected final CustomStack<KeyValuePair<BinaryTreeNode<T>, Boolean>> traversalStack;
 
-    public PostorderBinaryTreeIterator(BinaryTreeNode<K, V> head)
+    public PostorderBinaryTreeIterator(BinaryTreeNode<T> head)
     {
         super(head);
         traversalStack = new CustomStack<>();
@@ -55,10 +55,10 @@ public class PostorderBinaryTreeIterator<K extends Comparable<K>, V> extends Bin
     }
 
     @Override
-    public KeyValuePair<K, V> next()
+    public T next()
     {
         // The next node is on the top of the stack, pop it off to go "up"
-        KeyValuePair<K, V> result = traversalStack.pop().getKey().getPayload();
+        T result = traversalStack.pop().getKey().getPayload();
 
         if(traversalStack.size() > 0)
         {

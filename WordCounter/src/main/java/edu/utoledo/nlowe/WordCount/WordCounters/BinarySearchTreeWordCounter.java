@@ -1,9 +1,6 @@
 package edu.utoledo.nlowe.WordCount.WordCounters;
 
-import edu.utoledo.nlowe.CustomDataTypes.BinarySearchTreeMap;
-import edu.utoledo.nlowe.CustomDataTypes.Iterator.BinaryTreeIterator;
-import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
-import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
+import edu.utoledo.nlowe.CustomDataTypes.BinarySearchTree;
 import edu.utoledo.nlowe.WordCount.Word;
 import edu.utoledo.nlowe.WordCount.WordCounter;
 
@@ -17,13 +14,13 @@ import java.util.Iterator;
 public class BinarySearchTreeWordCounter extends WordCounter
 {
     /** All encountered words are collected in this map */
-    private BinarySearchTreeMap<String, Integer> words = new BinarySearchTreeMap<>();
+    private BinarySearchTree<Word> words = new BinarySearchTree<>();
 
     @Override
     public void encounter(String word)
     {
         // Add the word to the tree, or increment its count if it's already in the tree
-        words.putOr(word, 1, (w) -> w.setValue(w.getValue()+1));
+        words.addOr(new Word(word), Word::increment);
     }
 
     @Override
@@ -31,9 +28,9 @@ public class BinarySearchTreeWordCounter extends WordCounter
     {
         long count = 0;
 
-        for(KeyValuePair<String, Integer> word : words)
+        for(Word word : words)
         {
-            count += word.getValue();
+            count += word.getOccurrenceCount();
         }
 
         return count;
@@ -48,25 +45,7 @@ public class BinarySearchTreeWordCounter extends WordCounter
     @Override
     public Iterator<Word> iterator()
     {
-        // The binary tree maps return an iterator of KeyValuePair's
-        // We need to map these to Words
-        return new Iterator<Word>()
-        {
-            private final Iterator<KeyValuePair<String, Integer>> itr = words.iterator();
-
-            @Override
-            public boolean hasNext()
-            {
-                return itr.hasNext();
-            }
-
-            @Override
-            public Word next()
-            {
-                KeyValuePair<String, Integer> word = itr.next();
-                return new Word(word.getKey(), word.getValue());
-            }
-        };
+        return words.iterator();
     }
 
     @Override

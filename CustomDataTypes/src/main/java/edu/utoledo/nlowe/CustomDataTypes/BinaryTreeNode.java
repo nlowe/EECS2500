@@ -1,19 +1,19 @@
 package edu.utoledo.nlowe.CustomDataTypes;
 
 /**
- * A node in a Binary Tree Map
+ * A node in a Binary Tree
  */
-public class BinaryTreeNode<K, V>
+public class BinaryTreeNode<T>
 {
     /** The data in this node */
-    private final KeyValuePair<K, V> payload;
+    private final T payload;
 
     /** The left branch of the tree */
-    private BinaryTreeNode<K, V> left;
+    private BinaryTreeNode<T> left;
     /** The right branch of the tree */
-    private BinaryTreeNode<K, V> right;
+    private BinaryTreeNode<T> right;
 
-    protected BinaryTreeNode(KeyValuePair<K, V> payload)
+    public BinaryTreeNode(T payload)
     {
         this.payload = payload;
     }
@@ -21,7 +21,7 @@ public class BinaryTreeNode<K, V>
     /**
      * @return the payload contained within the node
      */
-    public KeyValuePair<K, V> getPayload()
+    public T getPayload()
     {
         return payload;
     }
@@ -29,7 +29,7 @@ public class BinaryTreeNode<K, V>
     /**
      * @return the left branch of the tree that continues from this node
      */
-    public BinaryTreeNode<K, V> getLeftBranch()
+    public BinaryTreeNode<T> getLeftBranch()
     {
         return left;
     }
@@ -38,7 +38,7 @@ public class BinaryTreeNode<K, V>
      * Set the left branch of the tree from this node
      * @param left the branch to set
      */
-    public void setLeftBranch(BinaryTreeNode<K, V> left)
+    public void setLeftBranch(BinaryTreeNode<T> left)
     {
         this.left = left;
     }
@@ -46,7 +46,7 @@ public class BinaryTreeNode<K, V>
     /**
      * @return the right branch of the tree that continues from this node
      */
-    public BinaryTreeNode<K, V> getRightBranch()
+    public BinaryTreeNode<T> getRightBranch()
     {
         return right;
     }
@@ -55,7 +55,7 @@ public class BinaryTreeNode<K, V>
      * Set the right branch of the tree from this node
      * @param right the branch to set
      */
-    public void setRightBranch(BinaryTreeNode<K, V> right)
+    public void setRightBranch(BinaryTreeNode<T> right)
     {
         this.right = right;
     }
@@ -66,7 +66,7 @@ public class BinaryTreeNode<K, V>
      * @param branch the branch to graft in
      * @param left whether or not to graft the branch in at the left of this node
      */
-    public void graft(BinaryTreeNode<K, V> branch, boolean left)
+    public void graft(BinaryTreeNode<T> branch, boolean left)
     {
         if(left)
         {
@@ -78,16 +78,15 @@ public class BinaryTreeNode<K, V>
         }
     }
 
-    public boolean equals(BinaryTreeNode<K, V> o)
+    public boolean equals(BinaryTreeNode<T> o)
     {
-        return o != null && payload.getKey().equals(o.payload.getKey());
+        return o != null && payload.equals(o.payload);
     }
 
     @Override
     public String toString()
     {
-        return "{\"key\": \"" + payload.getKey() +
-                "\", \"value\": \"" + getPayload().getValue() +
+        return "{\"payload\": \"" + payload +
                 "\", \"left\": " + (left == null ? "null" : left.toString()) +
                 ", \"right\": " + (right == null ? "null" : right.toString()) + "}";
     }
