@@ -36,6 +36,7 @@ public class BinaryTreeNode<T>
 
     /**
      * Set the left branch of the tree from this node
+     *
      * @param left the branch to set
      */
     public void setLeftBranch(BinaryTreeNode<T> left)
@@ -53,6 +54,7 @@ public class BinaryTreeNode<T>
 
     /**
      * Set the right branch of the tree from this node
+     *
      * @param right the branch to set
      */
     public void setRightBranch(BinaryTreeNode<T> right)
@@ -64,11 +66,11 @@ public class BinaryTreeNode<T>
      * Graft the specified branch into the tree at this node on either the left or right sub-branch
      *
      * @param branch the branch to graft in
-     * @param left whether or not to graft the branch in at the left of this node
+     * @param left   whether or not to graft the branch in at the left of this node
      */
     public void graft(BinaryTreeNode<T> branch, boolean left)
     {
-        if(left)
+        if (left)
         {
             setLeftBranch(branch);
         }

@@ -74,21 +74,21 @@ public class BinarySearchTreeTest
 
         int count = 0;
 
-        while(count < bigTree.getNodeCount())
+        while (count < bigTree.getNodeCount())
         {
             count++;
 
-            if(!preOrder.hasNext())
+            if (!preOrder.hasNext())
             {
                 System.err.println("Preorder failed to find element " + count);
                 fail();
             }
-            else if(!inOrder.hasNext())
+            else if (!inOrder.hasNext())
             {
                 System.err.println("Inorder failed to find element " + count);
                 fail();
             }
-            else if(!postOrder.hasNext())
+            else if (!postOrder.hasNext())
             {
                 System.err.println("Postorder failed to find element " + count);
                 fail();
@@ -149,27 +149,35 @@ public class BinarySearchTreeTest
         tree.add(new OrderedKeyValuePair<>("a", 1));
         tree.add(new OrderedKeyValuePair<>("c", 1));
 
-        for(OrderedKeyValuePair<String,Integer> e : tree)
+        for (OrderedKeyValuePair<String, Integer> e : tree)
         {
-            switch(e.getKey())
+            switch (e.getKey())
             {
                 case "a":
                 case "b":
-                case "c": assertEquals((Integer)1, e.getValue()); break;
-                default: fail();
+                case "c":
+                    assertEquals((Integer) 1, e.getValue());
+                    break;
+                default:
+                    fail();
             }
         }
 
         tree.addOr(new OrderedKeyValuePair<>("c", 1), (kvp) -> kvp.setValue(999));
 
-        for(OrderedKeyValuePair<String,Integer> e : tree)
+        for (OrderedKeyValuePair<String, Integer> e : tree)
         {
-            switch(e.getKey())
+            switch (e.getKey())
             {
                 case "a":
-                case "b": assertEquals((Integer)1, e.getValue()); break;
-                case "c": assertEquals((Integer)999, e.getValue()); break;
-                default: fail();
+                case "b":
+                    assertEquals((Integer) 1, e.getValue());
+                    break;
+                case "c":
+                    assertEquals((Integer) 999, e.getValue());
+                    break;
+                default:
+                    fail();
             }
         }
     }

@@ -1,8 +1,8 @@
 package edu.utoledo.nlowe.CustomDataTypes.Iterator;
 
+import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
 import edu.utoledo.nlowe.CustomDataTypes.CustomStack;
 import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
-import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
 import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 
 /**
@@ -12,7 +12,7 @@ public class PreorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
 {
     /**
      * The traversal stack
-     *
+     * <p>
      * The value is <code>true</code> when a node's right branch has been visited
      */
     protected final CustomStack<KeyValuePair<BinaryTreeNode<T>, Boolean>> traversalStack;
@@ -30,13 +30,13 @@ public class PreorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
         // "Visit" this node
         T payload = nextNode.getPayload();
 
-        if(nextNode.getLeftBranch() != null)
+        if (nextNode.getLeftBranch() != null)
         {
             // Visit the left branch next
             nextNode = nextNode.getLeftBranch();
             traversalStack.push(new KeyValuePair<>(nextNode, false));
         }
-        else if(nextNode.getRightBranch() != null)
+        else if (nextNode.getRightBranch() != null)
         {
             // visit the right branch next
             nextNode = nextNode.getRightBranch();
@@ -49,18 +49,18 @@ public class PreorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
             do
             {
                 nextNode = traversalStack.pop().getKey();
-            }while(
+            } while (
                 // Keep doing this while there are more items on the stack and
                 //  the node currently on the top of the stack doesn't have a right branch or
                 //  we have already visited it's right branch
                 traversalStack.size() > 0 &&
                 (
-                        traversalStack.peek().getKey().getRightBranch() == null ||
-                        traversalStack.peek().getValue()
+                    traversalStack.peek().getKey().getRightBranch() == null ||
+                    traversalStack.peek().getValue()
                 )
             );
 
-            if(traversalStack.size() > 0)
+            if (traversalStack.size() > 0)
             {
                 // Go right next
                 nextNode = traversalStack.peek().getKey().getRightBranch();

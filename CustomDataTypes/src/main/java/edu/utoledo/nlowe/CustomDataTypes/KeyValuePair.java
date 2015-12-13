@@ -34,6 +34,7 @@ public class KeyValuePair<K, V>
 
     /**
      * Sets the value of the element
+     *
      * @param value the new value to set
      */
     public void setValue(V value)

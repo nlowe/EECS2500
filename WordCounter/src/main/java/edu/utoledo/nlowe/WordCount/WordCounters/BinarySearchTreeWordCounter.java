@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 /**
  * A word counter that places newly encountered words in a Binary Search Tree Map
- *
+ * <p>
  * Additionally, this class's iterator returns the words in alphabetical order
  */
 public class BinarySearchTreeWordCounter extends WordCounter
@@ -28,7 +28,7 @@ public class BinarySearchTreeWordCounter extends WordCounter
     {
         long count = 0;
 
-        for(Word word : words)
+        for (Word word : words)
         {
             count += word.getOccurrenceCount();
         }

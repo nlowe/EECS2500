@@ -1,8 +1,8 @@
 package edu.utoledo.nlowe.CustomDataTypes.Iterator;
 
+import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
 import edu.utoledo.nlowe.CustomDataTypes.CustomStack;
 import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
-import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
 import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 
 /**
@@ -12,7 +12,7 @@ public class InorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
 {
     /**
      * The traversal stack for this iterator.
-     *
+     * <p>
      * The key is <code>True</code> when the node has been visited
      */
     private final CustomStack<KeyValuePair<BinaryTreeNode<T>, Boolean>> traversalStack;
@@ -24,7 +24,7 @@ public class InorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
         traversalStack.push(new KeyValuePair<>(head, false));
 
         // Navigate to the first node to visit
-        if(head != null)
+        if (head != null)
         {
             moveLeft();
         }
@@ -48,7 +48,7 @@ public class InorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
         T result = nextNode.getPayload();
         traversalStack.peek().setValue(true);
 
-        if(nextNode.getRightBranch() != null)
+        if (nextNode.getRightBranch() != null)
         {
             // go right next
             traversalStack.peek().setValue(true);
@@ -66,7 +66,7 @@ public class InorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
 
             // The next node is now on the top of the stack
             // If the stack is empty, we're done
-            if(traversalStack.size() > 0)
+            if (traversalStack.size() > 0)
             {
                 nextNode = traversalStack.peek().getKey();
             }

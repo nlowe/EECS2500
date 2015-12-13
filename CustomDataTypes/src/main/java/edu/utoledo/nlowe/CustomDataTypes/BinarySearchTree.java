@@ -1,28 +1,27 @@
 package edu.utoledo.nlowe.CustomDataTypes;
 
+import edu.utoledo.nlowe.CustomDataTypes.Iterator.BinaryTreeIterator;
 import edu.utoledo.nlowe.CustomDataTypes.Iterator.InorderBinaryTreeIterator;
 import edu.utoledo.nlowe.CustomDataTypes.Iterator.PostorderBinaryTreeIterator;
 import edu.utoledo.nlowe.CustomDataTypes.Iterator.PreorderBinaryTreeIterator;
-import edu.utoledo.nlowe.CustomDataTypes.Iterator.BinaryTreeIterator;
 
 import java.util.Iterator;
 import java.util.function.Consumer;
 
 /**
  * A Tree that exhibits the Binary Search Tree Property:
- * <p/>
+ * <p>
  * For any given node with a key of <code>k</code>:
  * <ul>
  *     <li>All items on the <code>leftBranch</code> of the node are "less" than <code>k</code></li>
  *     <li>All items on the <code>rightBranch</code> of the node are "greater" than <code>k</code></li>
  * </ul>
- * <p/>
+ * <p>
  * This class implements <code>PerformanceTraceable</code>, and keeps track of all comparisons made
  * and all reference changes made over the lifetime of the tree. If the tree is cleared, these stats
  * are reset.
  */
-public class BinarySearchTree<T extends Comparable<T>>
-        implements PerformanceTraceable, Iterable<T>
+public class BinarySearchTree<T extends Comparable<T>> implements PerformanceTraceable, Iterable<T>
 {
     /** The number of comparisons made during the lifetime of the tree */
     private long comparisons = 0L;
@@ -54,7 +53,7 @@ public class BinarySearchTree<T extends Comparable<T>>
      */
     public void addOr(T element, Consumer<T> ifFound)
     {
-        if(rootNode == null)
+        if (rootNode == null)
         {
             // This is the first node in the tree, set the root element
             rootNode = new BinaryTreeNode<>(element);
@@ -76,16 +75,17 @@ public class BinarySearchTree<T extends Comparable<T>>
                 comparisons++;
                 branchComparisonResult = element.compareTo(candidate.getPayload());
 
-                if(branchComparisonResult < 0)
+                if (branchComparisonResult < 0)
                 {
                     // The element we're inserting is less than the candidate
                     // Take the left branch
                     candidate = candidate.getLeftBranch();
                 }
-                else if(branchComparisonResult == 0)
+                else if (branchComparisonResult == 0)
                 {
                     // The element we're inserting has the same key as another element
-                    if(ifFound != null){
+                    if (ifFound != null)
+                    {
                         // Perform the specified action on its value if specified
                         ifFound.accept(candidate.getPayload());
                     }
@@ -98,7 +98,7 @@ public class BinarySearchTree<T extends Comparable<T>>
                     // Take the right branch
                     candidate = candidate.getRightBranch();
                 }
-            }while (candidate != null);
+            } while (candidate != null);
 
             // We're supposed to insert a node
             // Insert it on the correct branch

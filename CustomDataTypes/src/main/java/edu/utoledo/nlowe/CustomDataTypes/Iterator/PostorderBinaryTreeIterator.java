@@ -1,8 +1,8 @@
 package edu.utoledo.nlowe.CustomDataTypes.Iterator;
 
+import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
 import edu.utoledo.nlowe.CustomDataTypes.CustomStack;
 import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
-import edu.utoledo.nlowe.CustomDataTypes.BinaryTreeNode;
 import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 
 /**
@@ -60,11 +60,11 @@ public class PostorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
         // The next node is on the top of the stack, pop it off to go "up"
         T result = traversalStack.pop().getKey().getPayload();
 
-        if(traversalStack.size() > 0)
+        if (traversalStack.size() > 0)
         {
             nextNode = traversalStack.peek().getKey();
 
-            if(traversalStack.peek().getKey().getRightBranch() != null && !traversalStack.peek().getValue())
+            if (traversalStack.peek().getKey().getRightBranch() != null && !traversalStack.peek().getValue())
             {
                 // Go right next since we haven't visited the right branch
                 traversalStack.peek().setValue(true);
