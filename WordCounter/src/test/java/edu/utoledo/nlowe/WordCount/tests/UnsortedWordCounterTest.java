@@ -36,7 +36,7 @@ public class UnsortedWordCounterTest
     {
         try
         {
-            new Benchmarks().runBenchmark(source, counter);
+            new Benchmarks(null).runBenchmark(source, counter);
         }
         catch (IOException e)
         {

@@ -76,19 +76,6 @@ public class BenchmarkTest
         return new RegexMatcher(regex);
     }
 
-    private void setTestFilePath(String target) throws NoSuchFieldException, IllegalAccessException
-    {
-        Field TEST_FILE = Benchmarks.class.getDeclaredField("TEST_FILE");
-        TEST_FILE.setAccessible(true);
-
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-
-        modifiersField.setAccessible(true);
-        modifiersField.setInt(TEST_FILE, TEST_FILE.getModifiers() & ~Modifier.FINAL);
-
-        TEST_FILE.set(null, target);
-    }
-
     @Test
     public void successfullyRunsBenchmarks()
     {
@@ -97,8 +84,10 @@ public class BenchmarkTest
 
         try
         {
-            setTestFilePath(new File(Benchmarks.class.getClassLoader().getResource("Hamlet.txt").toURI()).getAbsolutePath());
-            Benchmarks.main(new String[]{});
+            Benchmarks.main(new String[]{
+                    "--file",
+                    new File(Benchmarks.class.getClassLoader().getResource("Hamlet.txt").toURI()).getAbsolutePath()
+            });
         }
         catch (Exception e)
         {
@@ -114,17 +103,9 @@ public class BenchmarkTest
     {
         exit.expectSystemExitWithStatus(Benchmarks.EXIT_BENCHMARK_IO_ERROR);
 
-        try
-        {
-            setTestFilePath("ThisFileTotallyDoesNotExist" + Math.random() + ".foobar");
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            fail();
-        }
-
-        Benchmarks.main(new String[]{});
+        Benchmarks.main(new String[]{
+                "--file", "ThisFileTotallyDoesNotExist" + Math.random() + ".foobar"
+        });
     }
 
     @Test
@@ -133,7 +114,7 @@ public class BenchmarkTest
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setErr(new PrintStream(out));
 
-        boolean success = new Benchmarks()
+        boolean success = new Benchmarks(null)
         {
             @Override
             public InputStream getResourceInputStream() throws FileNotFoundException
@@ -153,7 +134,7 @@ public class BenchmarkTest
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setErr(new PrintStream(out));
 
-        boolean success = new Benchmarks()
+        boolean success = new Benchmarks(null)
         {
             @Override
             public InputStream getResourceInputStream() throws FileNotFoundException

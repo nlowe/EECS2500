@@ -13,7 +13,7 @@ import java.io.*;
 public class Benchmarks
 {
     /** The path to the file to read. If left null, the file will be loaded from the classpath */
-    private static final String TEST_FILE = null;
+    private final String TEST_FILE;
 
     /** The token that separates words (Any whitespace) */
     public static final String WORD_SEPARATOR = "[\\s]";
@@ -49,6 +49,11 @@ public class Benchmarks
 
     /** Time results are stored here */
     private long[] results = new long[BENCHMARK_NAMES.length];
+
+    public Benchmarks(String inputFile)
+    {
+        this.TEST_FILE = inputFile;
+    }
 
     /**
      * Run the specified word counter using the specified input stream
@@ -137,7 +142,15 @@ public class Benchmarks
      */
     public static void main(String[] args)
     {
-        Benchmarks b = new Benchmarks();
+        Benchmarks b;
+
+        if((args[0].equalsIgnoreCase("--file") || args[0].equalsIgnoreCase("-f")) && args.length == 2)
+        {
+            b = new Benchmarks(args[1]);
+        }else{
+            b = new Benchmarks(null);
+        }
+
         if (!b.runAllBenchmarks())
         {
             System.exit(EXIT_BENCHMARK_IO_ERROR);
