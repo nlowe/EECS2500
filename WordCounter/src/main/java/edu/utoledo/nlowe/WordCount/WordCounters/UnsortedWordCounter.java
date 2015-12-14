@@ -54,7 +54,16 @@ public class UnsortedWordCounter extends WordCounter
     @Override
     public long getDistinctWordCount()
     {
-        return words.size();
+        long count = 0;
+
+        // For this project we're not allowed to keep track of the distinct count as elements are being added
+        // We have to traverse the list to get the word count
+        for(Word w : words)
+        {
+            count++;
+        }
+
+        return count;
     }
 
     @Override
