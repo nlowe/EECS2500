@@ -1,14 +1,12 @@
 package edu.utoledo.nlowe.WordCount;
 
+import edu.utoledo.nlowe.CustomDataTypes.KeyValuePair;
+
 /**
  * Records a word and the occurrence of the word
  */
-public class Word implements Comparable<Word>
+public class Word extends KeyValuePair<String, Integer> implements Comparable<Word>
 {
-    /** The word that this object represents */
-    private final String value;
-    /** The number of times this word has been encountered */
-    private int count = 1;
 
     public Word(String value)
     {
@@ -17,8 +15,7 @@ public class Word implements Comparable<Word>
 
     public Word(String value, int count)
     {
-        this.value = value;
-        this.count = count;
+        super(value, count);
     }
 
     /**
@@ -62,36 +59,20 @@ public class Word implements Comparable<Word>
      */
     public void increment()
     {
-        count++;
-    }
-
-    /**
-     * @return the String representation of this word
-     */
-    public String getValue()
-    {
-        return value;
-    }
-
-    /**
-     * @return the number of times this word has been encountered
-     */
-    public int getOccurrenceCount()
-    {
-        return count;
+        this.value++;
     }
 
     @Override
     public int compareTo(Word o)
     {
         // Compare to the value of the word instead of the word itself
-        return o != null ? this.value.compareTo(o.getValue()) : 1;
+        return o != null ? this.key.compareTo(o.key) : 1;
     }
 
     @Override
     public boolean equals(Object obj)
     {
         // Two words are "equal" when the string they contain is equal
-        return obj != null && obj instanceof Word && this.value.equals(((Word) obj).value);
+        return obj != null && obj instanceof Word && this.key.equals(((Word) obj).key);
     }
 }

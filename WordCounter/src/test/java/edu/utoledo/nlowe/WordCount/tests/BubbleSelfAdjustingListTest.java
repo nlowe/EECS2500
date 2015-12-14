@@ -33,16 +33,16 @@ public class BubbleSelfAdjustingListTest
         Iterator<Word> words = counter.iterator();
 
         Word current = words.next();
-        assertEquals("abc", current.getValue());
-        assertEquals(4, current.getOccurrenceCount());
+        assertEquals("abc", current.getKey());
+        assertEquals((Integer)4, current.getValue());
 
         current = words.next();
-        assertEquals("cdefg", current.getValue());
-        assertEquals(2, current.getOccurrenceCount());
+        assertEquals("cdefg", current.getKey());
+        assertEquals((Integer)2, current.getValue());
 
         current = words.next();
-        assertEquals("def", current.getValue());
-        assertEquals(2, current.getOccurrenceCount());
+        assertEquals("def", current.getKey());
+        assertEquals((Integer)2, current.getValue());
 
         assertFalse(words.hasNext());
 

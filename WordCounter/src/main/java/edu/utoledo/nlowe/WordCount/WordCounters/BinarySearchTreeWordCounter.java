@@ -30,7 +30,7 @@ public class BinarySearchTreeWordCounter extends WordCounter
 
         for (Word word : words)
         {
-            count += word.getOccurrenceCount();
+            count += word.getValue();
         }
 
         return count;

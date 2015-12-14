@@ -65,8 +65,8 @@ public class UnsortedWordCounterTest
         Iterator<Word> words = counter.iterator();
         Word current = words.next();
 
-        assertEquals("i-j", current.getValue());
-        assertEquals(1, current.getOccurrenceCount());
+        assertEquals("i-j", current.getKey());
+        assertEquals((Integer)1, current.getValue());
 
         assertEquals(25, counter.getWordCount());
         assertEquals(15, counter.getDistinctWordCount());

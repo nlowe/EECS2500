@@ -13,6 +13,11 @@ public class BinaryTreeNode<T>
     /** The right branch of the tree */
     private BinaryTreeNode<T> right;
 
+    /**
+     * Construct a Binary Tree node with empty branches from the given payload
+     *
+     * @param payload the payload of the node
+     */
     public BinaryTreeNode(T payload)
     {
         this.payload = payload;
@@ -78,11 +83,6 @@ public class BinaryTreeNode<T>
         {
             setRightBranch(branch);
         }
-    }
-
-    public boolean equals(BinaryTreeNode<T> o)
-    {
-        return o != null && payload.equals(o.payload);
     }
 
     @Override

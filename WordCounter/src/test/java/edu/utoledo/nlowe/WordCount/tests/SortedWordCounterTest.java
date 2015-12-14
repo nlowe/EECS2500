@@ -22,13 +22,13 @@ public class SortedWordCounterTest
         counter.encounter("abc");
         counter.encounter("def");
 
-        assertEquals("abc", counter.iterator().next().getValue());
+        assertEquals("abc", counter.iterator().next().getKey());
 
         counter.encounter("aabb");
-        assertEquals("aabb", counter.iterator().next().getValue());
+        assertEquals("aabb", counter.iterator().next().getKey());
 
         counter.encounter("abc");
-        assertEquals("aabb", counter.iterator().next().getValue());
+        assertEquals("aabb", counter.iterator().next().getKey());
 
         assertEquals(4, counter.getWordCount());
         assertEquals(3, counter.getDistinctWordCount());

@@ -11,7 +11,7 @@ import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 public class InorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
 {
     /**
-     * The traversal stack for this iterator.
+     * The internal traversal stack for this iterator.
      * <p>
      * The key is <code>True</code> when the node has been visited
      */
@@ -45,6 +45,7 @@ public class InorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
     @Override
     public T next()
     {
+        // "Visit" this node, then find the next node to visit
         T result = nextNode.getPayload();
         traversalStack.peek().setValue(true);
 
@@ -58,7 +59,7 @@ public class InorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
         }
         else
         {
-            // go up next
+            // go up while there are more items on the traversal stack whom we have visited
             while (traversalStack.size() > 0 && traversalStack.peek().getValue())
             {
                 nextNode = traversalStack.pop().getKey();

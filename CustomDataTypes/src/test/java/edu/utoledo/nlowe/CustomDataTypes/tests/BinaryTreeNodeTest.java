@@ -11,11 +11,6 @@ import static org.junit.Assert.assertTrue;
  */
 public class BinaryTreeNodeTest
 {
-    @Test
-    public void correctlyDeterminesEquality()
-    {
-        assertTrue(new BinaryTreeNode<>("foobar").equals(new BinaryTreeNode<>("foobar")));
-    }
 
     @Test
     public void formatsToStringAsJSON()

@@ -10,6 +10,9 @@ import java.util.Iterator;
  */
 public abstract class BinaryTreeIterator<T> implements Iterator<T>
 {
+    /**
+     * The next node in the sequence
+     */
     protected BinaryTreeNode<T> nextNode;
 
     public BinaryTreeIterator(BinaryTreeNode<T> head)

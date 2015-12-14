@@ -29,7 +29,7 @@ public class SortedWordCounter extends WordCounter
 
         for (Word w : words)
         {
-            count += w.getOccurrenceCount();
+            count += w.getValue();
         }
 
         return count;

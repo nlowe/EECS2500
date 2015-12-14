@@ -26,7 +26,7 @@ public class UnsortedWordCounter extends WordCounter
         {
             comparisons++;
 
-            if (w.getValue().equals(word))
+            if (w.getKey().equals(word))
             {
                 // We found the word. Increment the word count and exit early
                 w.increment();
@@ -45,7 +45,7 @@ public class UnsortedWordCounter extends WordCounter
 
         for (Word w : words)
         {
-            count += w.getOccurrenceCount();
+            count += w.getValue();
         }
 
         return count;

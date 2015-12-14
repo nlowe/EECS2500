@@ -22,16 +22,16 @@ public class FrontSelfAdjustingCounterTest
         counter.encounter("abc");
         counter.encounter("def");
 
-        assertEquals("def", counter.iterator().next().getValue());
+        assertEquals("def", counter.iterator().next().getKey());
 
         counter.encounter("abc");
-        assertEquals("abc", counter.iterator().next().getValue());
+        assertEquals("abc", counter.iterator().next().getKey());
 
         counter.encounter("abc");
-        assertEquals("abc", counter.iterator().next().getValue());
+        assertEquals("abc", counter.iterator().next().getKey());
 
         counter.encounter("hjklm");
-        assertEquals("hjklm", counter.iterator().next().getValue());
+        assertEquals("hjklm", counter.iterator().next().getKey());
 
         assertEquals(5, counter.getWordCount());
         assertEquals(3, counter.getDistinctWordCount());

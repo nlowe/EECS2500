@@ -34,7 +34,7 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
         }
 
         comparisons++;
-        if (head.getValue().getValue().equals(word))
+        if (head.getValue().getKey().equals(word))
         {
             // The word is already at the front of the list
             head.getValue().increment();
@@ -60,7 +60,7 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
                 }
 
                 comparisons++;
-                if (target.getValue().getValue().equals(word))
+                if (target.getValue().getKey().equals(word))
                 {
                     // We found the word. Increment the count
                     target.getValue().increment();
@@ -85,7 +85,7 @@ public class FrontSelfAdjustingWordCounter extends WordCounter
         long count = 0;
 
         for(Word w : this){
-            count += w.getOccurrenceCount();
+            count += w.getValue();
         }
 
         return count;

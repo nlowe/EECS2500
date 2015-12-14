@@ -4,6 +4,7 @@ import edu.utoledo.nlowe.WordCount.Word;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for edu.utoledo.nlowe.WordCount.Word
@@ -56,7 +57,7 @@ public class WordTest
         b.increment();
         b.increment();
 
-        assertEquals(a, b);
+        assertTrue(a.equals(b));
     }
 
     @Test
@@ -64,12 +65,12 @@ public class WordTest
     {
         Word a = new Word("abcd");
 
-        assertEquals(1, a.getOccurrenceCount());
+        assertEquals((Integer)1, a.getValue());
 
         a.increment();
         a.increment();
 
-        assertEquals(3, a.getOccurrenceCount());
+        assertEquals((Integer)3, a.getValue());
     }
 
 }

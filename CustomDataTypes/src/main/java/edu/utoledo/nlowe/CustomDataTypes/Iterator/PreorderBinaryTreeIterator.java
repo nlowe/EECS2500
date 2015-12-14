@@ -11,7 +11,7 @@ import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 public class PreorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
 {
     /**
-     * The traversal stack
+     * The internal traversal stack for this iterator
      * <p>
      * The value is <code>true</code> when a node's right branch has been visited
      */
@@ -27,7 +27,7 @@ public class PreorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
     @Override
     public T next()
     {
-        // "Visit" this node
+        // "Visit" this node, then locate the one that comes next
         T payload = nextNode.getPayload();
 
         if (nextNode.getLeftBranch() != null)

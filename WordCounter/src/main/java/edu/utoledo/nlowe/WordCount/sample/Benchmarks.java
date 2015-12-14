@@ -182,7 +182,7 @@ public class Benchmarks
         System.out.println("First 100 elements in Front Self-Adjusting:");
         for (Word w : b.counters[SELF_ADJUST_FRONT - 1])
         {
-            System.out.println("\t" + w.getValue() + "\t" + w.getOccurrenceCount());
+            System.out.println("\t" + w.getKey() + "\t" + w.getValue());
             if (++counter == 100) break;
         }
 
@@ -190,7 +190,7 @@ public class Benchmarks
         System.out.println("First 100 elements in Bubble Self-Adjusting:");
         for (Word w : b.counters[SELF_ADJUST_BUBBLE - 1])
         {
-            System.out.println("\t" + w.getValue() + "\t" + w.getOccurrenceCount());
+            System.out.println("\t" + w.getKey() + "\t" + w.getValue());
             if (++counter == 100) break;
         }
     }

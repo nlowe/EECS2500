@@ -8,7 +8,7 @@ public class KeyValuePair<K, V>
     /** The key of the element */
     protected final K key;
     /** The value of the element */
-    private V value;
+    protected V value;
 
     public KeyValuePair(K key, V value)
     {

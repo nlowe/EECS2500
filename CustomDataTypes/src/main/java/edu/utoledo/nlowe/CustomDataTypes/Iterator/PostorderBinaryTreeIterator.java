@@ -11,7 +11,7 @@ import edu.utoledo.nlowe.CustomDataTypes.TraversalOrder;
 public class PostorderBinaryTreeIterator<T> extends BinaryTreeIterator<T>
 {
     /**
-     * The traversal stack. The value of the KVP is true if we have already
+     * The internal traversal stack for this iterator. The value of the KVP is true if we have already
      * visited the right subtree of the node in question
      */
     protected final CustomStack<KeyValuePair<BinaryTreeNode<T>, Boolean>> traversalStack;
